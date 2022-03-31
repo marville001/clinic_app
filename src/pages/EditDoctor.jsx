@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
-const AddDoctor = () => {
+const EditDoctor = () => {
     const [state, setState] = useState({
         error: "",
         loading: false,
@@ -17,8 +17,7 @@ const AddDoctor = () => {
         formState: { errors },
     } = useForm();
 
-    const handleAddDoctor = (data) => {
-        console.log(data);
+    const handleEditDoctor = (data) => {
         setState({ error: "", loading: true });
         try {
             setTimeout(() => {
@@ -34,10 +33,13 @@ const AddDoctor = () => {
             <Header title="Dashboard" />
             <div className="p-4">
                 <div className="bg-white max-w-2xl mx-auto p-5">
-                    <h2>Add Doctor</h2>
+                    <h2 className="font-bold">Edit Doctor</h2>
+                    <div className="mt-6">
+                        <p>Personal Details</p>
+                    </div>
                     <div className="h-[2px] w-full bg-slate-900 my-4 opacity-20" />
 
-                    <form onSubmit={handleSubmit(handleAddDoctor)}>
+                    <form onSubmit={handleSubmit(handleEditDoctor)}>
                         <div className="flex gap-5">
                             <InputField
                                 errors={errors}
@@ -111,7 +113,7 @@ const AddDoctor = () => {
                                     <span className="text-sm">Loading...</span>
                                 </>
                             ) : (
-                                <span>Submit</span>
+                                <span>Update</span>
                             )}
                         </button>
                     </form>
@@ -121,4 +123,4 @@ const AddDoctor = () => {
     );
 };
 
-export default AddDoctor;
+export default EditDoctor;
