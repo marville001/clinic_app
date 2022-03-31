@@ -5,10 +5,10 @@ import {
     FaUncharted,
     FaHospitalUser,
     FaUserInjured,
-    FaUserCog,
     FaUserSecret,
     FaRocketchat,
     FaPowerOff,
+    FaUserShield,
 } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -24,7 +24,9 @@ const Sidebar = () => {
                     to="/home"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
@@ -35,7 +37,9 @@ const Sidebar = () => {
                     to="/doctors"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
@@ -46,7 +50,9 @@ const Sidebar = () => {
                     to="/patients"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
@@ -58,11 +64,13 @@ const Sidebar = () => {
                     to="/secretaries"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
-                    <FaUserCog />
+                    <FaUserShield />
                     <span>Secretaries</span>
                 </NavLink>
 
@@ -70,7 +78,9 @@ const Sidebar = () => {
                     to="/admins"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
@@ -82,7 +92,9 @@ const Sidebar = () => {
                     to="/messages"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive ? "bg-white text-slate-900" : "text-white opacity-70 hover:bg-slate-700 "
+                            isActive
+                                ? "bg-white text-slate-900"
+                                : "text-white opacity-70 hover:bg-slate-700 "
                         }`
                     }
                 >
