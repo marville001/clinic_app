@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+
+import Login from "./pages/Login";
 import AdminHome from "./pages/AdminHome";
 import Admins from "./pages/Admins";
 import Doctors from "./pages/Doctors";
 import Messages from "./pages/Messages";
 import Patients from "./pages/Patients";
 import Secretaries from "./pages/Secretaries";
-
-const Login = React.lazy(() => import("./pages/Login"));
 
 const App = () => {
     return (

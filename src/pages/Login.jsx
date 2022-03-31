@@ -21,7 +21,7 @@ const Login = () => {
         try {
             setTimeout(() => {
                 setState({ ...state, loading: false });
-                navigate("/admin");
+                navigate("/home");
             }, 4000);
         } catch (error) {
             setState({ error: error.message, loading: false });
