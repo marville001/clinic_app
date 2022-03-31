@@ -3,6 +3,7 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
+import InputField from "../components/common/InputField";
 const AddDoctor = () => {
     const [state, setState] = useState({
         error: "",
@@ -15,8 +16,8 @@ const AddDoctor = () => {
         formState: { errors },
     } = useForm();
 
-	const handleAddDoctor = (data) => {
-		console.log(data);
+    const handleAddDoctor = (data) => {
+        console.log(data);
         setState({ error: "", loading: true });
         try {
             setTimeout(() => {
@@ -37,103 +38,48 @@ const AddDoctor = () => {
 
                     <form onSubmit={handleSubmit(handleAddDoctor)}>
                         <div className="flex gap-5">
-                            <div className="flex flex-col flex-1">
-                                <label htmlFor="firstname" className="text-sm">
-                                    Firstname
-                                </label>
-                                <input
-                                    type="text"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.firstname &&
-                                        "border-red-400 border"
-                                    }`}
-                                    {...register("firstname", {
-                                        required: {
-                                            value: true,
-                                            message: "Firstname is required",
-                                        },
-                                    })}
-                                />
-                                {errors.firstname && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.firstname.message}
-                                    </p>
-                                )}
-                            </div>
-                            <div className="flex flex-col flex-1">
-                                <label htmlFor="firstname" className="text-sm">
-                                    Lastname
-                                </label>
-                                <input
-                                    type="text"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.lastname &&
-                                        "border-red-400 border"
-                                    }`}
-                                    {...register("lastname", {
-                                        required: {
-                                            value: true,
-                                            message: "Lastname is required",
-                                        },
-                                    })}
-                                />
-                                {errors.lastname && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.lastname.message}
-                                    </p>
-                                )}
-                            </div>
+                            <InputField
+                                errors={errors}
+                                name="firstname"
+                                label="Firstname"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="lastname"
+                                label="Lastname"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
                         </div>
 
                         <div className="flex gap-5 mt-4">
-                            <div className="flex flex-col flex-1">
-                                <label htmlFor="firstname" className="text-sm">
-                                    Username
-                                </label>
-                                <input
-                                    type="text"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.username &&
-                                        "border-red-400 border"
-                                    }`}
-                                    {...register("username", {
-                                        required: {
-                                            value: true,
-                                            message: "Username is required",
-                                        },
-                                    })}
-                                />
-                                {errors.username && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.username.message}
-                                    </p>
-                                )}
-                            </div>
-                            <div className="flex flex-col flex-1">
-                                <label htmlFor="firstname" className="text-sm">
-                                    Email
-                                </label>
-                                <input
-                                    type="text"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.email && "border-red-400 border"
-                                    }`}
-                                    {...register("email", {
-                                        required: {
-                                            value: true,
-                                            message: "Email is required",
-                                        },
-                                    })}
-                                />
-                                {errors.email && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.email.message}
-                                    </p>
-                                )}
-                            </div>
+                            <InputField
+                                errors={errors}
+                                name="username"
+                                label="Username"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="email"
+                                label="Email"
+                                register={register}
+                                required={true}
+                                type="email"
+                            />
                         </div>
 
-                        <button className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md flex items-center space-x-2">
+                        <button
+                            disabled={state.loading}
+                            className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
+                            flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
                             {state.loading ? (
                                 <>
                                     <FaSpinner className="animate-spin" />
