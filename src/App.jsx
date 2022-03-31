@@ -8,6 +8,7 @@ import Doctors from "./pages/Doctors";
 import Messages from "./pages/Messages";
 import Patients from "./pages/Patients";
 import Secretaries from "./pages/Secretaries";
+import AddDoctor from "./pages/AddDoctor";
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                 <Route exact path="/" element={<Login />} />
                 <Route path="/home" element={<AdminHome />} />
                 <Route path="/doctors" element={<Doctors />} />
+                <Route path="/doctors/new" element={<AddDoctor />} />
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/patients" element={<Patients />} />
                 <Route path="/secretaries" element={<Secretaries />} />
