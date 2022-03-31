@@ -1,10 +1,14 @@
 import React from "react";
 import DashboardWrapper from "../components/DashboardWrapper";
+import Header from "../components/Header";
 
 const Patients = () => {
     return (
         <DashboardWrapper>
-            <h4>Patients</h4>
+            <Header title="Patients" />
+            <div className="p-4">
+                <h4>Patients</h4>
+            </div>
         </DashboardWrapper>
     );
 };
