@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import AdminHome from "./pages/AdminHome";
 import Admins from "./pages/Admins";
 import Doctors from "./pages/Doctors";
+import Messages from "./pages/Messages";
 import Patients from "./pages/Patients";
 import Secretaries from "./pages/Secretaries";
 
@@ -18,6 +19,7 @@ const App = () => {
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/patients" element={<Patients />} />
                 <Route path="/secretaries" element={<Secretaries />} />
+                <Route path="/messages" element={<Messages />} />
             </Routes>
         </div>
     );
