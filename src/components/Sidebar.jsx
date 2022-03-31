@@ -6,7 +6,7 @@ import { FaUncharted, FaHospitalUser, FaUserInjured, FaUserCog, FaUserSecret } f
 const Sidebar = () => {
     return (
         <div className="h-screen bg-slate-900 w-[250px] p-5 relative">
-            <h4 className="text-3xl text-white">Admed</h4>
+            <h4 className="text-lg text-seagreen font-bold"> Alexander Mam...</h4>
             <div className="w-full h-[2px] bg-white my-4 opacity-30" />
             <div className="links my-6 flex flex-col space-y-4">
                 <NavLink
