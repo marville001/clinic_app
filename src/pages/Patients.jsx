@@ -25,19 +25,19 @@ const Patients = () => {
                 <div className="mt-5">
                     <div className="relative overflow-x-auto shadow-md rounded-md bg-white">
                         <table className="w-full text-sm text-left mb-10">
-                            <thead className="text-xs bg-dimgray text-white">
+                            <thead className="text-md bg-dimgray text-white">
                                 <tr>
-                                    <th className="px-6 py-3">#</th>
-                                    <th className="px-6 py-3">First Name</th>
-                                    <th className="px-6 py-3">Last Name</th>
-                                    <th className="px-6 py-3">DOB</th>
-                                    <th className="px-6 py-3">Age</th>
-                                    <th className="px-6 py-3">Gender</th>
-                                    <th className="px-6 py-3">Address</th>
-                                    <th className="px-6 py-3">Phone Number</th>
-                                    <th className="px-6 py-3">Department</th>
-                                    <th className="px-6 py-3">Status</th>
-                                    <th className="px-6 py-3">
+                                    <th className="px-6 py-4">#</th>
+                                    <th className="px-6 py-4">First Name</th>
+                                    <th className="px-6 py-4">Last Name</th>
+                                    <th className="px-6 py-4">DOB</th>
+                                    <th className="px-6 py-4">Age</th>
+                                    <th className="px-6 py-4">Gender</th>
+                                    <th className="px-6 py-4">Address</th>
+                                    <th className="px-6 py-4">Phone Number</th>
+                                    <th className="px-6 py-4">Department</th>
+                                    <th className="px-6 py-4">Status</th>
+                                    <th className="px-6 py-4">
                                         <span className="sr-only">Action</span>
                                     </th>
                                 </tr>
@@ -48,23 +48,23 @@ const Patients = () => {
                                         key={doctor}
                                         className="group border-b "
                                     >
-                                        <td className="px-6 py-2">{idx + 1}</td>
-                                        <td className="px-6 py-2">Alfred</td>
-                                        <td className="px-6 py-2">Sliver</td>
-                                        <td className="px-6 py-2">Male</td>
-                                        <td className="px-6 py-2">
+                                        <td className="px-6 py-4 font-bold">{idx + 1}</td>
+                                        <td className="px-6 py-4">Alfred</td>
+                                        <td className="px-6 py-4">Sliver</td>
+                                        <td className="px-6 py-4">Male</td>
+                                        <td className="px-6 py-4">
                                             27<sup>th</sup> June 2000
                                         </td>
-                                        <td className="px-6 py-2">24</td>
-                                        <td className="px-6 py-2">
+                                        <td className="px-6 py-4">24</td>
+                                        <td className="px-6 py-4">
                                             1451 - ABC Street, NY
                                         </td>
-                                        <td className="px-6 py-2">
+                                        <td className="px-6 py-4">
                                             +6575 563535353
                                         </td>
-                                        <td className="px-6 py-2">Dentist</td>
-                                        <td className="px-6 py-2">Admitted</td>
-                                        <td className="px-6  py-2 text-right flex justify-end items-center space-x-1">
+                                        <td className="px-6 py-4">Dentist</td>
+                                        <td className="px-6 py-4">Admitted</td>
+                                        <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
                                             <Link
                                                 className="
                                                 flex items-center space-x-1 bg-seagreen text-white 
