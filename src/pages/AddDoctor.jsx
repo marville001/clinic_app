@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
+import { departments, gender } from "../constants";
+import TextareaField from "../components/common/TextareaField";
 const AddDoctor = () => {
     const [state, setState] = useState({
         error: "",
@@ -79,17 +81,23 @@ const AddDoctor = () => {
                         <div className="flex gap-5 mt-4">
                             <SelectField
                                 errors={errors}
-                                name="speciality"
-                                label="Speciality"
+                                name="gender"
+                                label="Gender"
                                 register={register}
                                 required={true}
-                                options={[
-                                    {
-                                        label: "Eye doctor",
-                                        value: "eye-doctor",
-                                    },
-                                ]}
+                                options={gender}
                             />
+                            <SelectField
+                                errors={errors}
+                                name="department"
+                                label="Department"
+                                register={register}
+                                required={true}
+                                options={departments}
+                            />
+                        </div>
+
+                        <div className="flex gap-5 mt-4">
                             <InputField
                                 errors={errors}
                                 name="phone"
@@ -97,6 +105,24 @@ const AddDoctor = () => {
                                 register={register}
                                 required={true}
                                 type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="dob"
+                                label="Date of Birth"
+                                register={register}
+                                required={true}
+                                type="date"
+                            />
+                        </div>
+
+                        <div className="flex gap-5 mt-4">
+                            <TextareaField
+                                errors={errors}
+                                name="bio"
+                                label="Doctors Bio"
+                                register={register}
+                                required={true}
                             />
                         </div>
 

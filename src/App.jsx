@@ -12,6 +12,7 @@ import AddDoctor from "./pages/AddDoctor";
 import EditDoctor from "./pages/EditDoctor";
 import AddPatient from "./pages/AddPatient";
 import EditPatient from "./pages/EditPatient";
+import Appointments from "./pages/Appointments";
 
 const App = () => {
     return (
@@ -28,6 +29,7 @@ const App = () => {
                 <Route path="/patients/:id/edit" element={<EditPatient />} />
                 <Route path="/secretaries" element={<Secretaries />} />
                 <Route path="/messages" element={<Messages />} />
+                <Route path="/appointments" element={<Appointments />} />
             </Routes>
         </div>
     );
