@@ -2,7 +2,7 @@ import React from "react";
 import Chart from "react-apexcharts";
 
 const PatientsByDepartmentChart = () => {
-    const series = [44, 77, 67, 83];
+    const series = [44, 77, 87, 83];
     const options = {
         chart: {
             height: 350,
@@ -21,7 +21,8 @@ const PatientsByDepartmentChart = () => {
                         show: true,
                         label: "Total",
                         formatter: function (w) {
-                            return w;
+                            let total = w.globals.initialSeries.reduce((acc, value)=>acc+value, 0)
+                            return total;
                         },
                     },
                 },
