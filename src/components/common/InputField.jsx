@@ -1,10 +1,10 @@
 import React from "react";
 
-const InputField = ({ errors, register, name = "", label, required, type }) => {
+const InputField = ({ errors, register, name = "", label, required, type, optional=false }) => {
     return (
         <div className="flex flex-col flex-1">
             <label htmlFor="firstname" className="text-sm">
-                {label}
+                {label} {optional && "(optional)"}
             </label>
             <input
                 type={type}

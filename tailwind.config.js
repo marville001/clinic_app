@@ -4,11 +4,13 @@ module.exports = {
         extend: {
             colors: {
                 dimgray: "#546a83",
-                seagreen: "#00bd9c",
                 darkslate: "#263648",
-                salmon: "#ff6d6f",
                 lightgray: "#d2dae3",
-                whitesmoke: "#eff2f5",
+                ghostwhite: "#f8f9fa",
+                seagreen: "#00bd9c", // success color
+                burlywood: "#edba74", // warning color
+                salmon: "#ff6d6f", // danger color
+                flowerblue: "#527ff0", // primary color
             },
         },
     },

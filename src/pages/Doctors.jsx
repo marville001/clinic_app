@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import SearchInput from "../components/SearchInput";
-import { FaEye, FaTrash, FaEdit } from "react-icons/fa";
+import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 
 const Doctors = () => {
@@ -22,9 +22,9 @@ const Doctors = () => {
                     </Link>
                 </div>
 
-                <div className="mt-5">
-                    <div className="relative overflow-x-auto shadow-md rounded-md">
-                        <table className="w-full text-sm text-left mb-10">
+                <div className="mt-5 ">
+                    <div className="relative overflow-x-auto shadow-md rounded-md bg-white">
+                        <table className="w-full text-sm text-left mb-4">
                             <thead className="text-xs bg-dimgray text-white">
                                 <tr>
                                     <th className="px-6 py-3">First Name</th>
@@ -32,7 +32,7 @@ const Doctors = () => {
                                     <th className="px-6 py-3">Username</th>
                                     <th className="px-6 py-3">Email</th>
                                     <th className="px-6 py-3">
-                                        <span className="sr-only">Edit</span>
+                                        <span className="sr-only">Action</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -50,30 +50,35 @@ const Doctors = () => {
                                         </td>
                                         <td className="px-6  py-2 text-right flex justify-end items-center space-x-1">
                                             <Link
-                                                className="flex items-center space-x-1 bg-seagreen text-white text-xs py-1 px-2 rounded-lg hover:opacity-90 hover:scale-[1.02]"
+                                                className="
+                                                flex items-center space-x-1 bg-seagreen text-white 
+                                                text-xs p-2 rounded-full hover:opacity-90 
+                                                hover:scale-[1.02] "
                                                 to="/doctors/hgdghdghd"
                                             >
                                                 <FaEye />
-                                                <span>View</span>
                                             </Link>
 
                                             <Link
-                                                className="flex items-center space-x-1 bg-dimgray text-white text-xs py-1 px-2 rounded-lg hover:opacity-90 hover:scale-[1.02]"
+                                                className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
+                                                rounded-full hover:opacity-90 hover:scale-[1.02]"
                                                 to="/doctors/hgdghdghd/edit"
                                             >
-                                                <FaEdit />
-                                                <span>Edit</span>
+                                                <FaUserEdit />
                                             </Link>
 
-                                            <div className="flex items-center space-x-1 bg-salmon text-white text-xs py-1 px-2 rounded-lg cursor-pointer hover:opacity-90 hover:scale-[1.02]">
+                                            <div className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]">
                                                 <FaTrash />
-                                                <span>Delete</span>
                                             </div>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="flex my-4 justify-between">
+                        <p>Showing 1-10 out of 50 </p>
+                        <span>Pagination</span>
                     </div>
                 </div>
             </div>
