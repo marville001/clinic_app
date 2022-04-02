@@ -3,11 +3,12 @@ import React from "react";
 const InputField = ({ errors, register, name = "", label, required, type, optional=false }) => {
     return (
         <div className="flex flex-col flex-1">
-            <label htmlFor="firstname" className="text-sm">
+            <label htmlFor="firstname" className="text-md mb-2">
                 {label} {optional && "(optional)"}
             </label>
             <input
                 type={type}
+                placeholder={label + " :"}
                 className={`text-sm w-full rounded-md mt-1 ${
                     errors[name] && "border-red-400 border"
                 }`}

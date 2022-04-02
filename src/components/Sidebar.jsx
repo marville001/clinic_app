@@ -14,7 +14,7 @@ import {
 
 const Sidebar = () => {
     return (
-        <div className="h-screen bg-slate-900 w-[250px] p-5 relative">
+        <div className="h-screen bg-slate-900 w-[250px] p-5 fixed">
             <h4 className="text-lg text-seagreen font-bold">
                 {" "}
                 Alexander Mam...

@@ -8,6 +8,7 @@ const TextareaField = ({ errors, register, name = "", label, required, rows=4, o
             </label>
             <textarea
                 rows={rows}
+                placeholder={label + " :"}
                 className={`text-sm w-full rounded-md mt-1 ${
                     errors[name] && "border-red-400 border"
                 }`}

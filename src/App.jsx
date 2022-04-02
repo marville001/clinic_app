@@ -13,6 +13,7 @@ import EditDoctor from "./pages/EditDoctor";
 import AddPatient from "./pages/AddPatient";
 import EditPatient from "./pages/EditPatient";
 import Appointments from "./pages/Appointments";
+import ViewPatient from "./pages/ViewPatient";
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                 <Route path="/admins" element={<Admins />} />
                 <Route path="/patients" element={<Patients />} />
                 <Route path="/patients/new" element={<AddPatient />} />
+                <Route path="/patients/:id" element={<ViewPatient />} />
                 <Route path="/patients/:id/edit" element={<EditPatient />} />
                 <Route path="/secretaries" element={<Secretaries />} />
                 <Route path="/messages" element={<Messages />} />

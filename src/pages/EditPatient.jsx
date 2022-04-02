@@ -33,11 +33,11 @@ const EditPatient = () => {
     return (
         <DashboardWrapper>
             <Header title="Dashboard" />
-            <div className="p-4">
-                <div className="bg-white max-w-2xl mx-auto p-5">
-                    <h2>Edit Patient</h2>
-                    <div className="h-[2px] w-full bg-slate-900 my-4 opacity-20" />
-
+            <div className="p-4 max-w-4xl mx-auto ">
+                <div className="my-4 p-5 bg-white _shadow">
+                    <h2 className="font-medium">Edit Patient</h2>
+                </div>
+                <div className="bg-white p-5 _shadow">
                     <form onSubmit={handleSubmit(handleEditPatient)}>
                         <div className="flex gap-5">
                             <InputField

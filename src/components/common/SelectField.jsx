@@ -14,6 +14,7 @@ const SelectField = ({
                 {label}
             </label>
             <select
+                placeholder={label}
                 className={`text-sm w-full rounded-md mt-1 ${
                     errors[name] && "border-red-400 border"
                 }`}
@@ -24,7 +25,7 @@ const SelectField = ({
                     },
                 })}
             >
-                <option value=""></option>
+                {/* <option value="" disabled>Select {label }</option> */}
                 {options.map(({ label, value }) => (
                     <option value={value}>{label}</option>
                 ))}
