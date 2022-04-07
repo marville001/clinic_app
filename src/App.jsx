@@ -14,12 +14,14 @@ import AddPatient from "./pages/AddPatient";
 import EditPatient from "./pages/EditPatient";
 import Appointments from "./pages/Appointments";
 import ViewPatient from "./pages/ViewPatient";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const App = () => {
     return (
         <div className="min-h-screen ">
             <Routes>
                 <Route exact path="/" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/home" element={<AdminHome />} />
                 <Route path="/doctors" element={<Doctors />} />
                 <Route path="/doctors/new" element={<AddDoctor />} />
