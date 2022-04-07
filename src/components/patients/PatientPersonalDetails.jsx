@@ -2,7 +2,7 @@ import React from "react";
 
 const PatientPersonalDetails = () => {
     return (
-        <div className="p-4 flex-[2] rounded bg-white _shadow">
+        <div className="p-4 flex-[2] rounded bg-white _shadow self-start">
             <h3 className="text-md mb-4 font-bold">Personal Information</h3>
             <p className="text-sm my-2">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
