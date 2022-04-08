@@ -16,7 +16,7 @@ const PatientAssignedDoctors = () => {
             </div>
 
             <div className="flex flex-col divide-y-[1px]">
-                {[1, 2, 3, 4, 5].map((_, idx) => (
+                {[1, 2, 3, 4].map((_, idx) => (
                     <div
                         key={idx}
                         className="flex justify-between items-center py-2"
@@ -29,12 +29,17 @@ const PatientAssignedDoctors = () => {
                             />
                             <span className="text-sm">Daniellle Kerubo</span>
                         </div>
-                        <span className="bg-flowerblue rounded py-1 text-xs text-white px-2">
-                            Eye doctor
-                        </span>
+                        <div className="flex space-x-1">
+                            <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-1">
+                                Dentist
+                            </span>
+                            <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-1">
+                                Eye doctor
+                            </span>
+                        </div>
                     </div>
                 ))}
-                <div className="py-5 flex justify-between w-full">
+                <div className="pt-5 flex justify-between w-full">
                     <button
                         className="flex items-center space-x-2 py-1 text-xs px-6 rounded-md text-white bg-seagreen 
 						  hover:opacity-75 cursor-pointer"
