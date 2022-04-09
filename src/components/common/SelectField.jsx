@@ -10,7 +10,7 @@ const SelectField = ({
 }) => {
     return (
         <div className="flex flex-col flex-1">
-            <label htmlFor="firstname" className="text-sm">
+            <label htmlFor="firstname" className="text-md mb-2">
                 {label}
             </label>
             <select
@@ -27,7 +27,9 @@ const SelectField = ({
             >
                 {/* <option value="" disabled>Select {label }</option> */}
                 {options.map(({ label, value }) => (
-                    <option value={value}>{label}</option>
+                    <option key={value} value={value}>
+                        {label}
+                    </option>
                 ))}
             </select>
             {errors[name] && (

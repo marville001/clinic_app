@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
+import { departments, gender } from "../constants";
+import TextareaField from "../components/common/TextareaField";
 const EditDoctor = () => {
     const [state, setState] = useState({
         error: "",
@@ -15,6 +17,7 @@ const EditDoctor = () => {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm();
 
     const handleEditDoctor = (data) => {
@@ -27,6 +30,17 @@ const EditDoctor = () => {
             setState({ error: error.message, loading: false });
         }
     };
+
+    useEffect(() => {
+        setValue("gender", "female");
+        setValue("firstname", "Martin");
+        setValue("lastname", "Mwangi");
+        setValue("username", "mwas");
+        setValue("email", "mwas@gmail.com");
+        setValue("phone", "+24542332323");
+        setValue("dob", "1998-04-26");
+        setValue("bio", "lorem ipsum num herum sopum");
+    }, [setValue]);
 
     return (
         <DashboardWrapper>
@@ -81,17 +95,23 @@ const EditDoctor = () => {
                         <div className="flex gap-5 mt-4">
                             <SelectField
                                 errors={errors}
-                                name="speciality"
-                                label="Speciality"
+                                name="gender"
+                                label="Gender"
                                 register={register}
                                 required={true}
-                                options={[
-                                    {
-                                        label: "Eye doctor",
-                                        value: "eye-doctor",
-                                    },
-                                ]}
+                                options={gender}
                             />
+                            <SelectField
+                                errors={errors}
+                                name="department"
+                                label="Department"
+                                register={register}
+                                required={true}
+                                options={departments}
+                            />
+                        </div>
+
+                        <div className="flex gap-5 mt-4">
                             <InputField
                                 errors={errors}
                                 name="phone"
@@ -99,6 +119,24 @@ const EditDoctor = () => {
                                 register={register}
                                 required={true}
                                 type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="dob"
+                                label="Date of Birth"
+                                register={register}
+                                required={true}
+                                type="date"
+                            />
+                        </div>
+
+                        <div className="flex gap-5 mt-4">
+                            <TextareaField
+                                errors={errors}
+                                name="bio"
+                                label="Doctors Bio"
+                                register={register}
+                                required={true}
                             />
                         </div>
 
@@ -113,7 +151,7 @@ const EditDoctor = () => {
                                     <span className="text-sm">Loading...</span>
                                 </>
                             ) : (
-                                <span>Update</span>
+                                <span>Submit</span>
                             )}
                         </button>
                     </form>

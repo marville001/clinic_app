@@ -3,7 +3,7 @@ import React from "react";
 const TextareaField = ({ errors, register, name = "", label, required, rows=4, optional=false }) => {
     return (
         <div className="flex flex-col flex-1">
-            <label htmlFor="firstname" className="text-sm">
+            <label htmlFor="firstname" className="text-md mb-2">
                 {label} {optional && "(optional)"}
             </label>
             <textarea
