@@ -11,6 +11,7 @@ module.exports = {
                 burlywood: "#edba74", // warning color
                 salmon: "#ff6d6f", // danger color
                 flowerblue: "#527ff0", // primary color
+                steelblue: "#4458b8",
             },
         },
     },

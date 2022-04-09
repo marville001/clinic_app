@@ -3,6 +3,7 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import DoctorPersonalDetails from "../components/doctors/DoctorPersonalDetails";
 import AssignedPatients from "../components/doctors/AssignedPatients";
+import DoctorCalendar from "../components/doctors/DoctorCalendar";
 
 const ViewDoctor = () => {
     return (
@@ -14,6 +15,8 @@ const ViewDoctor = () => {
                     <DoctorPersonalDetails />
                     <AssignedPatients />
                 </div>
+
+                <DoctorCalendar />
             </div>
         </DashboardWrapper>
     );
