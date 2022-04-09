@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -13,6 +13,25 @@ import {
 } from "react-icons/fa";
 
 const Sidebar = () => {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const handleWidthChange = (e) => {
+        let width = document.body.clientWidth;
+        if (width < 1024) {
+            setSidebarOpen(false);
+        } else {
+            setSidebarOpen(true);
+        }
+    };
+
+    useEffect(() => {
+        if (document.body.clientWidth < 1024) {
+            setSidebarOpen(true);
+        }
+        window.addEventListener("resize", handleWidthChange);
+
+        return () => window.removeEventListener("resize", handleWidthChange);
+    }, []);
+
     return (
         <div className="h-screen bg-slate-900 w-[250px] p-5 fixed">
             <h4 className="text-lg text-seagreen font-bold">

@@ -3,7 +3,7 @@ import { HiChevronLeft, HiChevronRight, HiPlusCircle } from "react-icons/hi";
 
 const DoctorCalendar = () => {
     return (
-        <div className="w-full bg-white p-4 my-5">
+        <div className="w-full bg-white p-4 my-5 _shadow">
             <div className="flex items-center justify-between">
                 <h3>
                     <strong>Dr. James</strong> Calendar
@@ -34,6 +34,40 @@ const DoctorCalendar = () => {
                     <div className="flex-1 p-2 px-4 text-sm cursor-pointer hover:bg-steelblue">
                         <span>day</span>
                     </div>
+                </div>
+            </div>
+            <div className="w-full">
+                <div className="mt-8 my-4 overflow-auto">
+                    <div className="flex">
+                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                            (item) => (
+                                <div
+                                    key={item}
+                                    className="flex-1 border-[1px] border-dimgray border-opacity-40 text-center"
+                                >
+                                    {item}
+                                </div>
+                            )
+                        )}
+                    </div>
+                    {[1, 2, 3, 4, 5, 6].map((item) => (
+                        <div key={item} className="flex">
+                            {[
+                                "Sun",
+                                "Mon",
+                                "Tue",
+                                "Wed",
+                                "Thu",
+                                "Fri",
+                                "Sat",
+                            ].map((item) => (
+                                <div
+                                    key={item}
+                                    className="flex-1 h-32  min-w-[100px] border-[1px] border-dimgray border-opacity-40"
+                                ></div>
+                            ))}
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
