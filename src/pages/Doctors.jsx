@@ -53,8 +53,8 @@ const Doctors = () => {
                     </div>
 
                     <div className="mt-5">
-                        <div className="relative overflow-x-auto shadow-md rounded-md bg-white">
-                            <table className="w-full text-sm text-left mb-10">
+                        <div className="relative overflow-x-hidden shadow-md rounded-md bg-white">
+                            <table className="w-full table-auto text-sm text-left mb-10 overflow-x-auto">
                                 <thead className="text-md bg-dimgray text-white">
                                     <tr>
                                         <th className="px-6 py-4">#</th>

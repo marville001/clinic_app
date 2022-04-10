@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -9,33 +9,17 @@ import {
     FaRocketchat,
     FaPowerOff,
     FaUserShield,
-    FaRegCalendarCheck,
 } from "react-icons/fa";
+import { NavContext } from "../nav.context";
 
 const Sidebar = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const handleWidthChange = (e) => {
-        let width = document.body.clientWidth;
-        if (width < 1024) {
-            setSidebarOpen(false);
-        } else {
-            setSidebarOpen(true);
-        }
-    };
-
-    console.log({ sidebarOpen });
-
-    useEffect(() => {
-        if (document.body.clientWidth < 1024) {
-            setSidebarOpen(true);
-        }
-        window.addEventListener("resize", handleWidthChange);
-
-        return () => window.removeEventListener("resize", handleWidthChange);
-    }, []);
+    const { sidebarOpen } = useContext(NavContext);
 
     return (
-        <div className="h-screen bg-slate-900 w-[250px] p-5 fixed">
+        <div
+            className={`h-screen bg-slate-900 w-[250px] p-5 fixed transition-all 
+            duration-300 ease-linear ${sidebarOpen ?"translate-x-0":"-translate-x-[100%]"}`}
+        >
             <h4 className="text-lg text-seagreen font-bold">
                 {" "}
                 Alexander Mam...
