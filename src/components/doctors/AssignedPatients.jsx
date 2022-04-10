@@ -1,5 +1,4 @@
 import React from "react";
-import { HiUserAdd } from "react-icons/hi";
 import { Link } from "react-router-dom";
 
 const AssignedPatients = () => {

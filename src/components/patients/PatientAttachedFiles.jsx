@@ -1,6 +1,5 @@
 import React from "react";
 import { FaDownload, FaFileCsv, FaFileUpload } from "react-icons/fa";
-import { HiUserAdd } from "react-icons/hi";
 
 const PatientAttachedFiles = () => {
     return (
