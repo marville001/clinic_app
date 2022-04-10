@@ -23,7 +23,7 @@ const Sidebar = () => {
         }
     };
 
-    console.log({sidebarOpen});
+    console.log({ sidebarOpen });
 
     useEffect(() => {
         if (document.body.clientWidth < 1024) {
@@ -108,20 +108,6 @@ const Sidebar = () => {
                 >
                     <FaUserSecret />
                     <span>Admins</span>
-                </NavLink>
-
-                <NavLink
-                    to="/appointments"
-                    className={({ isActive }) =>
-                        `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive
-                                ? "bg-white text-slate-900"
-                                : "text-white opacity-70 hover:bg-slate-700 "
-                        }`
-                    }
-                >
-                    <FaRegCalendarCheck />
-                    <span>Appointment</span>
                 </NavLink>
 
                 <NavLink
