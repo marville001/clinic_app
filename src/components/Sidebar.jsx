@@ -17,7 +17,7 @@ const Sidebar = () => {
 
     return (
         <div
-            className={`h-screen bg-slate-900 w-[250px] p-5 fixed transition-all 
+            className={`h-screen bg-slate-900 w-[250px] p-5 fixed transition-all z-[100]
             duration-300 ease-linear ${sidebarOpen ?"translate-x-0":"-translate-x-[100%]"}`}
         >
             <h4 className="text-lg text-seagreen font-bold">

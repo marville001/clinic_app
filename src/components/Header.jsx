@@ -5,7 +5,11 @@ import { NavContext } from "../nav.context";
 const Header = ({ title }) => {
     const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
     return (
-        <div className="flex justify-between items-center bg-slate-900 p-4">
+        <div
+            className={`flex justify-between items-center ${
+                sidebarOpen && "ml-[250px] xl:ml-0"
+            } transition-all duration-300 ease-linear bg-slate-900 p-4`}
+        >
             <div className="flex items-center space-x-4">
                 <HiMenuAlt1
                     onClick={() => setSidebarOpen(!sidebarOpen)}

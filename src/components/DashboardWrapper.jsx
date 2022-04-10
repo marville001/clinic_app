@@ -9,7 +9,7 @@ const DashboardWrapper = ({ children }) => {
             <Sidebar />
             <div
                 className={`flex-1 ${
-                    sidebarOpen && "ml-[250px]"
+                    sidebarOpen && "xl:ml-[250px]"
                 } transition-all duration-300 ease-linear`}
             >
                 {children}

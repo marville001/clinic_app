@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 export const NavContext = createContext();
 
 const NavProvider = ({ children }) => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const handleWidthChange = (e) => {
         let width = document.body.clientWidth;
         if (width < 1240) {
