@@ -9,6 +9,7 @@ import {
 import { Link } from "react-router-dom";
 import PatientsByDepartmentChart from "../components/charts/PatientsByDepartmentChart";
 import PatientsVisitByGenderChart from "../components/charts/PatientsVisitByGenderChart";
+import CalendarGrid from "../components/common/CalendarGrid";
 import DashCountCard from "../components/common/DashCountCard";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
@@ -110,6 +111,17 @@ const AdminHome = () => {
                             </select>
                         </div>
                     </div>
+                </div>
+
+                {/* Calendar */}
+                <div className="w-full my-8 bg-white p-5 _shadow">
+                    <h2 className="text-xl font-bold mb-6">
+                        My Calendar{" "}
+                        <span className="text-sm font-light">
+                            Only if admin is a doctor
+                        </span>{" "}
+                    </h2>
+                    <CalendarGrid />
                 </div>
             </div>
         </DashboardWrapper>
