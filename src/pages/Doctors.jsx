@@ -59,9 +59,8 @@ const Doctors = () => {
                                     <tr>
                                         <th className="px-6 py-4">#</th>
                                         <th className="px-6 py-4">Full Name</th>
-                                        <th className="px-6 py-4">DOB</th>
-                                        <th className="px-6 py-4">Age</th>
                                         <th className="px-6 py-4">Gender</th>
+                                        <th className="px-6 py-4">DOB</th>
                                         <th className="px-6 py-4">Address</th>
                                         <th className="px-6 py-4">
                                             Phone Number
@@ -92,7 +91,6 @@ const Doctors = () => {
                                             <td className="px-6 py-4">
                                                 27<sup>th</sup> June 2000
                                             </td>
-                                            <td className="px-6 py-4">24</td>
                                             <td className="px-6 py-4">
                                                 1451 - ABC Street, NY
                                             </td>
