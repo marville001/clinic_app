@@ -1,9 +1,22 @@
 import React from "react";
 
-const InputField = ({ errors, register, name = "", label, required, type, optional=false }) => {
+const InputField = ({
+    errors,
+    register,
+    name = "",
+    label,
+    labelColor,
+    required,
+    type,
+    optional = false,
+}) => {
     return (
         <div className="flex flex-col flex-1">
-            <label htmlFor="firstname" className="text-md mb-2">
+            <label
+                style={{ color: labelColor ? labelColor : "" }}
+                htmlFor="firstname"
+                className="text-md mb-1"
+            >
                 {label} {optional && "(optional)"}
             </label>
             <input

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
+import AddSecretaryModal from "../components/modals/AddSecretaryModal";
 import SearchInput from "../components/SearchInput";
 
 const Secretaries = () => {
+    const [addModalOpen, setAddModalOpen] = useState(true);
     return (
         <DashboardWrapper>
             <Header title="Secretaries" />
@@ -14,7 +16,7 @@ const Secretaries = () => {
                 <div className="flex justify-between items-center">
                     <SearchInput />
                     <div
-                        to="/doctors/new"
+                        onClick={() => setAddModalOpen(true)}
                         className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
                     >
                         <HiPlusCircle />
@@ -95,6 +97,13 @@ const Secretaries = () => {
                         <span>Pagination</span>
                     </div>
                 </div>
+
+                <AddSecretaryModal
+                    isOpen={addModalOpen}
+                    closeModal={() => {
+                        setAddModalOpen(false);
+                    }}
+                />
             </div>
         </DashboardWrapper>
     );
