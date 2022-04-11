@@ -6,8 +6,10 @@ import SearchInput from "../components/SearchInput";
 import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
+import AddDepartmentModal from "../components/modals/AddDepartmentModal";
 
 const Doctors = () => {
+    const [addModalOpen, setAddModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
     const openDeleteModal = (id) => {
@@ -44,6 +46,7 @@ const Doctors = () => {
                             </div>
                         ))}
                         <div
+                            onClick={() => setAddModalOpen(true)}
                             className="_shadow bg-seagreen bg-opacity-20 text-seagreen rounded-md px-6 py-2 flex items-center justify-center 
                                 hover:scale-[1.02] transition-all duration-150 ease-linear cursor-pointer hover:bg-opacity-40"
                         >
@@ -151,6 +154,14 @@ const Doctors = () => {
                         </div>
                     </div>
                 </div>
+
+                <AddDepartmentModal
+                    isOpen={addModalOpen}
+                    closeModal={() => {
+                        setAddModalOpen(false);
+                    }}
+                />
+
                 <ConfirmDeleteModal
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
