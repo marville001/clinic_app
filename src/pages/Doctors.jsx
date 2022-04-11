@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import SearchInput from "../components/SearchInput";
 import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
+import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 
 const Doctors = () => {
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+
+    const openDeleteModal = (id) => {
+        setConfirmDeleteModalOpen(true);
+    };
+
+    const handleDeleteDoctor = () => {
+        console.log("Deleting");
+        setConfirmDeleteModalOpen(false);
+    };
     return (
         <DashboardWrapper>
             <Header title="Doctors" />
@@ -119,7 +130,12 @@ const Doctors = () => {
                                                     <FaUserEdit />
                                                 </Link>
 
-                                                <div className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]">
+                                                <div
+                                                    onClick={() =>
+                                                        openDeleteModal(idx)
+                                                    }
+                                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                                >
                                                     <FaTrash />
                                                 </div>
                                             </td>
@@ -135,6 +151,15 @@ const Doctors = () => {
                         </div>
                     </div>
                 </div>
+                <ConfirmDeleteModal
+                    isOpen={confirmDeleteModalOpen}
+                    closeModal={() => {
+                        setConfirmDeleteModalOpen(false);
+                    }}
+                    message="Deleting the doctor will erase everything about their
+                        records. Are you sure you want to delete?"
+                    actionMethod={handleDeleteDoctor}
+                />
             </div>
         </DashboardWrapper>
     );

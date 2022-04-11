@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
+import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import SearchInput from "../components/SearchInput";
 
 const Patients = () => {
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+
+    const openDeleteModal = (id) => {
+        setConfirmDeleteModalOpen(true);
+    };
+
+    const handleDeletePatient = () => {
+        console.log("Deleting");
+        setConfirmDeleteModalOpen(false);
+    };
     return (
         <DashboardWrapper>
             <Header title="Patients" />
@@ -47,7 +58,9 @@ const Patients = () => {
                                         key={doctor}
                                         className="group border-b "
                                     >
-                                        <td className="px-6 py-4 font-bold">{idx + 1}</td>
+                                        <td className="px-6 py-4 font-bold">
+                                            {idx + 1}
+                                        </td>
                                         <td className="px-6 py-4">Alfred</td>
                                         <td className="px-6 py-4">Sliver</td>
                                         <td className="px-6 py-4">Male</td>
@@ -81,7 +94,12 @@ const Patients = () => {
                                                 <FaUserEdit />
                                             </Link>
 
-                                            <div className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]">
+                                            <div
+                                                onClick={() =>
+                                                    openDeleteModal(idx)
+                                                }
+                                                className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                            >
                                                 <FaTrash />
                                             </div>
                                         </td>
@@ -96,6 +114,16 @@ const Patients = () => {
                         <span>Pagination</span>
                     </div>
                 </div>
+
+                <ConfirmDeleteModal
+                    isOpen={confirmDeleteModalOpen}
+                    closeModal={() => {
+                        setConfirmDeleteModalOpen(false);
+                    }}
+                    message="Deleting the patient will erase everything about their
+                        records. Are you sure you want to delete?"
+                    actionMethod={handleDeletePatient}
+                />
             </div>
         </DashboardWrapper>
     );
