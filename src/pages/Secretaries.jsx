@@ -5,10 +5,17 @@ import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import AddSecretaryModal from "../components/modals/AddSecretaryModal";
+import EditSecretaryModal from "../components/modals/EditSecretaryModal";
 import SearchInput from "../components/SearchInput";
 
 const Secretaries = () => {
-    const [addModalOpen, setAddModalOpen] = useState(true);
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+
+    const openEditModal = (id) => {
+        setEditModalOpen(true);
+    };
+
     return (
         <DashboardWrapper>
             <Header title="Secretaries" />
@@ -74,7 +81,9 @@ const Secretaries = () => {
                                             <div
                                                 className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
-                                                to="/doctors/23fsr34few433d342/edit"
+                                                onClick={() =>
+                                                    openEditModal(idx)
+                                                }
                                             >
                                                 <FaUserEdit />
                                             </div>
@@ -102,6 +111,13 @@ const Secretaries = () => {
                     isOpen={addModalOpen}
                     closeModal={() => {
                         setAddModalOpen(false);
+                    }}
+                />
+
+                <EditSecretaryModal
+                    isOpen={editModalOpen}
+                    closeModal={() => {
+                        setEditModalOpen(false);
                     }}
                 />
             </div>
