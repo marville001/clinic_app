@@ -1,19 +1,29 @@
 import React, { useState } from "react";
 import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
-import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import AddSecretaryModal from "../components/modals/AddSecretaryModal";
+import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import EditSecretaryModal from "../components/modals/EditSecretaryModal";
 import SearchInput from "../components/SearchInput";
 
 const Secretaries = () => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(true);
 
     const openEditModal = (id) => {
         setEditModalOpen(true);
+    };
+
+    const openDeleteModal = (id) => {
+        setConfirmDeleteModalOpen(true);
+    };
+
+    const handleDeleteSecretary = () => {
+        console.log("Deleting");
+        setConfirmDeleteModalOpen(false);
     };
 
     return (
@@ -73,7 +83,6 @@ const Secretaries = () => {
                                             <div
                                                 className=" flex items-center space-x-1 bg-seagreen text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
-                                                to="/doctors/23fsr34few433d342"
                                             >
                                                 <FaEye />
                                             </div>
@@ -91,6 +100,9 @@ const Secretaries = () => {
                                             <div
                                                 className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
                                             rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                                onClick={() =>
+                                                    openDeleteModal(idx)
+                                                }
                                             >
                                                 <FaTrash />
                                             </div>
@@ -119,6 +131,16 @@ const Secretaries = () => {
                     closeModal={() => {
                         setEditModalOpen(false);
                     }}
+                />
+
+                <ConfirmDeleteModal
+                    isOpen={confirmDeleteModalOpen}
+                    closeModal={() => {
+                        setConfirmDeleteModalOpen(false);
+                    }}
+                    message="Deleting the secretary will erase everything about their
+                        records. Are you sure you want to delete?"
+                    actionMethod={handleDeleteSecretary}
                 />
             </div>
         </DashboardWrapper>
