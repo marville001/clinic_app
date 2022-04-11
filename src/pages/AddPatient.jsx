@@ -33,11 +33,12 @@ const AddPatient = () => {
     return (
         <DashboardWrapper>
             <Header title="Add Patient" />
-            <div className="p-4">
-                {/* <h2 className="my-4 text-lg font-bold">Add Patient</h2> */}
-                <div className="bg-white max-w-4xl  p-5 rounded-lg _shadow">
-                    {/* <div className="h-[2px] w-full bg-slate-900 my-4 opacity-20" /> */}
+            <div className="p-4  max-w-4xl mx-auto ">
+                <div className="my-4 p-5 bg-white _shadow">
+                    <h2 className="font-medium">Add Patient</h2>
+                </div>
 
+                <div className="bg-white p-5 _shadow">
                     <form onSubmit={handleSubmit(handleAddPatient)}>
                         <div className="flex gap-5">
                             <InputField

@@ -36,13 +36,10 @@ const AddDoctor = () => {
             <Header title="Dashboard" />
             <div className="p-4  max-w-4xl mx-auto ">
                 <div className="my-4 p-5 bg-white _shadow">
-                    <h2 className="font-medium">Edit Patient</h2>
+                    <h2 className="font-medium">Add Doctor</h2>
                 </div>
 
                 <div className="bg-white p-5 _shadow">
-                    <h2>Add Doctor</h2>
-                    <div className="h-[2px] w-full bg-slate-900 my-4 opacity-20" />
-
                     <form onSubmit={handleSubmit(handleAddDoctor)}>
                         <div className="flex gap-5">
                             <InputField

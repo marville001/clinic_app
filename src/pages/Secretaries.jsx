@@ -11,7 +11,7 @@ import SearchInput from "../components/SearchInput";
 const Secretaries = () => {
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
-    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(true);
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
     const openEditModal = (id) => {
         setEditModalOpen(true);
