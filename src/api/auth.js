@@ -1,6 +1,11 @@
+import { getProfileUrl, loginUrl } from "../constants";
 import http from "../utils/https";
 
-const { post } = http;
+const { post, get } = http;
 export const loginUserApi = async (user) => {
-    return await post("LOGIN_URL", user);
+    return await post(loginUrl, user);
+};
+
+export const getUserProfileApi = async (user) => {
+    return await get(getProfileUrl, user);
 };

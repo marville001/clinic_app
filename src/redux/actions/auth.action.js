@@ -1,4 +1,4 @@
-import { loginUserApi } from "../../api/auth";
+import { getUserProfileApi, loginUserApi } from "../../api";
 import { LOGOUT_USER, USER_LOGIN } from "../types";
 
 export const loginUserAction = (user) => async (dispatch) => {
@@ -21,8 +21,23 @@ export const loginUserAction = (user) => async (dispatch) => {
 };
 
 export const logoutUserAction = () => (dispatch) => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     dispatch({
         type: LOGOUT_USER,
     });
+};
+
+export const getUserProfileAction = () => async (dispatch) => {
+    const token = localStorage.token;
+    if (token) {
+        try {
+            const data = await getUserProfileApi();
+            dispatch({
+                type: USER_LOGIN.SUCCESS,
+                user: data.user,
+            });
+        } catch (error) {
+            localStorage.clear();
+        }
+    }
 };
