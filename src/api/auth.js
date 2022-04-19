@@ -6,6 +6,6 @@ export const loginUserApi = async (user) => {
     return await post(loginUrl, user);
 };
 
-export const getUserProfileApi = async (user) => {
-    return await get(getProfileUrl, user);
+export const getUserProfileApi = async () => {
+    return await get(getProfileUrl);
 };

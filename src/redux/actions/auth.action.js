@@ -4,13 +4,12 @@ import { LOGOUT_USER, USER_LOGIN } from "../types";
 export const loginUserAction = (user) => async (dispatch) => {
     dispatch({ type: USER_LOGIN.REQUEST, payload: user });
     try {
-        const {data} = await loginUserApi(user);
+        const { data } = await loginUserApi(user);
         localStorage.setItem("token", data.token);
         dispatch({
             type: USER_LOGIN.SUCCESS,
             payload: data.user,
         });
-        console.log(data);
         return { success: true };
     } catch (error) {
         dispatch({
@@ -37,15 +36,18 @@ export const logoutUserAction = () => (dispatch) => {
 
 export const getUserProfileAction = () => async (dispatch) => {
     const token = localStorage.token;
+    console.log(token);
     if (token) {
         try {
-            const {data} = await getUserProfileApi();
+            const { data } = await getUserProfileApi();
             dispatch({
                 type: USER_LOGIN.SUCCESS,
                 payload: data.user,
             });
+            localStorage.setItem("token", data.token);
         } catch (error) {
             localStorage.clear();
+            window.location.href = "/";
         }
     }
 };

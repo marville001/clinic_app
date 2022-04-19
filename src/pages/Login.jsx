@@ -3,11 +3,10 @@ import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUserAction } from "../redux/actions/auth.action";
 
 const Login = () => {
-    const { authDetails } = useSelector((state) => state.authState);
     const [showPassword, setShowPassword] = useState(false);
     const [state, setState] = useState({
         error: "",

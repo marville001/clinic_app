@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -16,8 +16,15 @@ import Appointments from "./pages/Appointments";
 import ViewPatient from "./pages/ViewPatient";
 import ForgotPassword from "./pages/ForgotPassword";
 import ViewDoctor from "./pages/ViewDoctor";
+import { useDispatch } from "react-redux";
+import { getUserProfileAction } from "./redux/actions/auth.action";
 
 const App = () => {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUserProfileAction());
+    }, [dispatch]);
+
     return (
         <div className="min-h-screen ">
             <Routes>
