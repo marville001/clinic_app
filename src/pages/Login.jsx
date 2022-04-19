@@ -3,30 +3,39 @@ import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserAction } from "../redux/actions/auth.action";
 
 const Login = () => {
+    const { authDetails } = useSelector((state) => state.authState);
     const [showPassword, setShowPassword] = useState(false);
     const [state, setState] = useState({
         error: "",
         loading: false,
     });
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const handleLogin = (data) => {
+    const handleLogin = async (data) => {
         setState({ error: "", loading: true });
-        try {
-            setTimeout(() => {
-                setState({ ...state, loading: false });
-                navigate("/home");
-            }, 4000);
-        } catch (error) {
-            setState({ error: error.message, loading: false });
+        const res = await dispatch(
+            loginUserAction({
+                email_username: data.username,
+                password: data.password,
+            })
+        );
+        if (!res.success) {
+            setState({ error: res.message, loading: false });
+            return;
         }
+        setState({ error: "", loading: false });
+        navigate("/home");
     };
 
     return (
@@ -41,14 +50,16 @@ const Login = () => {
                         src="/assets/profile-img.png"
                         className="hidden sm:block absolute bottom-0 w-48 h-28 right-5"
                         alt=""
-                        srcset=""
                     />
                 </div>
                 <div className="pb-8">
                     <div className="w-16 h-16 bg-slate-400 p-4 rounded-full translate-x-5 -translate-y-1/3"></div>
-                    <form onSubmit={handleSubmit(handleLogin)} className="px-5 mt-5">
+                    <form
+                        onSubmit={handleSubmit(handleLogin)}
+                        className="px-5 mt-5"
+                    >
                         {state.error && (
-                            <div className="bg-red-300 p-2 text-center rounded text-sm text-red-800">
+                            <div className="bg-red-300 p-2 mb-2 text-center rounded text-sm text-red-800">
                                 {state.error}
                             </div>
                         )}
@@ -56,7 +67,7 @@ const Login = () => {
                             htmlFor="username"
                             className="mb-2 block text-sm"
                         >
-                            Username
+                            Email or Username
                         </label>
                         <input
                             type="text"
@@ -96,10 +107,17 @@ const Login = () => {
                                 })}
                             />
                             <div className="bg-lightgray absolute rounded cursor-pointer inset-y-0 right-0 h-full w-10 flex items-center justify-center ">
-                                {!showPassword ?
-                                    <FaEye onClick={()=>setShowPassword(true)} className=" text-xl text-dimgray" /> :
-                                    <FaEyeSlash onClick={()=>setShowPassword(false)} className=" text-xl text-dimgray" />
-                                }
+                                {!showPassword ? (
+                                    <FaEye
+                                        onClick={() => setShowPassword(true)}
+                                        className=" text-xl text-dimgray"
+                                    />
+                                ) : (
+                                    <FaEyeSlash
+                                        onClick={() => setShowPassword(false)}
+                                        className=" text-xl text-dimgray"
+                                    />
+                                )}
                             </div>
                         </div>
                         {errors.password && (
