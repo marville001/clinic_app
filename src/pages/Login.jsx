@@ -105,7 +105,7 @@ const Login = () => {
                                     },
                                 })}
                             />
-                            <div className="bg-lightgray absolute rounded cursor-pointer inset-y-0 right-0 h-full w-10 flex items-center justify-center ">
+                            <div className=" absolute rounded cursor-pointer inset-y-0 right-0 h-full w-10 flex items-center justify-center ">
                                 {!showPassword ? (
                                     <FaEye
                                         onClick={() => setShowPassword(true)}

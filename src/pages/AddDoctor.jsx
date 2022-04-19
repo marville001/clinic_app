@@ -7,6 +7,7 @@ import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
 import { departments, gender } from "../constants";
 import TextareaField from "../components/common/TextareaField";
+import PasswordField from "../components/common/PasswordField";
 const AddDoctor = () => {
     const [state, setState] = useState({
         error: "",
@@ -116,7 +117,16 @@ const AddDoctor = () => {
                                 type="date"
                             />
                         </div>
-
+                        <div className="flex gap-5 mt-4">
+                            <PasswordField
+                                errors={errors}
+                                name="password"
+                                label="Password"
+                                register={register}
+                                required={true}
+                            />
+                            <div className="flex-1"> </div>
+                        </div>
                         <div className="flex gap-5 mt-4">
                             <TextareaField
                                 errors={errors}
