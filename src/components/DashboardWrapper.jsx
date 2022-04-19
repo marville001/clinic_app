@@ -15,9 +15,7 @@ const DashboardWrapper = ({ children }) => {
         if (!localStorage.token) navigate("/");
     }, [navigate]);
 
-    if (loading) return (
-        <Loading />
-    )
+    if (loading) return <Loading />;
 
     return (
         <div className="flex">
