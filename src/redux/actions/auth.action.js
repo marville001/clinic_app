@@ -2,7 +2,7 @@ import { getUserProfileApi, loginUserApi } from "../../api";
 import { LOGOUT_USER, USER_LOGIN } from "../types";
 
 export const loginUserAction = (user) => async (dispatch) => {
-    dispatch({ type: USER_LOGIN.REQUEST, payload: user });
+    dispatch({ type: USER_LOGIN.REQUEST });
     try {
         const { data } = await loginUserApi(user);
         localStorage.setItem("token", data.token);
@@ -36,8 +36,9 @@ export const logoutUserAction = () => (dispatch) => {
 
 export const getUserProfileAction = () => async (dispatch) => {
     const token = localStorage.token;
-    console.log(token);
+
     if (token) {
+        dispatch({ type: USER_LOGIN.REQUEST });
         try {
             const { data } = await getUserProfileApi();
             dispatch({
@@ -46,6 +47,7 @@ export const getUserProfileAction = () => async (dispatch) => {
             });
             localStorage.setItem("token", data.token);
         } catch (error) {
+            dispatch({ type: USER_LOGIN.REQUEST, payload: "error" });
             localStorage.clear();
             window.location.href = "/";
         }

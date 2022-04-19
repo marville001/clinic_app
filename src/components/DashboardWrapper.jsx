@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { NavContext } from "../nav.context";
 import Sidebar from "./Sidebar";
+import Loading from "./Loading";
 
 const DashboardWrapper = ({ children }) => {
+    const { loading } = useSelector((state) => state.authState);
     const { sidebarOpen } = useContext(NavContext);
 
     const navigate = useNavigate();
@@ -11,6 +14,10 @@ const DashboardWrapper = ({ children }) => {
     useEffect(() => {
         if (!localStorage.token) navigate("/");
     }, [navigate]);
+
+    if (loading) return (
+        <Loading />
+    )
 
     return (
         <div className="flex">
