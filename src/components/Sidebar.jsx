@@ -11,18 +11,22 @@ import {
     FaUserShield,
 } from "react-icons/fa";
 import { NavContext } from "../nav.context";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+    const { authDetails } = useSelector((state) => state.authState);
+
     const { sidebarOpen } = useContext(NavContext);
 
     return (
         <div
             className={`h-screen bg-slate-900 w-[250px] p-5 fixed transition-all z-[100]
-            duration-300 ease-linear ${sidebarOpen ?"translate-x-0":"-translate-x-[100%]"}`}
+            duration-300 ease-linear ${
+                sidebarOpen ? "translate-x-0" : "-translate-x-[100%]"
+            }`}
         >
-            <h4 className="text-lg text-seagreen font-bold">
-                {" "}
-                Alexander Mam...
+            <h4 className="text-lg text-seagreen text-center font-bold">
+                {authDetails?.firstname} {authDetails?.lastname}
             </h4>
             <div className="w-full h-[2px] bg-white my-4 opacity-30" />
             <div className="links my-6 flex flex-col space-y-4">
