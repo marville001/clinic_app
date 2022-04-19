@@ -41,7 +41,7 @@ const AddDoctor = () => {
                 </div>
 
                 <div className="bg-white p-5 _shadow">
-                    <form onSubmit={handleSubmit(handleAddDoctor)}>
+                    <form onSubmit={handleSubmit(handleAddDoctor)} autoComplete="off">
                         <div className="flex gap-5">
                             <InputField
                                 errors={errors}
