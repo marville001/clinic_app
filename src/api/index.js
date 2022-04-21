@@ -14,3 +14,11 @@ export {
     deleteAdminApi,
     updateAdminApi,
 } from "./admins";
+
+export {
+    getDocotorsApi,
+    getDoctorApi,
+    createDoctorApi,
+    updateDoctorApi,
+    deleteDoctorApi,
+} from "./doctors";
