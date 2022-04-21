@@ -19,9 +19,14 @@ export const getAdminUrl = (id) => `${API_BASE}admins/${id}`;
 export const updateAdminUrl = (id) => `${API_BASE}admins/${id}`;
 export const deleteAdminUrl = (id) => `${API_BASE}admins/${id}`;
 
-// Doctoes
+// Doctors
 export const getDoctorsUrl = `${API_BASE}doctors`;
 export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
+
+// Doctoes
+export const getDepartmentsUrl = `${API_BASE}departments`;
+export const createDepartmentUrl = `${API_BASE}departments`;
+export const deleteDepartmentUrl = (id) => `${API_BASE}departments/${id}`;

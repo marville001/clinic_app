@@ -24,4 +24,9 @@ export {
     createDoctorUrl,
     deleteDoctorUrl,
     updateDoctorUrl,
+
+    // Department
+    getDepartmentsUrl,
+    createDepartmentUrl,
+    deleteDepartmentUrl
 } from "./networkUrls";

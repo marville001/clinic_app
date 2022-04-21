@@ -22,3 +22,9 @@ export {
     updateDoctorApi,
     deleteDoctorApi,
 } from "./doctors";
+
+export {
+    createDepartmentApi,
+    getDepartmentsApi,
+    deleteDepartmentApi,
+} from "./departments";
