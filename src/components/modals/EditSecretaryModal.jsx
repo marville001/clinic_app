@@ -55,8 +55,6 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         type="text"
                     />
-                </div>
-                <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
                         name="lastname"
@@ -75,9 +73,7 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         options={gender}
                     />
-                </div>
-                <div className="flex gap-5 mt-4">
-                    <InputField
+                        <InputField
                         errors={errors}
                         name="dob"
                         label="Date of Birth"
@@ -86,6 +82,7 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         type="date"
                     />
                 </div>
+                
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
@@ -95,9 +92,7 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         type="text"
                     />
-                </div>
-                <div className="flex gap-5 mt-4">
-                    <InputField
+                         <InputField
                         errors={errors}
                         name="address"
                         label="Address"
@@ -106,6 +101,26 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         type="text"
                     />
                 </div>
+
+                <div className="flex gap-5 mt-4">
+                    <InputField
+                        errors={errors}
+                        name="email"
+                        label="Email"
+                        register={register}
+                        required={true}
+                        type="email"
+                    />
+                         <InputField
+                        errors={errors}
+                        name="password"
+                        label="Password"
+                        register={register}
+                        required={true}
+                        type="password"
+                    />
+                </div>
+                
                 <div className="flex justify-between items-center mt-8">
                     <button
                         type="button"
@@ -128,7 +143,7 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                                 <span className="capitalize">Loading...</span>
                             </>
                         ) : (
-                            <span>Create</span>
+                            <span>Update</span>
                         )}
                     </button>
                 </div>
