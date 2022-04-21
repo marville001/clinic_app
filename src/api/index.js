@@ -1,2 +1,16 @@
+export { loginUserApi, getUserProfileApi } from "./auth";
+export {
+    getSecretariesApi,
+    getSecretaryApi,
+    createSecretaryApi,
+    deleteSecretaryApi,
+    updateSecretaryApi,
+} from "./secretaries";
 
-export {loginUserApi, getUserProfileApi} from "./auth"
+export {
+    getAdminApi,
+    getAdminsApi,
+    createAdminApi,
+    deleteAdminApi,
+    updateAdminApi,
+} from "./admins";

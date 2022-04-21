@@ -7,4 +7,9 @@ export {
     createSecretaryUrl,
     updateSecretaryUrl,
     deleteSecretaryUrl,
+    getAdminUrl,
+    getAdminsUrl,
+    createAdminUrl,
+    updateAdminUrl,
+    deleteAdminUrl,
 } from "./networkUrls";

@@ -4,7 +4,7 @@ import {
     getSecretariesApi,
     getSecretaryApi,
     updateSecretaryApi,
-} from "../../api/secretaries";
+} from "../../api";
 import {
     CREATE_SECRETARY,
     DELETE_SECRETARY,
