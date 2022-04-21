@@ -4,6 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 import { gender } from "../../constants";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
+import PasswordField from "../common/PasswordField";
 import SelectField from "../common/SelectField";
 
 const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
@@ -55,8 +56,6 @@ const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         type="text"
                     />
-                </div>
-                <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
                         name="lastname"
@@ -75,8 +74,6 @@ const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         options={gender}
                     />
-                </div>
-                <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
                         name="dob"
@@ -89,11 +86,36 @@ const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
+                        name="email"
+                        label="Email"
+                        register={register}
+                        required={true}
+                        type="email"
+                    />
+                    <InputField
+                        errors={errors}
+                        name="username"
+                        label="Username"
+                        register={register}
+                        required={true}
+                        type="text"
+                    />
+                </div>
+                <div className="flex gap-5 mt-4">
+                    <InputField
+                        errors={errors}
                         name="phone"
                         label="Phone Number"
                         register={register}
                         required={true}
                         type="text"
+                    />
+                    <PasswordField
+                        errors={errors}
+                        name="password"
+                        label="Password"
+                        register={register}
+                        required={true}
                     />
                 </div>
                 <div className="flex gap-5 mt-4">
