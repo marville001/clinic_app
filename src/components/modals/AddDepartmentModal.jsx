@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { createDepartmentAction } from "../../redux/actions/departments.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
 
-const AddDepartmentModal = ({ isOpen, closeModal = () => {} }) => {
-    const [state, setState] = useState({ error: "", loading: false });
+const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
+    const {creating} = useSelector(state=>state.departmentsState)
+    const [error, setError] = useState("");
 
     const {
         register,
@@ -16,14 +19,24 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => {} }) => {
         reset,
     } = useForm();
 
+    const dispatch = useDispatch();
+
     const handleCloseModal = () => {
         closeModal();
         clearErrors();
         reset();
     };
 
-    const handleAddSecretary = async () => {
-        setState({ ...state, loading: false });
+    const handleAddDepartment = async (data) => {
+        setError("")
+        const res = await dispatch(createDepartmentAction(data));
+
+        if (!res.success) {
+            setError(res.message)
+            return;
+        }
+
+        handleCloseModal();
     };
 
     return (
@@ -34,15 +47,15 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => {} }) => {
             closeModal={handleCloseModal}
         >
             <form
-                onSubmit={handleSubmit(handleAddSecretary)}
+                onSubmit={handleSubmit(handleAddDepartment)}
                 className="bg-white p-5 _shadow rounded-md"
             >
                 <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
                     Add Department
                 </h4>
-                {state.error && (
+                {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
-                        {state.error}
+                        {error}
                     </div>
                 )}
                 <div className="flex gap-5 mt-4">
@@ -74,14 +87,14 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => {} }) => {
                         Cancel
                     </button>
                     <button
-                        disabled={state.loading}
+                        disabled={creating}
                         type="submit"
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {state.loading ? (
+                        {creating ? (
                             <>
                                 <FaSpinner className="animate-spin mr-4" />{" "}
                                 <span className="capitalize">Loading...</span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
@@ -7,10 +7,15 @@ import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import AddDepartmentModal from "../components/modals/AddDepartmentModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getDepartmentsAction } from "../redux/actions/departments.action";
 
 const Doctors = () => {
+    const {departments} = useSelector(state=>state.departmentsState)
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+
+    const dispatch = useDispatch();
 
     const openDeleteModal = (id) => {
         setConfirmDeleteModalOpen(true);
@@ -20,6 +25,12 @@ const Doctors = () => {
         console.log("Deleting");
         setConfirmDeleteModalOpen(false);
     };
+
+    useEffect(() => {
+      dispatch(getDepartmentsAction())
+    }, [dispatch])
+    
+
     return (
         <DashboardWrapper>
             <Header title="Doctors" />
@@ -35,14 +46,14 @@ const Doctors = () => {
                         </div> */}
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 my-5">
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+                        {departments?.map((department) => (
                             <div
-                                key={item}
+                                key={department?._id}
                                 className="_shadow px-6 py-2 flex items-center justify-center text-seagreen rounded-md hover:scale-[1.02] 
                                 transition-all duration-150 ease-linear cursor-pointer
                                 hover:opacity-80 hover:bg-slate-50"
                             >
-                                <span>Eye Doctor</span>
+                                <span>{department?.name}</span>
                             </div>
                         ))}
                         <div
