@@ -1,4 +1,4 @@
-import { USER_LOGIN, LOGOUT_USER } from "../types";
+import { LOGOUT_USER, USER_LOGIN } from "../types/auth.types";
 
 const initialState = {
     authDetails: {},

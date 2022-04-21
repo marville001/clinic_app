@@ -1,5 +1,5 @@
 import { getUserProfileApi, loginUserApi } from "../../api";
-import { LOGOUT_USER, USER_LOGIN } from "../types";
+import { LOGOUT_USER, USER_LOGIN } from "../types/auth.types";
 
 export const loginUserAction = (user) => async (dispatch) => {
     dispatch({ type: USER_LOGIN.REQUEST });
