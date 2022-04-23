@@ -26,7 +26,7 @@ export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 
-// Doctoes
+// Departments
 export const getDepartmentsUrl = `${API_BASE}departments`;
 export const createDepartmentUrl = `${API_BASE}departments`;
 export const deleteDepartmentUrl = (id) => `${API_BASE}departments/${id}`;
