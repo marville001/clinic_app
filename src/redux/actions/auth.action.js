@@ -1,5 +1,6 @@
 import { getUserProfileApi, loginUserApi } from "../../api";
 import { LOGOUT_USER, USER_LOGIN } from "../types/auth.types";
+import parseError from "../../utils/parseError";
 
 export const loginUserAction = (user) => async (dispatch) => {
     dispatch({ type: USER_LOGIN.REQUEST });
@@ -14,15 +15,11 @@ export const loginUserAction = (user) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: USER_LOGIN.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
         return {
             success: false,
-            message:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            message: parseError(error),
         };
     }
 };
@@ -47,7 +44,7 @@ export const getUserProfileAction = () => async (dispatch) => {
             });
             localStorage.setItem("token", data.token);
         } catch (error) {
-            dispatch({ type: USER_LOGIN.REQUEST, payload: "error" });
+            dispatch({ type: USER_LOGIN.FAIL, payload: parseError(error) });
             localStorage.clear();
             window.location.href = "/";
         }

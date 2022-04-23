@@ -5,6 +5,7 @@ import {
     getSecretaryApi,
     updateSecretaryApi,
 } from "../../api";
+import parseError from "../../utils/parseError";
 import {
     CREATE_SECRETARY,
     DELETE_SECRETARY,
@@ -23,16 +24,13 @@ export const createSecretaryAction = (user) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: CREATE_SECRETARY.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -48,9 +46,7 @@ export const getSecretaryAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_SECRETARY.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -66,9 +62,7 @@ export const getSecretariesAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_SECRETARIES.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -83,16 +77,13 @@ export const updateSecretaryAction = (details, id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: UPDATE_SECRETARY.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -106,16 +97,13 @@ export const deleteSecretaryAction = (id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: DELETE_SECRETARY.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };

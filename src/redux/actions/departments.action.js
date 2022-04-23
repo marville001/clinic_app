@@ -3,6 +3,7 @@ import {
     deleteDepartmentApi,
     getDepartmentsApi,
 } from "../../api/departments";
+import parseError from "../../utils/parseError";
 import {
     CREATE_DEPARTMENT,
     DELETE_DEPARTMENT,
@@ -19,15 +20,12 @@ export const createDepartmentAction = (department) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: CREATE_DEPARTMENT.FAIL,
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -43,9 +41,7 @@ export const getDepartmentsAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_DEPARTMENTS.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -59,15 +55,12 @@ export const deleteDepartmentAction = (id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: DELETE_DEPARTMENT.FAIL,
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };

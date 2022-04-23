@@ -5,6 +5,7 @@ import {
     getAdminsApi,
     updateAdminApi,
 } from "../../api";
+import parseError from "../../utils/parseError";
 import {
     CREATE_ADMIN,
     DELETE_ADMIN,
@@ -23,16 +24,13 @@ export const createAdminAction = (user) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: CREATE_ADMIN.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -48,9 +46,7 @@ export const getAdminAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_ADMIN.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -66,9 +62,7 @@ export const getAdminsAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_ADMINS.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -83,16 +77,13 @@ export const updateAdminAction = (details, id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: UPDATE_ADMIN.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -106,16 +97,13 @@ export const deleteAdminAction = (id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: DELETE_ADMIN.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };

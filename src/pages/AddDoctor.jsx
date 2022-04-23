@@ -9,7 +9,6 @@ import { departments, gender } from "../constants";
 import TextareaField from "../components/common/TextareaField";
 import PasswordField from "../components/common/PasswordField";
 import { useDispatch, useSelector } from "react-redux";
-import { createDoctorApi } from "../api";
 import { createDoctorAction } from "../redux/actions/doctors.action";
 import { useNavigate } from "react-router-dom";
 const AddDoctor = () => {
