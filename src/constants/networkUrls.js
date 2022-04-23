@@ -1,5 +1,5 @@
-// const API_BASE = "http://localhost:9003/api/"
-const API_BASE = "https://my-clinic-api.herokuapp.com/api/";
+const API_BASE = "http://localhost:9003/api/"
+// const API_BASE = "https://my-clinic-api.herokuapp.com/api/";
 
 // Auth
 export const loginUrl = `${API_BASE}auth/login`;

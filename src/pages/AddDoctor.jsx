@@ -8,28 +8,39 @@ import SelectField from "../components/common/SelectField";
 import { departments, gender } from "../constants";
 import TextareaField from "../components/common/TextareaField";
 import PasswordField from "../components/common/PasswordField";
+import { useDispatch, useSelector } from "react-redux";
+import { createDoctorApi } from "../api";
+import { createDoctorAction } from "../redux/actions/doctors.action";
+import { useNavigate } from "react-router-dom";
 const AddDoctor = () => {
-    const [state, setState] = useState({
-        error: "",
-        loading: false,
-    });
-
+   const {creating} = useSelector(state=>state.doctorsState)
+    const [error, setError] = useState("");
+    
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm();
 
-    const handleAddDoctor = (data) => {
-        console.log(data);
-        setState({ error: "", loading: true });
-        try {
-            setTimeout(() => {
-                setState({ ...state, loading: false });
-            }, 4000);
-        } catch (error) {
-            setState({ error: error.message, loading: false });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleAddDoctor = async(data) => {
+        setError("")
+
+        const { password, ...rest } = data;
+
+         const res = await dispatch(createDoctorAction(rest));
+
+        if (!res.success) {
+            setError(res.message)
+            return;
         }
+
+        reset()
+        navigate("/doctors")
+        
     };
 
     return (
@@ -39,6 +50,12 @@ const AddDoctor = () => {
                 <div className="my-4 p-5 bg-white _shadow">
                     <h2 className="font-medium">Add Doctor</h2>
                 </div>
+
+                {error && (
+                    <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+                        {error}
+                    </div>
+                )}
 
                 <div className="bg-white p-5 _shadow">
                     <form onSubmit={handleSubmit(handleAddDoctor)} autoComplete="off">
@@ -138,11 +155,11 @@ const AddDoctor = () => {
                         </div>
 
                         <button
-                            disabled={state.loading}
+                            disabled={creating}
                             className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            {state.loading ? (
+                            {creating ? (
                                 <>
                                     <FaSpinner className="animate-spin" />
                                     <span className="text-sm">Loading...</span>

@@ -91,7 +91,7 @@ const Doctors = () => {
 
                     <div className="mt-5">
                         <div className="relative shadow-md rounded-md bg-white">
-                            <table className="w-full text-sm text-left mb-10 overflow-x-auto">
+                            <table className="w-full text-sm text-left overflow-x-auto">
                                 <thead className="text-md bg-dimgray text-white">
                                     <tr>
                                         <th className="px-6 py-4">#</th>
@@ -114,78 +114,78 @@ const Doctors = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {loading_dct ? (
-                                        <tr>
-                                            <td colSpan={5} className="py-5 flex justify-center">
-                                                <FaSpinner className="animate-spin  text-lg text-slate-900" />
+                                    {doctors?.map((doctor, idx) => (
+                                        <tr
+                                            key={doctor._id}
+                                            className="group border-b "
+                                        >
+                                            <td className="px-6 py-4 font-bold">
+                                                {idx + 1}
                                             </td>
-                                        </tr>
-                                    ) : (
-                                        doctors?.map((doctor, idx) => (
-                                            <tr
-                                                key={doctor._id}
-                                                className="group border-b "
-                                            >
-                                                <td className="px-6 py-4 font-bold">
-                                                    {idx + 1}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.firstname}{" "}
-                                                    {doctor?.lastname}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.email}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.gender}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.dob || "-"}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.address || "-"}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.phone || "-"}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {doctor?.department || "-"}
-                                                </td>
-                                                <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
-                                                    <Link
-                                                        className="
+                                            <td className="px-6 py-4">
+                                                {doctor?.firstname}{" "}
+                                                {doctor?.lastname}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.email}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.gender}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.dob || "-"}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.address || "-"}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.phone || "-"}
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                {doctor?.department || "-"}
+                                            </td>
+                                            <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
+                                                <Link
+                                                    className="
                                                 flex items-center space-x-1 bg-seagreen text-white 
                                                 text-xs p-2 rounded-full hover:opacity-90 
                                                 hover:scale-[1.02] "
-                                                        to={`/doctors/${doctor?._id}`}
-                                                    >
-                                                        <FaEye />
-                                                    </Link>
+                                                    to={`/doctors/${doctor?._id}`}
+                                                >
+                                                    <FaEye />
+                                                </Link>
 
-                                                    <Link
-                                                        className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
+                                                <Link
+                                                    className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02]"
-                                                        to={`/doctors/${doctor?._id}/edit`}
-                                                    >
-                                                        <FaUserEdit />
-                                                    </Link>
+                                                    to={`/doctors/${doctor?._id}/edit`}
+                                                >
+                                                    <FaUserEdit />
+                                                </Link>
 
-                                                    <div
-                                                        onClick={() =>
-                                                            openDeleteModal(
-                                                                doctor?._id
-                                                            )
-                                                        }
-                                                        className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
-                                                    >
-                                                        <FaTrash />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
+                                                <div
+                                                    onClick={() =>
+                                                        openDeleteModal(
+                                                            doctor?._id
+                                                        )
+                                                    }
+                                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                                >
+                                                    <FaTrash />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
+                            {loading_dct && (
+                                <div
+                                    colSpan={5}
+                                    className="py-4 flex justify-center"
+                                >
+                                    <FaSpinner className="animate-spin  text-lg text-slate-900" />
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex my-4 justify-between">

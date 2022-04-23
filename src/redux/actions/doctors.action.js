@@ -5,6 +5,7 @@ import {
     getDoctorApi,
     updateDoctorApi,
 } from "../../api";
+import parseError from "../../utils/parseError";
 import {
     CREATE_DOCTOR,
     DELETE_DOCTOR,
@@ -23,16 +24,13 @@ export const createDoctorAction = (user) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: CREATE_DOCTOR.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -48,9 +46,7 @@ export const getDoctorAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_DOCTOR.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -66,9 +62,7 @@ export const getDoctorsAction = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_DOCTORS.FAIL,
-            payload:
-                error?.response?.data?.message ||
-                "An error occurred. Please try again",
+            payload: parseError(error),
         });
     }
 };
@@ -83,16 +77,13 @@ export const updateDoctorAction = (details, id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: UPDATE_DOCTOR.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
@@ -106,16 +97,13 @@ export const deleteDoctorAction = (id) => async (dispatch) => {
         });
         return { success: true };
     } catch (error) {
-        const err =
-            error?.response?.data?.message ||
-            "An error occurred. Please try again";
         dispatch({
             type: DELETE_DOCTOR.FAIL,
-            payload: err,
+            payload: parseError(error),
         });
         return {
             success: false,
-            message: err,
+            message: parseError(error),
         };
     }
 };
