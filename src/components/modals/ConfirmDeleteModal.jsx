@@ -1,4 +1,5 @@
 import React from "react";
+import { FaSpinner } from "react-icons/fa";
 import Modal from "../common/Modal";
 
 const ConfirmDeleteModal = ({
@@ -6,6 +7,7 @@ const ConfirmDeleteModal = ({
     actionMethod = () => {},
     message = "",
     closeModal = () => {},
+    loading,
 }) => {
     return (
         <Modal
@@ -37,7 +39,11 @@ const ConfirmDeleteModal = ({
 						 bg-seagreen
                      "
                     >
-                        Yes
+                        {loading ? (
+                            <FaSpinner className="animate-spin mr-4" />
+                        ) : (
+                            "Yes"
+                        )}
                     </button>
                 </div>
             </div>

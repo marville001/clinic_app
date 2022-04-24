@@ -8,7 +8,12 @@ import AddSecretaryModal from "../components/modals/AddSecretaryModal";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import EditSecretaryModal from "../components/modals/EditSecretaryModal";
 import SearchInput from "../components/SearchInput";
-import { getSecretariesAction } from "../redux/actions/secretaries.action";
+import {
+    deleteSecretaryAction,
+    getSecretariesAction,
+} from "../redux/actions/secretaries.action";
+
+import { toast } from "react-toastify";
 
 const Secretaries = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -36,8 +41,32 @@ const Secretaries = () => {
         setConfirmDeleteModalOpen(true);
     };
 
-    const handleDeleteSecretary = () => {
+    const handleDeleteSecretary = async () => {
+        console.log(deleteSecretary);
         setConfirmDeleteModalOpen(false);
+        const res = await dispatch(deleteSecretaryAction(deleteSecretary?._id));
+
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            return;
+        }
+        dispatch(getSecretariesAction());
+
+        toast.success(`Secretary Deleted Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     };
 
     useEffect(() => {
@@ -176,6 +205,7 @@ const Secretaries = () => {
                     message="Deleting the secretary will erase everything about their
                         records. Are you sure you want to delete?"
                     actionMethod={handleDeleteSecretary}
+                    loading={deleting_sec}
                 />
             </div>
         </DashboardWrapper>
