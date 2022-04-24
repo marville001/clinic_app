@@ -39,7 +39,7 @@ export const getPatientAction = (id) => async (dispatch) => {
     }
 };
 
-export const getPatientssAction = () => async (dispatch) => {
+export const getPatientsAction = () => async (dispatch) => {
     dispatch({ type: GET_PATIENTS.REQUEST });
     try {
         const { data } = await getPatientsApi();

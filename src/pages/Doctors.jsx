@@ -212,10 +212,7 @@ const Doctors = () => {
                                 </tbody>
                             </table>
                             {loading_dct && (
-                                <div
-                                    colSpan={5}
-                                    className="py-4 flex justify-center"
-                                >
+                                <div className="py-4 flex justify-center">
                                     <FaSpinner className="animate-spin  text-lg text-slate-900" />
                                 </div>
                             )}
