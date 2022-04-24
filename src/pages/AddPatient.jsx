@@ -11,13 +11,16 @@ import AddDiagnosisModal from "../components/modals/AddDiagnosisModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getDiagnosisAction } from "../redux/actions/diagnosis.action";
+import { createPatientAction } from "../redux/actions/patients.action";
+
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddPatient = () => {
     const { departments } = useSelector((state) => state.departmentsState);
     const { authDetails } = useSelector((state) => state.authState);
-    const { diagnosis, creating } = useSelector(
-        (state) => state.diagnosisState
-    );
+    const { creating } = useSelector((state) => state.patientsState);
+    const { diagnosis } = useSelector((state) => state.diagnosisState);
 
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [selectedDiagnosis, setSelectedDiagnosis] = useState([]);
@@ -25,20 +28,46 @@ const AddPatient = () => {
     const [error, setError] = useState("");
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm();
 
-    const handleAddPatient = (data) => {
+    const handleAddPatient = async (data) => {
         setDiagerror("");
         setError("");
         if (selectedDiagnosis?.length === 0) {
             setDiagerror("Diagnosis is Required");
             return;
         }
+
+        const _diagnosis = selectedDiagnosis.map((d) => d.value);
+
+        const details = { ...data, diagnosis: _diagnosis };
+
+        const res = await dispatch(createPatientAction(details));
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+
+        toast.success(`Patient Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+
+        reset();
+        setError("");
+        navigate("/patients");
     };
 
     useEffect(() => {
@@ -106,11 +135,11 @@ const AddPatient = () => {
                         <div className="flex gap-5 mt-4">
                             <InputField
                                 errors={errors}
-                                name="age"
-                                label="Age"
+                                name="dob"
+                                label="Date of Birth"
                                 register={register}
                                 required={true}
-                                type="number"
+                                type="date"
                             />
                             <SelectField
                                 errors={errors}
