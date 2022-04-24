@@ -2,7 +2,7 @@ import {
     createDepartmentApi,
     deleteDepartmentApi,
     getDepartmentsApi,
-} from "../../api/departments";
+} from "../../api";
 import parseError from "../../utils/parseError";
 import {
     CREATE_DEPARTMENT,

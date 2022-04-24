@@ -28,5 +28,10 @@ export {
     // Department
     getDepartmentsUrl,
     createDepartmentUrl,
-    deleteDepartmentUrl
+    deleteDepartmentUrl,
+
+    // Diagnosis
+    getDiagnosisUrl,
+    createDiagnosisUrl,
+    deleteDiagnosisUrl
 } from "./networkUrls";

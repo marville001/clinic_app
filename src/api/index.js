@@ -28,3 +28,9 @@ export {
     getDepartmentsApi,
     deleteDepartmentApi,
 } from "./departments";
+
+export {
+    getDiagnosisApi,
+    createDiagnosisApi,
+    deleteDiagnosisApi,
+} from "./diagnosis";

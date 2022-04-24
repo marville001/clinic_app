@@ -30,3 +30,8 @@ export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const getDepartmentsUrl = `${API_BASE}departments`;
 export const createDepartmentUrl = `${API_BASE}departments`;
 export const deleteDepartmentUrl = (id) => `${API_BASE}departments/${id}`;
+
+// Diagnosis
+export const getDiagnosisUrl = `${API_BASE}diagnosis`;
+export const createDiagnosisUrl = `${API_BASE}diagnosis`;
+export const deleteDiagnosisUrl = (id) => `${API_BASE}diagnosis/${id}`;
