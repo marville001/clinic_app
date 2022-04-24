@@ -33,5 +33,12 @@ export {
     // Diagnosis
     getDiagnosisUrl,
     createDiagnosisUrl,
-    deleteDiagnosisUrl
+    deleteDiagnosisUrl,
+
+    // Patients
+    getPatientUrl,
+    getPatientsUrl,
+    createPatientUrl,
+    updatePatientUrl,
+    deletePatientUrl
 } from "./networkUrls";

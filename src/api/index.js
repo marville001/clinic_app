@@ -34,3 +34,11 @@ export {
     createDiagnosisApi,
     deleteDiagnosisApi,
 } from "./diagnosis";
+
+export {
+    getPatientApi,
+    createPatientApi,
+    getPatientsApi,
+    updatePatientApi,
+    deletePatientApi
+} from "./patients";

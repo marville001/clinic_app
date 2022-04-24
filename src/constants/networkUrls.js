@@ -35,3 +35,10 @@ export const deleteDepartmentUrl = (id) => `${API_BASE}departments/${id}`;
 export const getDiagnosisUrl = `${API_BASE}diagnosis`;
 export const createDiagnosisUrl = `${API_BASE}diagnosis`;
 export const deleteDiagnosisUrl = (id) => `${API_BASE}diagnosis/${id}`;
+
+// Patients
+export const getPatientsUrl = `${API_BASE}patients`;
+export const createPatientUrl = `${API_BASE}patients`;
+export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
+export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;
+export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
