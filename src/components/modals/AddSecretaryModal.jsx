@@ -35,7 +35,6 @@ const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
         clearErrors();
         reset();
         setError();
-        dispatch(getSecretariesAction());
     };
 
     const handleAddSecretary = async (data) => {
@@ -48,6 +47,7 @@ const AddSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
             return;
         }
         
+        dispatch(getSecretariesAction());
         toast.success(`Secretary Added Successfully`, {
             position: "top-right",
             autoClose: 5000,

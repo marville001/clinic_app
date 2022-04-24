@@ -14,6 +14,7 @@ import {
 } from "../redux/actions/secretaries.action";
 
 import { toast } from "react-toastify";
+import ViewSecretaryModal from "../components/modals/ViewSecretaryModal";
 
 const Secretaries = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -25,24 +26,32 @@ const Secretaries = () => {
 
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
+    const [viewModalOpen, setViewModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
-    const [editSecretary, setEditSecretary] = useState({});
-    const [deleteSecretary, setDeleteSecretary] = useState({});
+
+    const [selectedSecretary, setSelectedSecretary] = useState({});
 
     const dispatch = useDispatch();
 
     const openEditModal = (secretary) => {
-        setEditSecretary(secretary);
+        setSelectedSecretary(secretary);
         setEditModalOpen(true);
     };
 
+    const openViewModal = (secretary) => {
+        setSelectedSecretary(secretary);
+        setViewModalOpen(true);
+    };
+
     const openDeleteModal = (secretary) => {
-        setDeleteSecretary(secretary);
+        setSelectedSecretary(secretary);
         setConfirmDeleteModalOpen(true);
     };
 
     const handleDeleteSecretary = async () => {
-        const res = await dispatch(deleteSecretaryAction(deleteSecretary?._id));
+        const res = await dispatch(
+            deleteSecretaryAction(selectedSecretary?._id)
+        );
 
         if (!res.success) {
             toast.error(res.message, {
@@ -54,6 +63,7 @@ const Secretaries = () => {
                 draggable: true,
             });
             setConfirmDeleteModalOpen(false);
+            setSelectedSecretary({});
             return;
         }
         dispatch(getSecretariesAction());
@@ -135,6 +145,9 @@ const Secretaries = () => {
                                             <div
                                                 className=" flex items-center space-x-1 bg-seagreen text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
+                                                onClick={() =>
+                                                    openViewModal(secretary)
+                                                }
                                             >
                                                 <FaEye />
                                             </div>
@@ -191,16 +204,24 @@ const Secretaries = () => {
                     isOpen={editModalOpen}
                     closeModal={() => {
                         setEditModalOpen(false);
-                        setEditSecretary({});
+                        setSelectedSecretary({});
                     }}
-                    secretary={editSecretary}
+                    secretary={selectedSecretary}
+                />
+                <ViewSecretaryModal
+                    isOpen={viewModalOpen}
+                    closeModal={() => {
+                        setViewModalOpen(false);
+                        setSelectedSecretary({});
+                    }}
+                    secretary={selectedSecretary}
                 />
 
                 <ConfirmDeleteModal
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
                         setConfirmDeleteModalOpen(false);
-                        setDeleteSecretary({});
+                        setSelectedSecretary({});
                     }}
                     message="Deleting the secretary will erase everything about their
                         records. Are you sure you want to delete?"

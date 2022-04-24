@@ -7,6 +7,8 @@ import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
 
+import { toast } from "react-toastify";
+
 const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
     const {creating} = useSelector(state=>state.departmentsState)
     const [error, setError] = useState("");
@@ -35,6 +37,15 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
             setError(res.message)
             return;
         }
+
+        toast.success(`Department Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
 
         handleCloseModal();
     };
