@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { createDepartmentAction, getDepartmentsAction } from "../../redux/actions/departments.action";
+import {
+    createDiagnosisAction,
+    getDiagnosisAction,
+} from "../../redux/actions/diagnosis.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
 
-const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
-    const {creating} = useSelector(state=>state.departmentsState)
+const AddDiagnosisModal = ({ isOpen, closeModal = () => {} }) => {
+    const { creating } = useSelector((state) => state.diagnosisState);
     const [error, setError] = useState("");
 
     const {
@@ -27,19 +30,19 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
         closeModal();
         clearErrors();
         reset();
-        dispatch(getDepartmentsAction())
+        dispatch(getDiagnosisAction());
     };
 
     const handleAddDepartment = async (data) => {
-        setError("")
-        const res = await dispatch(createDepartmentAction(data));
+        setError("");
+        const res = await dispatch(createDiagnosisAction(data));
 
         if (!res.success) {
-            setError(res.message)
+            setError(res.message);
             return;
         }
 
-        toast.success(`Department Added Successfully`, {
+        toast.success(`Diagnosis Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -63,7 +66,7 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
                 className="bg-white p-5 _shadow rounded-md"
             >
                 <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
-                    Add Department
+                    Add Diagnosis
                 </h4>
                 {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
@@ -121,4 +124,4 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
     );
 };
 
-export default AddDepartmentModal;
+export default AddDiagnosisModal;

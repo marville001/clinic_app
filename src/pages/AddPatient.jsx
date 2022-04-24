@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
-import { departments, gender } from "../constants";
+import { gender } from "../constants";
+import Select from "react-select";
+import AddDiagnosisModal from "../components/modals/AddDiagnosisModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getDepartmentsAction } from "../redux/actions/departments.action";
+import { getDiagnosisAction } from "../redux/actions/diagnosis.action";
+
 const AddPatient = () => {
-    const [state, setState] = useState({
-        error: "",
-        loading: false,
-    });
+    const { departments } = useSelector((state) => state.departmentsState);
+    const { authDetails } = useSelector((state) => state.authState);
+    const { diagnosis, creating } = useSelector(
+        (state) => state.diagnosisState
+    );
+
+    const [addModalOpen, setAddModalOpen] = useState(false);
+    const [selectedDiagnosis, setSelectedDiagnosis] = useState([]);
+    const [diag_err, setDiagerror] = useState("");
+    const [error, setError] = useState("");
+
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -19,24 +33,35 @@ const AddPatient = () => {
     } = useForm();
 
     const handleAddPatient = (data) => {
-        console.log(data);
-        setState({ error: "", loading: true });
-        try {
-            setTimeout(() => {
-                setState({ ...state, loading: false });
-            }, 4000);
-        } catch (error) {
-            setState({ error: error.message, loading: false });
+        setDiagerror("");
+        setError("");
+        if (selectedDiagnosis?.length === 0) {
+            setDiagerror("Diagnosis is Required");
+            return;
         }
     };
+
+    useEffect(() => {
+        authDetails?._id && dispatch(getDepartmentsAction());
+    }, [dispatch, authDetails?._id]);
+
+    useEffect(() => {
+        authDetails?._id && dispatch(getDiagnosisAction());
+    }, [dispatch, authDetails?._id]);
 
     return (
         <DashboardWrapper>
             <Header title="Add Patient" />
-            <div className="p-4  max-w-4xl mx-auto ">
+            <div className="p-4  max-w-4xl mx-auto pb-48">
                 <div className="my-4 p-5 bg-white _shadow">
                     <h2 className="font-medium">Add Patient</h2>
                 </div>
+
+                {error && (
+                    <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+                        {error}
+                    </div>
+                )}
 
                 <div className="bg-white p-5 _shadow">
                     <form onSubmit={handleSubmit(handleAddPatient)}>
@@ -87,13 +112,20 @@ const AddPatient = () => {
                                 required={true}
                                 type="number"
                             />
-                            <InputField
+                            <SelectField
                                 errors={errors}
-                                name="status"
-                                label="Status"
+                                name="type"
+                                label="Type"
                                 register={register}
                                 required={true}
-                                type="text"
+                                options={[
+                                    { value: "active", label: "Active" },
+                                    { value: "inactive", label: "Inactive" },
+                                    {
+                                        value: "not-subscribed",
+                                        label: "Not Subscribed",
+                                    },
+                                ]}
                             />
                         </div>
 
@@ -112,7 +144,12 @@ const AddPatient = () => {
                                 label="Department"
                                 register={register}
                                 required={true}
-                                options={departments}
+                                options={departments.map((dep) => {
+                                    return {
+                                        value: dep._id,
+                                        label: dep.name,
+                                    };
+                                })}
                             />
                         </div>
 
@@ -125,15 +162,53 @@ const AddPatient = () => {
                                 required={true}
                                 type="text"
                             />
-                            <div className="flex-1"></div>
+                            <div className="flex-1 p-2"></div>
+                        </div>
+
+                        <div className="flex gap-4 mt-4">
+                            <div className="flex-1">
+                                <label
+                                    htmlFor="firstname"
+                                    className="text-md mb-2 block"
+                                >
+                                    Select Diagnosis
+                                </label>
+                                <Select
+                                    placeholder="Select Diagnosis"
+                                    isMulti
+                                    value={selectedDiagnosis}
+                                    onChange={(value) =>
+                                        setSelectedDiagnosis(value)
+                                    }
+                                    options={diagnosis?.map((diag) => {
+                                        return {
+                                            value: diag._id,
+                                            label: diag.name,
+                                        };
+                                    })}
+                                />
+                                {diag_err && (
+                                    <p className="text-red-600 text-xs mt-1">
+                                        {diag_err}
+                                    </p>
+                                )}
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setAddModalOpen(true)}
+                                className="text-seagreen self-end py-2 text-sm px-10 bg-white border border-seagreen rounded-md 
+                            flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            >
+                                Add Diagnosis
+                            </button>
                         </div>
 
                         <button
-                            disabled={state.loading}
+                            disabled={creating.loading}
                             className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            {state.loading ? (
+                            {creating.loading ? (
                                 <>
                                     <FaSpinner className="animate-spin" />
                                     <span className="text-sm">Loading...</span>
@@ -144,6 +219,13 @@ const AddPatient = () => {
                         </button>
                     </form>
                 </div>
+
+                <AddDiagnosisModal
+                    isOpen={addModalOpen}
+                    closeModal={() => {
+                        setAddModalOpen(false);
+                    }}
+                />
             </div>
         </DashboardWrapper>
     );

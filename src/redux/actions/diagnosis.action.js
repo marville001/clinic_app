@@ -3,7 +3,7 @@ import {createDiagnosisApi, getDiagnosisApi, deleteDiagnosisApi} from "../../api
 
 import parseError from "../../utils/parseError";
 
-export const createDepartmentAction = (department) => async (dispatch) => {
+export const createDiagnosisAction = (department) => async (dispatch) => {
     dispatch({ type: CREATE_DIAGNOSIS.REQUEST });
     try {
         const { data } = await createDiagnosisApi(department);

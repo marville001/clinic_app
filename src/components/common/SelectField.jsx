@@ -25,7 +25,7 @@ const SelectField = ({
                     },
                 })}
             >
-                <option value="" disabled>Select {label}</option>
+                <option value="">Select {label}</option>
                 {/* <option value="" disabled>Select {label }</option> */}
                 {options.map(({ label, value }) => (
                     <option key={value} value={value}>
