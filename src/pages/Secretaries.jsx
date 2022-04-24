@@ -1,30 +1,48 @@
-import React, { useState } from "react";
-import { FaEye, FaTrash, FaUserEdit } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaEye, FaSpinner, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import AddSecretaryModal from "../components/modals/AddSecretaryModal";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import EditSecretaryModal from "../components/modals/EditSecretaryModal";
 import SearchInput from "../components/SearchInput";
+import { getSecretariesAction } from "../redux/actions/secretaries.action";
 
 const Secretaries = () => {
+    const { authDetails } = useSelector((state) => state.authState);
+    const {
+        loading: loading_secs,
+        secretaries,
+        deleting: deleting_sec,
+    } = useSelector((state) => state.secretariesState);
+
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+    const [editSecretary, setEditSecretary] = useState({});
+    const [deleteSecretary, setDeleteSecretary] = useState({});
 
-    const openEditModal = (id) => {
+    const dispatch = useDispatch();
+
+    const openEditModal = (secretary) => {
+        setEditSecretary(secretary);
         setEditModalOpen(true);
     };
 
-    const openDeleteModal = (id) => {
+    const openDeleteModal = (secretary) => {
+        setDeleteSecretary(secretary);
         setConfirmDeleteModalOpen(true);
     };
 
     const handleDeleteSecretary = () => {
-        console.log("Deleting");
         setConfirmDeleteModalOpen(false);
     };
+
+    useEffect(() => {
+        authDetails?._id && dispatch(getSecretariesAction());
+    }, [dispatch, authDetails?._id]);
 
     return (
         <DashboardWrapper>
@@ -43,7 +61,7 @@ const Secretaries = () => {
 
                 <div className="mt-5">
                     <div className="relative shadow-md rounded-md bg-white">
-                        <table className="w-full text-sm text-left mb-10 overflow-x-auto">
+                        <table className="w-full text-sm text-left overflow-x-auto">
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>
                                     <th className="px-6 py-4">#</th>
@@ -58,26 +76,31 @@ const Secretaries = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[1, 2, 3, 4, 5, 6].map((doctor, idx) => (
+                                {secretaries?.map((secretary, idx) => (
                                     <tr
-                                        key={doctor}
+                                        key={secretary?._id}
                                         className="group border-b "
                                     >
                                         <td className="px-6 py-4 font-bold">
                                             {idx + 1}
                                         </td>
-                                        <td className="px-6 py-4">
-                                            Alfred Sliver
+                                        <td className="px-6 py-4 capitalize">
+                                            {secretary?.firstname}{" "}
+                                            {secretary?.lastname}
                                         </td>
-                                        <td className="px-6 py-4">Male</td>
-                                        <td className="px-6 py-4">
-                                            27<sup>th</sup> June 2000
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            1451 - ABC Street, NY
+                                        <td className="px-6 py-4 capitalize">
+                                            {secretary?.gender}
                                         </td>
                                         <td className="px-6 py-4">
-                                            +6575 563535353
+                                            {new Date(
+                                                secretary?.dob
+                                            ).toDateString()}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {secretary?.address}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {secretary?.phone}
                                         </td>
                                         <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
                                             <div
@@ -91,7 +114,7 @@ const Secretaries = () => {
                                                 className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
                                                 onClick={() =>
-                                                    openEditModal(idx)
+                                                    openEditModal(secretary)
                                                 }
                                             >
                                                 <FaUserEdit />
@@ -101,7 +124,7 @@ const Secretaries = () => {
                                                 className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
                                             rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
                                                 onClick={() =>
-                                                    openDeleteModal(idx)
+                                                    openDeleteModal(secretary)
                                                 }
                                             >
                                                 <FaTrash />
@@ -111,6 +134,15 @@ const Secretaries = () => {
                                 ))}
                             </tbody>
                         </table>
+
+                        {loading_secs && (
+                            <div
+                                colSpan={5}
+                                className="py-4 flex justify-center"
+                            >
+                                <FaSpinner className="animate-spin  text-lg text-slate-900" />
+                            </div>
+                        )}
                     </div>
 
                     <div className="flex my-4 justify-between">
@@ -130,13 +162,16 @@ const Secretaries = () => {
                     isOpen={editModalOpen}
                     closeModal={() => {
                         setEditModalOpen(false);
+                        setEditSecretary({});
                     }}
+                    secretary={editSecretary}
                 />
 
                 <ConfirmDeleteModal
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
                         setConfirmDeleteModalOpen(false);
+                        setDeleteSecretary({});
                     }}
                     message="Deleting the secretary will erase everything about their
                         records. Are you sure you want to delete?"

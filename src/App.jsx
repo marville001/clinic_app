@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Login from "./pages/Login";
 import AdminHome from "./pages/AdminHome";
 import Admins from "./pages/Admins";
@@ -44,6 +47,8 @@ const App = () => {
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/appointments/:id" element={<Appointments />} />
             </Routes>
+
+            <ToastContainer />
         </div>
     );
 };

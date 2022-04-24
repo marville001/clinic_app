@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { gender } from "../../constants";
+import {
+    getSecretariesAction,
+    updateSecretaryAction,
+} from "../../redux/actions/secretaries.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import SelectField from "../common/SelectField";
 
-const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
-    const [state, setState] = useState({ error: "", loading: false });
+import { toast } from "react-toastify";
+
+const EditSecretaryModal = ({
+    isOpen,
+    closeModal = () => {},
+    secretary = {},
+}) => {
+    const { updating: updating_sec } = useSelector(
+        (state) => state.secretariesState
+    );
+    const [error, setError] = useState("");
 
     const {
         register,
@@ -15,17 +29,51 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
         formState: { errors },
         clearErrors,
         reset,
+        setValue,
     } = useForm();
+
+    const dispatch = useDispatch();
 
     const handleCloseModal = () => {
         closeModal();
         clearErrors();
+        setError();
         reset();
+        dispatch(getSecretariesAction());
     };
 
-    const handleEditSecretary = async () => {
-        setState({ ...state, loading: false });
+    const handleEditSecretary = async (data) => {
+        setError("");
+
+        const res = await dispatch(updateSecretaryAction(data, secretary?._id));
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+        toast.success(`Secretary Updated Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+        handleCloseModal();
     };
+
+    useEffect(() => {
+        if (secretary?._id) {
+            setValue("firstname", secretary?.firstname);
+            setValue("lastname", secretary?.lastname);
+            setValue("gender", secretary?.gender);
+            setValue("phone", secretary?.phone);
+            setValue("address", secretary?.address);
+
+            const temp_dob = secretary?.dob.slice(0, 10);
+            setValue("dob", temp_dob);
+        }
+    }, [secretary, setValue]);
 
     return (
         <Modal
@@ -41,9 +89,9 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                 <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
                     Edit Secretary
                 </h4>
-                {state.error && (
+                {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
-                        {state.error}
+                        {error}
                     </div>
                 )}
                 <div className="flex gap-5 mt-4">
@@ -73,16 +121,19 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         options={gender}
                     />
-                        <InputField
+                    <InputField
                         errors={errors}
                         name="dob"
                         label="Date of Birth"
                         register={register}
                         required={true}
                         type="date"
+                        onChange={(e) => {
+                            console.log(e.target.value);
+                        }}
                     />
                 </div>
-                
+
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
@@ -92,7 +143,7 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         type="text"
                     />
-                         <InputField
+                    <InputField
                         errors={errors}
                         name="address"
                         label="Address"
@@ -102,25 +153,6 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                     />
                 </div>
 
-                <div className="flex gap-5 mt-4">
-                    <InputField
-                        errors={errors}
-                        name="email"
-                        label="Email"
-                        register={register}
-                        required={true}
-                        type="email"
-                    />
-                         <InputField
-                        errors={errors}
-                        name="password"
-                        label="Password"
-                        register={register}
-                        required={true}
-                        type="password"
-                    />
-                </div>
-                
                 <div className="flex justify-between items-center mt-8">
                     <button
                         type="button"
@@ -130,14 +162,14 @@ const EditSecretaryModal = ({ isOpen, closeModal = () => {} }) => {
                         Cancel
                     </button>
                     <button
-                        disabled={state.loading}
+                        disabled={updating_sec}
                         type="submit"
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {state.loading ? (
+                        {updating_sec ? (
                             <>
                                 <FaSpinner className="animate-spin mr-4" />{" "}
                                 <span className="capitalize">Loading...</span>
