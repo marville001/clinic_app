@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
     FaUncharted,
@@ -11,12 +11,20 @@ import {
     FaUserShield,
 } from "react-icons/fa";
 import { NavContext } from "../nav.context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUserAction } from "../redux/actions/auth.action";
 
 const Sidebar = () => {
     const { authDetails } = useSelector((state) => state.authState);
 
     const { sidebarOpen } = useContext(NavContext);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogOut = () => {
+        dispatch(logoutUserAction());
+        navigate("/");
+    };
 
     return (
         <div
@@ -113,7 +121,10 @@ const Sidebar = () => {
                 </NavLink>
             </div>
             <div className="absolute bottom-10 inset-x-0 px-5 text-white ">
-                <button className="w-full flex items-center space-x-4 opacity-80 py-2 px-4 hover:bg-slate-700 rounded-md active:opacity-100">
+                <button
+                    onClick={handleLogOut}
+                    className="w-full flex items-center space-x-4 opacity-80 py-2 px-4 hover:bg-slate-700 rounded-md active:opacity-100"
+                >
                     <FaPowerOff />
                     <span>Logout</span>
                 </button>
