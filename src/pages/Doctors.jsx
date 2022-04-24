@@ -9,7 +9,12 @@ import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import AddDepartmentModal from "../components/modals/AddDepartmentModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
-import { getDoctorsAction } from "../redux/actions/doctors.action";
+import {
+    deleteDoctorAction,
+    getDoctorsAction,
+} from "../redux/actions/doctors.action";
+
+import { toast } from "react-toastify";
 
 const Doctors = () => {
     const { departments, loading: loading_dpt } = useSelector(
@@ -21,15 +26,41 @@ const Doctors = () => {
     );
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+    const [deleteDoctor, setDeleteDoctor] = useState({});
 
     const dispatch = useDispatch();
 
-    const openDeleteModal = (id) => {
+    const openDeleteModal = (doctor) => {
+        setDeleteDoctor(doctor);
         setConfirmDeleteModalOpen(true);
     };
 
-    const handleDeleteDoctor = () => {
+    const handleDeleteDoctor = async () => {
+        const res = await dispatch(deleteDoctorAction(deleteDoctor?._id));
+
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            setConfirmDeleteModalOpen(false);
+            return;
+        }
         setConfirmDeleteModalOpen(false);
+        dispatch(getDoctorsAction());
+
+        toast.success(`Doctor Deleted Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
     };
 
     useEffect(() => {
@@ -142,7 +173,11 @@ const Doctors = () => {
                                                 {doctor?.phone || "-"}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {doctor?.department || "-"}
+                                                {departments?.find(
+                                                    (dep) =>
+                                                        dep?._id ===
+                                                        doctor?.department
+                                                )?.name || "-"}
                                             </td>
                                             <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
                                                 <Link
@@ -165,9 +200,7 @@ const Doctors = () => {
 
                                                 <div
                                                     onClick={() =>
-                                                        openDeleteModal(
-                                                            doctor?._id
-                                                        )
+                                                        openDeleteModal(doctor)
                                                     }
                                                     className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
                                                 >

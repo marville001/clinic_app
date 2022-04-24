@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createDoctorAction } from "../redux/actions/doctors.action";
 import { useNavigate } from "react-router-dom";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
+
+import { toast } from "react-toastify";
+
+
 const AddDoctor = () => {
     const { creating } = useSelector((state) => state.doctorsState);
     const { departments } = useSelector((state) => state.departmentsState);
@@ -40,6 +44,15 @@ const AddDoctor = () => {
             setError(res.message);
             return;
         }
+
+        toast.success(`Doctor Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
 
         reset();
         setError("")

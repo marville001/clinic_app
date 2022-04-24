@@ -42,8 +42,6 @@ const Secretaries = () => {
     };
 
     const handleDeleteSecretary = async () => {
-        console.log(deleteSecretary);
-        setConfirmDeleteModalOpen(false);
         const res = await dispatch(deleteSecretaryAction(deleteSecretary?._id));
 
         if (!res.success) {
@@ -55,10 +53,12 @@ const Secretaries = () => {
                 pauseOnHover: true,
                 draggable: true,
             });
+            setConfirmDeleteModalOpen(false);
             return;
         }
         dispatch(getSecretariesAction());
 
+        setConfirmDeleteModalOpen(false);
         toast.success(`Secretary Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
