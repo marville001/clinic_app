@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 const AssignedPatients = () => {
     return (
@@ -36,7 +35,7 @@ const AssignedPatients = () => {
                         </div>
                     </div>
                 ))}
-                <div className="pt-5 flex justify-between w-full">
+                {/* <div className="pt-5 flex justify-between w-full">
                     <Link
                         to={`/doctors/23fsr34few433d342/patients`}
                         className="flex items-center space-x-2 py-1 text-xs px-6 rounded-md text-white bg-seagreen 
@@ -44,7 +43,7 @@ const AssignedPatients = () => {
                     >
                         View All
                     </Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );
