@@ -1,6 +1,6 @@
 import React from "react";
 import { FaHouseUser } from "react-icons/fa";
-import { HiCalendar } from "react-icons/hi";
+// import { HiCalendar } from "react-icons/hi";
 import { useSelector } from "react-redux";
 
 const PatientPersonalDetails = () => {
