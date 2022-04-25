@@ -12,7 +12,7 @@ const DashboardWrapper = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!localStorage.token) navigate("/");
+        if (!localStorage["auth-token"]) navigate("/");
     }, [navigate]);
 
     if (loading) return <Loading />;

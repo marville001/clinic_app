@@ -9,46 +9,37 @@ const defaultConfig = {
 };
 
 const http = {
-    get: async (url, query = {}, config = {}) => {
+    get: async (url, query = {}) => {
         if (!url) throw new Error("URL is required");
         const param = queryString.stringify(query);
         if (param) url += `?${param}`;
 
         try {
-            return await axios.get(url, { ...defaultConfig, ...config });
+            return await axios.get(url, defaultConfig);
         } catch (error) {
             throw error;
         }
     },
-    post: async (url, data = {}, config = {}) => {
+    post: async (url, data = {}) => {
         if (!url) throw new Error("URL is required");
         try {
-            return await axios.post(url, data, {
-                ...defaultConfig,
-                ...config,
-            });
+            return await axios.post(url, data, defaultConfig);
         } catch (error) {
             throw error;
         }
     },
-    put: async (url, data = {}, config = {}) => {
+    put: async (url, data = {}) => {
         if (!url) throw new Error("URL is required");
         try {
-            return await axios.put(url, data, {
-                ...defaultConfig,
-                ...config,
-            });
+            return await axios.put(url, data, defaultConfig);
         } catch (error) {
             throw error;
         }
     },
-    _delete: async (url, data = {}, config = {}) => {
+    _delete: async (url, data = {}) => {
         if (!url) throw new Error("URL is required");
         try {
-            return await axios.delete(url, {
-                ...defaultConfig,
-                ...config,
-            });
+            return await axios.delete(url, defaultConfig);
         } catch (error) {
             throw error;
         }

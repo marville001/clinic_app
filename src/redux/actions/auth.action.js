@@ -32,7 +32,7 @@ export const logoutUserAction = () => (dispatch) => {
 };
 
 export const getUserProfileAction = () => async (dispatch) => {
-    const token = localStorage.token;
+    const token = localStorage["auth-token"];
 
     if (token) {
         dispatch({ type: USER_LOGIN.REQUEST });
