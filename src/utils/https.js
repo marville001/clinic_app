@@ -4,7 +4,7 @@ import queryString from "querystring";
 const defaultConfig = {
     headers: {
         "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("token"),
+        "x-auth-token": localStorage.getItem("auth-token"),
     },
 };
 

@@ -6,7 +6,7 @@ export const loginUserAction = (user) => async (dispatch) => {
     dispatch({ type: USER_LOGIN.REQUEST });
     try {
         const { data } = await loginUserApi(user);
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("auth-token", data.token);
         dispatch({
             type: USER_LOGIN.SUCCESS,
             payload: data.user,
@@ -42,7 +42,7 @@ export const getUserProfileAction = () => async (dispatch) => {
                 type: USER_LOGIN.SUCCESS,
                 payload: data.user,
             });
-            localStorage.setItem("token", data.token);
+            localStorage.setItem("auth-token", data.token);
         } catch (error) {
             dispatch({ type: USER_LOGIN.FAIL, payload: parseError(error) });
             localStorage.clear();
