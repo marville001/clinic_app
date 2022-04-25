@@ -49,14 +49,14 @@ const PatientPersonalDetails = () => {
                 </table>
             </div>
 
-            <div className="flex gap-5 flex-col sm:flex-row">
-                <div className="flex flex-col text-sm space-y-2">
+            <div className="flex gap-5 flex-col sm:flex-row divide-x-2">
+                {/* <div className="flex flex-col text-sm space-y-2">
                     <div className="flex items-center space-x-2 text-sm">
                         <HiCalendar className="text-flowerblue" />
                         <span>Last Visit</span>
                     </div>
                     <h4 className="text-md opacity-80">08 Sept, 2019</h4>
-                </div>
+                </div> */}
                 <div className="flex flex-col text-sm space-y-2">
                     <div className="flex items-center space-x-2 text-sm">
                         <FaHouseUser className="text-flowerblue" />
@@ -67,7 +67,7 @@ const PatientPersonalDetails = () => {
                     </h4>
                 </div>
 
-                <div className="flex flex-col text-sm space-y-2">
+                <div className="flex flex-col text-sm space-y-2 pl-5">
                     <div className="flex items-center space-x-2 text-sm">
                         <FaHouseUser className="text-flowerblue" />
                         <span>Diagnosis</span>
