@@ -54,8 +54,8 @@ const ViewPatient = () => {
                             </div>
                         </>
                     ) : (
-                        <div className="flex justify-center pt-20">
-                            <h4 className="uppercase text-3xl font-bold opacity-50">
+                        <div className="flex justify-center py-20">
+                            <h4 className="uppercase text-3xl font-bold text-center opacity-50">
                                 Patient NOT FOUND
                             </h4>
                         </div>

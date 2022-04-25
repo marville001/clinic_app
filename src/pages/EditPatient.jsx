@@ -58,7 +58,7 @@ const EditPatient = () => {
             pauseOnHover: true,
             draggable: true,
         });
-        navigate("/patients")
+        navigate("/patients");
     };
 
     useEffect(() => {
@@ -102,127 +102,138 @@ const EditPatient = () => {
                     </div>
                 ) : (
                     <div className="bg-white p-5 _shadow">
-                        <form onSubmit={handleSubmit(handleEditPatient)}>
-                            <div className="flex gap-5">
-                                <InputField
-                                    errors={errors}
-                                    name="firstname"
-                                    label="Firstname"
-                                    register={register}
-                                    required={true}
-                                    type="text"
-                                />
-                                <InputField
-                                    errors={errors}
-                                    name="lastname"
-                                    label="Lastname"
-                                    register={register}
-                                    required={true}
-                                    type="text"
-                                />
-                            </div>
+                        {patient?._id ? (
+                            <form onSubmit={handleSubmit(handleEditPatient)}>
+                                <div className="flex gap-5">
+                                    <InputField
+                                        errors={errors}
+                                        name="firstname"
+                                        label="Firstname"
+                                        register={register}
+                                        required={true}
+                                        type="text"
+                                    />
+                                    <InputField
+                                        errors={errors}
+                                        name="lastname"
+                                        label="Lastname"
+                                        register={register}
+                                        required={true}
+                                        type="text"
+                                    />
+                                </div>
 
-                            <div className="flex gap-5 mt-4">
-                                <InputField
-                                    errors={errors}
-                                    name="phone"
-                                    label="Phone Number"
-                                    register={register}
-                                    required={true}
-                                    type="text"
-                                />
-                                <InputField
-                                    errors={errors}
-                                    name="email"
-                                    label="Email"
-                                    register={register}
-                                    optional={true}
-                                    type="email"
-                                />
-                            </div>
+                                <div className="flex gap-5 mt-4">
+                                    <InputField
+                                        errors={errors}
+                                        name="phone"
+                                        label="Phone Number"
+                                        register={register}
+                                        required={true}
+                                        type="text"
+                                    />
+                                    <InputField
+                                        errors={errors}
+                                        name="email"
+                                        label="Email"
+                                        register={register}
+                                        optional={true}
+                                        type="email"
+                                    />
+                                </div>
 
-                            <div className="flex gap-5 mt-4">
-                                <InputField
-                                    errors={errors}
-                                    name="dob"
-                                    label="Date of Birth"
-                                    register={register}
-                                    required={true}
-                                    type="date"
-                                />
-                                <SelectField
-                                    errors={errors}
-                                    name="type"
-                                    label="Type"
-                                    register={register}
-                                    required={true}
-                                    options={[
-                                        { value: "active", label: "Active" },
-                                        {
-                                            value: "inactive",
-                                            label: "Inactive",
-                                        },
-                                        {
-                                            value: "not-subscribed",
-                                            label: "Not Subscribed",
-                                        },
-                                    ]}
-                                />
-                            </div>
+                                <div className="flex gap-5 mt-4">
+                                    <InputField
+                                        errors={errors}
+                                        name="dob"
+                                        label="Date of Birth"
+                                        register={register}
+                                        required={true}
+                                        type="date"
+                                    />
+                                    <SelectField
+                                        errors={errors}
+                                        name="type"
+                                        label="Type"
+                                        register={register}
+                                        required={true}
+                                        options={[
+                                            {
+                                                value: "active",
+                                                label: "Active",
+                                            },
+                                            {
+                                                value: "inactive",
+                                                label: "Inactive",
+                                            },
+                                            {
+                                                value: "not-subscribed",
+                                                label: "Not Subscribed",
+                                            },
+                                        ]}
+                                    />
+                                </div>
 
-                            <div className="flex gap-5 mt-4">
-                                <SelectField
-                                    errors={errors}
-                                    name="gender"
-                                    label="Gender"
-                                    register={register}
-                                    required={true}
-                                    options={gender}
-                                />
-                                <SelectField
-                                    errors={errors}
-                                    name="department"
-                                    label="Department"
-                                    register={register}
-                                    required={true}
-                                    options={departments.map((dep) => {
-                                        return {
-                                            value: dep._id,
-                                            label: dep.name,
-                                        };
-                                    })}
-                                />
-                            </div>
+                                <div className="flex gap-5 mt-4">
+                                    <SelectField
+                                        errors={errors}
+                                        name="gender"
+                                        label="Gender"
+                                        register={register}
+                                        required={true}
+                                        options={gender}
+                                    />
+                                    <SelectField
+                                        errors={errors}
+                                        name="department"
+                                        label="Department"
+                                        register={register}
+                                        required={true}
+                                        options={departments.map((dep) => {
+                                            return {
+                                                value: dep._id,
+                                                label: dep.name,
+                                            };
+                                        })}
+                                    />
+                                </div>
 
-                            <div className="flex gap-5 mt-4">
-                                <InputField
-                                    errors={errors}
-                                    name="address"
-                                    label="Address"
-                                    register={register}
-                                    required={true}
-                                    type="text"
-                                />
-                                <div className="flex-1"></div>
-                            </div>
+                                <div className="flex gap-5 mt-4">
+                                    <InputField
+                                        errors={errors}
+                                        name="address"
+                                        label="Address"
+                                        register={register}
+                                        required={true}
+                                        type="text"
+                                    />
+                                    <div className="flex-1"></div>
+                                </div>
 
-                            <button
-                                disabled={updating}
-                                className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
+                                <button
+                                    disabled={updating}
+                                    className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
-                            >
-                                {updating ? (
-                                    <>
-                                        <FaSpinner className="animate-spin" />
-                                        <span className="text-sm">
-                                            Loading...
-                                        </span>
-                                    </>
-                                ) : (
-                                    <span>Submit</span>
-                                )}
-                            </button>
-                        </form>
+                                >
+                                    {updating ? (
+                                        <>
+                                            <FaSpinner className="animate-spin" />
+                                            <span className="text-sm">
+                                                Loading...
+                                            </span>
+                                        </>
+                                    ) : (
+                                        <span>Submit</span>
+                                    )}
+                                </button>
+                            </form>
+                        ) : (
+                            <div className="flex justify-center py-20">
+                                <h4 className="uppercase text-3xl font-bold text-center opacity-50">
+                                    Patient NOT FOUND
+                                </h4>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
