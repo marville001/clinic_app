@@ -15,7 +15,6 @@ const InputField = ({
         <div className="flex flex-col flex-1">
             <label
                 style={{ color: labelColor ? labelColor : "" }}
-                htmlFor="firstname"
                 className="text-md mb-1"
             >
                 {label} {optional && "(optional)"}
