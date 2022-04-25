@@ -10,6 +10,7 @@ const InputField = ({
     type = "text",
     optional = false,
     subLabel = "",
+    shortError,
     ...props
 }) => {
     return (
@@ -37,7 +38,7 @@ const InputField = ({
             />
             {errors[name] && (
                 <p className="text-red-600 text-xs mt-1">
-                    {errors[name].message}
+                    {shortError ? "Required" : errors[name].message}
                 </p>
             )}
         </div>

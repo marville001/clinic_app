@@ -84,47 +84,23 @@ const AddPatientContactModal = ({
                     <div className="flex flex-col flex-1">
                         <label className="text-md mb-1">Availability</label>
                         <div className="flex gap-1">
-                            <div>
-                                <input
-                                    type="time"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.timestart &&
-                                        "border-red-400 border"
-                                    }`}
-                                    {...register("timestart", {
-                                        required: {
-                                            value: true,
-                                            message: `Required`,
-                                        },
-                                    })}
-                                />
-                                {errors.timestart && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.timestart.message}
-                                    </p>
-                                )}
-                            </div>
+                            <InputField
+                                errors={errors}
+                                name="timestart"
+                                register={register}
+                                required={true}
+                                type="time"
+                                shortError
+                            />
                             <span className="block mt-4">-</span>
-                            <div>
-                                <input
-                                    type="time"
-                                    className={`text-sm w-full rounded-md mt-1 ${
-                                        errors.timeend &&
-                                        "border-red-400 border"
-                                    }`}
-                                    {...register("timeend", {
-                                        required: {
-                                            value: true,
-                                            message: `Required`,
-                                        },
-                                    })}
-                                />
-                                {errors.timeend && (
-                                    <p className="text-red-600 text-xs mt-1">
-                                        {errors.timeend.message}
-                                    </p>
-                                )}
-                            </div>
+                            <InputField
+                                errors={errors}
+                                name="timeend"
+                                register={register}
+                                required={true}
+                                type="time"
+                                shortError
+                            />
                         </div>
                     </div>
                     <InputField

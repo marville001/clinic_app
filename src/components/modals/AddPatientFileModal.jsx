@@ -23,8 +23,9 @@ const AddPatientFileModal = ({
 
     const handleCloseModal = () => {
         reset();
-        clearErrors("name");
+        clearErrors();
         setFileError(false);
+        setSelectedFile("")
         closeModal();
     };
 

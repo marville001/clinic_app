@@ -15,12 +15,17 @@ const AssignDoctorModal = ({
 
     const [selectedDoctors, setSelectedDoctors] = useState([]);
 
+    const handleCloseModal = () => {
+        setSelectedDoctors([]);
+        closeModal();
+    };
+
     return (
         <Modal
             title={"New Board"}
             size="xl"
             isOpen={isOpen}
-            closeModal={closeModal}
+            closeModal={handleCloseModal}
         >
             <div className="bg-white p-5 _shadow rounded-md mb-20">
                 <h4 className="text-center text-2xl text-slate-900 mb-6">
@@ -49,7 +54,8 @@ const AssignDoctorModal = ({
 
                 <div className="flex justify-between items-center mt-8">
                     <button
-                        onClick={closeModal}
+                        onClick={handleCloseModal}
+                        type="button"
                         className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
                     >
                         No
