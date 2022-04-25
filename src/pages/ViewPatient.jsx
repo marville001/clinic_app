@@ -8,6 +8,7 @@ import PatientAssignedDoctors from "../components/patients/PatientAssignedDoctor
 import PatientAttachedFiles from "../components/patients/PatientAttachedFiles";
 import PatientComments from "../components/patients/PatientComments";
 import PatientPersonalDetails from "../components/patients/PatientPersonalDetails";
+import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getPatientAction } from "../redux/actions/patients.action";
 
 const ViewPatient = () => {
@@ -21,6 +22,7 @@ const ViewPatient = () => {
 
     useEffect(() => {
         authDetails?._id && dispatch(getPatientAction(id));
+        authDetails?._id && dispatch(getDoctorsAction());
     }, [dispatch, authDetails?._id, id]);
 
     return (
@@ -48,7 +50,9 @@ const ViewPatient = () => {
                         </>
                     ) : (
                         <div className="flex justify-center pt-20">
-                            <h4 className="uppercase text-3xl font-bold opacity-50">Patient NOT FOUND</h4>
+                            <h4 className="uppercase text-3xl font-bold opacity-50">
+                                Patient NOT FOUND
+                            </h4>
                         </div>
                     )}
                 </div>
