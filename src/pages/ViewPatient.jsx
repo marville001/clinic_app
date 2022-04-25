@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import PatientAssignedDoctors from "../components/patients/PatientAssignedDoctors";
 import PatientAttachedFiles from "../components/patients/PatientAttachedFiles";
 import PatientComments from "../components/patients/PatientComments";
+import PatientContacts from "../components/patients/PatientContacts";
 import PatientPersonalDetails from "../components/patients/PatientPersonalDetails";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getPatientAction } from "../redux/actions/patients.action";
@@ -46,6 +47,10 @@ const ViewPatient = () => {
                             <div className="flex gap-5 my-5 flex-col lg:flex-row">
                                 <PatientComments />
                                 <PatientAttachedFiles />
+                            </div>
+
+                            <div className="flex mb-16">
+                                <PatientContacts />
                             </div>
                         </>
                     ) : (

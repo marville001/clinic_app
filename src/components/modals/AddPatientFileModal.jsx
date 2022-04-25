@@ -112,6 +112,7 @@ const AddPatientFileModal = ({
 
                 <div className="flex justify-between items-center mt-8">
                     <button
+                        type="button"
                         onClick={handleCloseModal}
                         className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
                     >

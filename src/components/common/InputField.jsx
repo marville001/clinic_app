@@ -7,8 +7,9 @@ const InputField = ({
     label,
     labelColor,
     required,
-    type,
+    type = "text",
     optional = false,
+    subLabel = "",
     ...props
 }) => {
     return (
@@ -17,7 +18,8 @@ const InputField = ({
                 style={{ color: labelColor ? labelColor : "" }}
                 className="text-md mb-1"
             >
-                {label} {optional && "(optional)"}
+                {label} {optional && "(optional)"}{" "}
+                <span className="text-sm">{subLabel && ` - ${subLabel}`}</span>
             </label>
             <input
                 type={type}
