@@ -41,7 +41,6 @@ const EditDoctor = () => {
   } = useForm();
 
   const handleEditDoctor = async (data) => {
-    console.log(data);
     setError("");
     const res = await dispatch(updateDoctorAction(data, doctor?._id));
 

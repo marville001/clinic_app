@@ -128,9 +128,6 @@ const EditSecretaryModal = ({
                         register={register}
                         required={true}
                         type="date"
-                        onChange={(e) => {
-                            console.log(e.target.value);
-                        }}
                     />
                 </div>
 
