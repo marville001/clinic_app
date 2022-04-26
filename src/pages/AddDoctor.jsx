@@ -163,7 +163,6 @@ const AddDoctor = () => {
                 register={register}
                 required={true}
               />
-              <div className="flex-1"> </div>
               <InputField
                 errors={errors}
                 name="address"
