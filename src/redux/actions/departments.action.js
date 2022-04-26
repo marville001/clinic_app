@@ -1,8 +1,5 @@
-import {
-    createDepartmentApi,
-    deleteDepartmentApi,
-    getDepartmentsApi,
-} from "../../api";
+import {  deleteApi, getApi, postApi,} from "../../api";
+import { createDepartmentUrl, deleteDepartmentUrl, getDepartmentsUrl } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
     CREATE_DEPARTMENT,
@@ -13,7 +10,7 @@ import {
 export const createDepartmentAction = (department) => async (dispatch) => {
     dispatch({ type: CREATE_DEPARTMENT.REQUEST });
     try {
-        const { data } = await createDepartmentApi(department);
+        const { data } = await postApi(createDepartmentUrl, department);
         dispatch({
             type: CREATE_DEPARTMENT.SUCCESS,
             payload: data.department,
@@ -33,7 +30,7 @@ export const createDepartmentAction = (department) => async (dispatch) => {
 export const getDepartmentsAction = () => async (dispatch) => {
     dispatch({ type: GET_DEPARTMENTS.REQUEST });
     try {
-        const { data } = await getDepartmentsApi();
+        const { data } = await getApi(getDepartmentsUrl);
         dispatch({
             type: GET_DEPARTMENTS.SUCCESS,
             payload: data.departments,
@@ -49,7 +46,7 @@ export const getDepartmentsAction = () => async (dispatch) => {
 export const deleteDepartmentAction = (id) => async (dispatch) => {
     dispatch({ type: DELETE_DEPARTMENT.REQUEST });
     try {
-        await deleteDepartmentApi(id);
+        await deleteApi(deleteDepartmentUrl(id));
         dispatch({
             type: DELETE_DEPARTMENT.SUCCESS,
         });

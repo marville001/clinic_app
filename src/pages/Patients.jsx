@@ -8,14 +8,19 @@ import Header from "../components/Header";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import SearchInput from "../components/SearchInput";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
-import { deletePatientAction, getPatientsAction } from "../redux/actions/patients.action";
+import {
+    deletePatientAction,
+    getPatientsAction,
+} from "../redux/actions/patients.action";
 
 import { toast } from "react-toastify";
 
 const Patients = () => {
-    const { loading: loading_pat, patients, deleting } = useSelector(
-        (state) => state.patientsState
-    );
+    const {
+        loading: loading_pat,
+        patients,
+        deleting,
+    } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
     const { departments } = useSelector((state) => state.departmentsState);
 
@@ -77,6 +82,18 @@ const Patients = () => {
         <DashboardWrapper>
             <Header title="Patients" />
             <div className="p-4">
+                <div className="flex gap-5 flex-col lg:flex-row mb-6">
+                    <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
+                        <h3 className="text-md mb-4 font-bold">
+                            Contact Types
+                        </h3>
+                    </div>
+                    <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
+                        <h3 className="text-md mb-4 font-bold">
+                            All Diagnosis
+                        </h3>
+                    </div>
+                </div>
                 <div className="flex justify-between items-center">
                     <SearchInput />
                     <Link

@@ -1,10 +1,5 @@
-import {
-    createSecretaryApi,
-    deleteSecretaryApi,
-    getSecretariesApi,
-    getSecretaryApi,
-    updateSecretaryApi,
-} from "../../api";
+import { deleteApi, getApi, postApi, putApi, } from "../../api";
+import { createSecretaryUrl, deleteSecretaryUrl, getSecretariesUrl, getSecretaryUrl, updateSecretaryUrl } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
     CREATE_SECRETARY,
@@ -17,7 +12,7 @@ import {
 export const createSecretaryAction = (user) => async (dispatch) => {
     dispatch({ type: CREATE_SECRETARY.REQUEST });
     try {
-        const { data } = await createSecretaryApi(user);
+        const { data } = await postApi(createSecretaryUrl, user);
         dispatch({
             type: CREATE_SECRETARY.SUCCESS,
             payload: data.secretary,
@@ -38,7 +33,7 @@ export const createSecretaryAction = (user) => async (dispatch) => {
 export const getSecretaryAction = (id) => async (dispatch) => {
     dispatch({ type: GET_SECRETARY.REQUEST });
     try {
-        const { data } = await getSecretaryApi(id);
+        const { data } = await getApi(getSecretaryUrl(id));
         dispatch({
             type: GET_SECRETARY.SUCCESS,
             payload: data.secretary,
@@ -54,7 +49,7 @@ export const getSecretaryAction = (id) => async (dispatch) => {
 export const getSecretariesAction = () => async (dispatch) => {
     dispatch({ type: GET_SECRETARIES.REQUEST });
     try {
-        const { data } = await getSecretariesApi();
+        const { data } = await getApi(getSecretariesUrl);
         dispatch({
             type: GET_SECRETARIES.SUCCESS,
             payload: data.secretaries,
@@ -70,7 +65,7 @@ export const getSecretariesAction = () => async (dispatch) => {
 export const updateSecretaryAction = (details, id) => async (dispatch) => {
     dispatch({ type: UPDATE_SECRETARY.REQUEST });
     try {
-        const { data } = await updateSecretaryApi(details, id);
+        const { data } = await putApi(updateSecretaryUrl(id), details);
         dispatch({
             type: UPDATE_SECRETARY.SUCCESS,
             payload: data.secretary,
@@ -91,7 +86,7 @@ export const updateSecretaryAction = (details, id) => async (dispatch) => {
 export const deleteSecretaryAction = (id) => async (dispatch) => {
     dispatch({ type: DELETE_SECRETARY.REQUEST });
     try {
-        await deleteSecretaryApi(id);
+        await deleteApi(deleteSecretaryUrl(id));
         dispatch({
             type: DELETE_SECRETARY.SUCCESS,
         });

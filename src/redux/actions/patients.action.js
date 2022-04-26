@@ -1,11 +1,29 @@
-import { createPatientApi, deletePatientApi, getPatientApi, getPatientsApi, updatePatientApi } from "../../api";
+import {
+    deleteApi,
+    getApi,
+    postApi,
+    putApi,
+} from "../../api";
+import {
+    createPatientUrl,
+    deletePatientUrl,
+    getPatientsUrl,
+    getPatientUrl,
+    updatePatientUrl,
+} from "../../constants";
 import parseError from "../../utils/parseError";
-import { CREATE_PATIENT, DELETE_PATIENT, GET_PATIENT, GET_PATIENTS, UPDATE_PATIENT } from "../types/patients.types";
+import {
+    CREATE_PATIENT,
+    DELETE_PATIENT,
+    GET_PATIENT,
+    GET_PATIENTS,
+    UPDATE_PATIENT,
+} from "../types/patients.types";
 
 export const createPatientAction = (user) => async (dispatch) => {
     dispatch({ type: CREATE_PATIENT.REQUEST });
     try {
-        const { data } = await createPatientApi(user);
+        const { data } = await postApi(createPatientUrl, user);
         dispatch({
             type: CREATE_PATIENT.SUCCESS,
             payload: data.patient,
@@ -26,7 +44,7 @@ export const createPatientAction = (user) => async (dispatch) => {
 export const getPatientAction = (id) => async (dispatch) => {
     dispatch({ type: GET_PATIENT.REQUEST });
     try {
-        const { data } = await getPatientApi(id);
+        const { data } = await getApi(getPatientUrl(id));
         dispatch({
             type: GET_PATIENT.SUCCESS,
             payload: data.patient,
@@ -42,7 +60,7 @@ export const getPatientAction = (id) => async (dispatch) => {
 export const getPatientsAction = () => async (dispatch) => {
     dispatch({ type: GET_PATIENTS.REQUEST });
     try {
-        const { data } = await getPatientsApi();
+        const { data } = await getApi(getPatientsUrl);
         dispatch({
             type: GET_PATIENTS.SUCCESS,
             payload: data.patients,
@@ -58,7 +76,7 @@ export const getPatientsAction = () => async (dispatch) => {
 export const updatePatientAction = (details, id) => async (dispatch) => {
     dispatch({ type: UPDATE_PATIENT.REQUEST });
     try {
-        const { data } = await updatePatientApi(details, id);
+        const { data } = await putApi(updatePatientUrl(id), details);
         dispatch({
             type: UPDATE_PATIENT.SUCCESS,
             payload: data.patient,
@@ -79,7 +97,7 @@ export const updatePatientAction = (details, id) => async (dispatch) => {
 export const deletePatientAction = (id) => async (dispatch) => {
     dispatch({ type: DELETE_PATIENT.REQUEST });
     try {
-        await deletePatientApi(id);
+        await deleteApi(deletePatientUrl(id));
         dispatch({
             type: DELETE_PATIENT.SUCCESS,
         });

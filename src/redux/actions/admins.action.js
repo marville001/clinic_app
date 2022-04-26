@@ -1,10 +1,5 @@
-import {
-    createAdminApi,
-    deleteAdminApi,
-    getAdminApi,
-    getAdminsApi,
-    updateAdminApi,
-} from "../../api";
+import { deleteApi, getApi, postApi, putApi } from "../../api";
+import { createAdminUrl, deleteAdminUrl, getAdminsUrl, getAdminUrl, updateAdminUrl } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
     CREATE_ADMIN,
@@ -17,7 +12,7 @@ import {
 export const createAdminAction = (user) => async (dispatch) => {
     dispatch({ type: CREATE_ADMIN.REQUEST });
     try {
-        const { data } = await createAdminApi(user);
+        const { data } = await  postApi(createAdminUrl, user);
         dispatch({
             type: CREATE_ADMIN.SUCCESS,
             payload: data.admin,
@@ -38,7 +33,7 @@ export const createAdminAction = (user) => async (dispatch) => {
 export const getAdminAction = (id) => async (dispatch) => {
     dispatch({ type: GET_ADMIN.REQUEST });
     try {
-        const { data } = await getAdminApi(id);
+        const { data } = await getApi(getAdminUrl(id));
         dispatch({
             type: GET_ADMIN.SUCCESS,
             payload: data.admin,
@@ -54,7 +49,7 @@ export const getAdminAction = (id) => async (dispatch) => {
 export const getAdminsAction = () => async (dispatch) => {
     dispatch({ type: GET_ADMINS.REQUEST });
     try {
-        const { data } = await getAdminsApi();
+        const { data } = await getApi(getAdminsUrl)
         dispatch({
             type: GET_ADMINS.SUCCESS,
             payload: data.admins,
@@ -70,7 +65,7 @@ export const getAdminsAction = () => async (dispatch) => {
 export const updateAdminAction = (details, id) => async (dispatch) => {
     dispatch({ type: UPDATE_ADMIN.REQUEST });
     try {
-        const { data } = await updateAdminApi(details, id);
+        const { data } = await putApi(updateAdminUrl(id), details);
         dispatch({
             type: UPDATE_ADMIN.SUCCESS,
             payload: data.admin,
@@ -91,7 +86,7 @@ export const updateAdminAction = (details, id) => async (dispatch) => {
 export const deleteAdminAction = (id) => async (dispatch) => {
     dispatch({ type: DELETE_ADMIN.REQUEST });
     try {
-        await deleteAdminApi(id);
+        await deleteApi(deleteAdminUrl(id));
         dispatch({
             type: DELETE_ADMIN.SUCCESS,
         });

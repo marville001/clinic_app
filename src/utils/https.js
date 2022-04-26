@@ -39,7 +39,7 @@ const http = {
             throw error;
         }
     },
-    _delete: async (url, data = {}) => {
+    _delete: async (url) => {
         if (!url) throw new Error("URL is required");
         try {
             return await axios.delete(url, defaultConfig());

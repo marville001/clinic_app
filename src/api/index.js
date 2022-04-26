@@ -1,27 +1,8 @@
+
+import http from "../utils/https";
+const { post, get, put, _delete } = http;
+
 export { loginUserApi, getUserProfileApi } from "./auth";
-export {
-    getSecretariesApi,
-    getSecretaryApi,
-    createSecretaryApi,
-    deleteSecretaryApi,
-    updateSecretaryApi,
-} from "./secretaries";
-
-export {
-    getAdminApi,
-    getAdminsApi,
-    createAdminApi,
-    deleteAdminApi,
-    updateAdminApi,
-} from "./admins";
-
-export {
-    getDocotorsApi,
-    getDoctorApi,
-    createDoctorApi,
-    updateDoctorApi,
-    deleteDoctorApi,
-} from "./doctors";
 
 export {
     createDepartmentApi,
@@ -35,10 +16,19 @@ export {
     deleteDiagnosisApi,
 } from "./diagnosis";
 
-export {
-    getPatientApi,
-    createPatientApi,
-    getPatientsApi,
-    updatePatientApi,
-    deletePatientApi
-} from "./patients";
+
+export const getApi =async (url, query = {}) => {
+    return await get(url, query);
+}
+
+export const postApi = async (url, data={}) => {
+    return await post(url, data);
+};
+
+export const deleteApi = async (url) => {
+    return await _delete(url);
+};
+
+export const putApi = async (url, data={}) => {
+    return await put(url, data);
+};

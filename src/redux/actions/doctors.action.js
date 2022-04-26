@@ -1,10 +1,5 @@
-import {
-  createDoctorApi,
-  deleteDoctorApi,
-  getDocotorsApi,
-  getDoctorApi,
-  updateDoctorApi,
-} from "../../api";
+import { deleteApi, getApi, postApi, putApi, } from "../../api";
+import { createDoctorUrl, deleteDoctorUrl, getDoctorsUrl, getDoctorUrl, updateDoctorUrl } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
   CREATE_DOCTOR,
@@ -17,7 +12,7 @@ import {
 export const createDoctorAction = (user) => async (dispatch) => {
   dispatch({ type: CREATE_DOCTOR.REQUEST });
   try {
-    const { data } = await createDoctorApi(user);
+    const { data } = await  postApi(createDoctorUrl, user);
     dispatch({
       type: CREATE_DOCTOR.SUCCESS,
       payload: data.doctor,
@@ -38,7 +33,7 @@ export const createDoctorAction = (user) => async (dispatch) => {
 export const getDoctorAction = (id) => async (dispatch) => {
   dispatch({ type: GET_DOCTOR.REQUEST });
   try {
-    const { data } = await getDoctorApi(id);
+    const { data } = await getApi(getDoctorUrl(id));
     dispatch({
       type: GET_DOCTOR.SUCCESS,
       payload: data.doctor,
@@ -54,7 +49,7 @@ export const getDoctorAction = (id) => async (dispatch) => {
 export const getDoctorsAction = () => async (dispatch) => {
   dispatch({ type: GET_DOCTORS.REQUEST });
   try {
-    const { data } = await getDocotorsApi();
+    const { data } = await getApi(getDoctorsUrl);
     dispatch({
       type: GET_DOCTORS.SUCCESS,
       payload: data.doctors,
@@ -70,7 +65,7 @@ export const getDoctorsAction = () => async (dispatch) => {
 export const updateDoctorAction = (details, id) => async (dispatch) => {
   dispatch({ type: UPDATE_DOCTOR.REQUEST });
   try {
-    const { data } = await updateDoctorApi(details, id);
+    const { data } = await putApi(updateDoctorUrl(id), details);
     dispatch({
       type: UPDATE_DOCTOR.SUCCESS,
       payload: data.doctor,
@@ -91,7 +86,7 @@ export const updateDoctorAction = (details, id) => async (dispatch) => {
 export const deleteDoctorAction = (id) => async (dispatch) => {
   dispatch({ type: DELETE_DOCTOR.REQUEST });
   try {
-    await deleteDoctorApi(id);
+    await deleteApi(deleteDoctorUrl(id));
     dispatch({
       type: DELETE_DOCTOR.SUCCESS,
     });
