@@ -21,7 +21,7 @@ export const deleteAdminUrl = (id) => `${API_BASE}admins/${id}`;
 
 // Doctors
 export const getDoctorsUrl = `${API_BASE}doctors`;
-export const createDoctorUrl = `http://localhost:9003/api/doctors`;
+export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
