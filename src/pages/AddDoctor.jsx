@@ -28,6 +28,7 @@ const AddDoctor = () => {
     console.log(data);
     setState({ error: "", loading: true });
     dispatch(createDoctorAction(data));
+    console.log(data);
     try {
       setTimeout(() => {
         setState({ ...state, loading: false });
