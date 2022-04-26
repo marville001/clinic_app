@@ -7,7 +7,7 @@ import InputField from "../components/common/InputField";
 import SelectField from "../components/common/SelectField";
 import { gender } from "../constants";
 import TextareaField from "../components/common/TextareaField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PasswordField from "../components/common/PasswordField";
 import { createDoctorAction } from "../redux/actions/doctors.action";
 import { useNavigate } from "react-router-dom";
