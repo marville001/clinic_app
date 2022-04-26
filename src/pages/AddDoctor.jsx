@@ -10,33 +10,54 @@ import TextareaField from "../components/common/TextareaField";
 import { useDispatch } from "react-redux";
 import PasswordField from "../components/common/PasswordField";
 import { createDoctorAction } from "../redux/actions/doctors.action";
+import { useNavigate } from "react-router-dom";
+import { getDepartmentsAction } from "../redux/actions/departments.action";
+import { toast } from "react-toastify";
 
 const AddDoctor = () => {
-  const [state, setState] = useState({
-    error: "",
-    loading: false,
-  });
-  const dispatch = useDispatch();
+  const { creating } = useSelector((state) => state.doctorsState);
+  const { departments } = useSelector((state) => state.departmentsState);
+  const { authDetails } = useSelector((state) => state.authState);
+
+  const [error, setError] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
 
-  const handleAddDoctor = (data) => {
-    console.log(data);
-    setState({ error: "", loading: true });
-    dispatch(createDoctorAction(data));
-    console.log(data);
-    try {
-      setTimeout(() => {
-        setState({ ...state, loading: false });
-      }, 4000);
-    } catch (error) {
-      setState({ error: error.message, loading: false });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleAddDoctor = async (data) => {
+    setError("");
+
+    const res = await dispatch(createDoctorAction(data));
+
+    if (!res.success) {
+      setError(res.message);
+      return;
     }
+
+    toast.success(`Doctor Added Successfully`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+
+    reset();
+    setError("");
+    navigate("/doctors");
   };
+
+  useEffect(() => {
+    authDetails?._id && dispatch(getDepartmentsAction());
+  }, [dispatch, authDetails?._id]);
 
   return (
     <DashboardWrapper>
@@ -45,6 +66,12 @@ const AddDoctor = () => {
         <div className="my-4 p-5 bg-white _shadow">
           <h2 className="font-medium">Add Doctor</h2>
         </div>
+
+        {error && (
+          <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+            {error}
+          </div>
+        )}
 
         <div className="bg-white p-5 _shadow">
           <form onSubmit={handleSubmit(handleAddDoctor)} autoComplete="off">
@@ -101,7 +128,12 @@ const AddDoctor = () => {
                 label="Department"
                 register={register}
                 required={true}
-                options={departments}
+                options={departments.map((dep) => {
+                  return {
+                    value: dep._id,
+                    label: dep.name,
+                  };
+                })}
               />
             </div>
 
@@ -132,6 +164,14 @@ const AddDoctor = () => {
                 required={true}
               />
               <div className="flex-1"> </div>
+              <InputField
+                errors={errors}
+                name="address"
+                label="Address"
+                register={register}
+                required={true}
+                type="text"
+              />
             </div>
             <div className="flex gap-5 mt-4">
               <TextareaField
@@ -144,11 +184,11 @@ const AddDoctor = () => {
             </div>
 
             <button
-              disabled={state.loading}
+              disabled={creating}
               className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {state.loading ? (
+              {creating ? (
                 <>
                   <FaSpinner className="animate-spin" />
                   <span className="text-sm">Loading...</span>

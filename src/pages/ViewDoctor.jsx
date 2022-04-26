@@ -1,23 +1,56 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import DoctorPersonalDetails from "../components/doctors/DoctorPersonalDetails";
 import AssignedPatients from "../components/doctors/AssignedPatients";
 import DoctorCalendar from "../components/doctors/DoctorCalendar";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getDoctorAction, getDoctorsAction } from "../redux/actions/doctors.action";
+import { FaSpinner } from "react-icons/fa";
 
 const ViewDoctor = () => {
+    const { loading: loading_doc, doctor } = useSelector(
+        (state) => state.doctorsState
+    );
+    const { authDetails } = useSelector((state) => state.authState);
+
+    const dispatch = useDispatch();
+    const { id } = useParams();
+
+    useEffect(() => {
+        authDetails?._id && dispatch(getDoctorsAction());
+        authDetails?._id && dispatch(getDoctorAction(id));
+    }, [dispatch, authDetails?._id, id]);
+
     return (
         <DashboardWrapper>
             <Header title="View Doctor" />
-            <div className="px-5">
-                <h1 className="text-xl my-5">Doctor Profile</h1>
-                <div className="flex gap-5 flex-col lg:flex-row">
-                    <DoctorPersonalDetails />
-                    <AssignedPatients />
+            {loading_doc ? (
+                <div className="w-full flex pt-20 justify-center">
+                    <FaSpinner className="text-3xl animate-spin" />
                 </div>
+            ) : (
+                <div className="px-5">
+                    {doctor?._id ? (
+                        <>
+                            <h1 className="text-xl my-5">Doctor Profile</h1>
+                            <div className="flex gap-5 flex-col lg:flex-row">
+                                <DoctorPersonalDetails />
+                                <AssignedPatients />
+                            </div>
 
-                <DoctorCalendar />
-            </div>
+                            <DoctorCalendar />
+                        </>
+                    ) : (
+                        <div className="flex justify-center py-20">
+                            <h4 className="uppercase text-3xl font-bold text-center opacity-50">
+                                DOCtor NOT FOUND
+                            </h4>
+                        </div>
+                    )}
+                </div>
+            )}
         </DashboardWrapper>
     );
 };

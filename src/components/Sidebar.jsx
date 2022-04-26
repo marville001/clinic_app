@@ -17,13 +17,19 @@ import { logoutUserAction } from "../redux/actions/auth.action";
 const Sidebar = () => {
     const { authDetails } = useSelector((state) => state.authState);
 
-    const { sidebarOpen } = useContext(NavContext);
+    const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogOut = () => {
         dispatch(logoutUserAction());
         navigate("/");
+    };
+
+    const closeSidebar = () => {
+        if (document.body.clientWidth < 1240) {
+            setSidebarOpen(false);
+        }
     };
 
     return (
@@ -40,6 +46,7 @@ const Sidebar = () => {
             <div className="links my-6 flex flex-col space-y-4">
                 <NavLink
                     to="/home"
+                    onClick={closeSidebar}
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
                             isActive
@@ -53,6 +60,7 @@ const Sidebar = () => {
                 </NavLink>
                 <NavLink
                     to="/doctors"
+                    onClick={closeSidebar}
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
                             isActive
@@ -65,6 +73,7 @@ const Sidebar = () => {
                     <span>Doctors</span>
                 </NavLink>
                 <NavLink
+                    onClick={closeSidebar}
                     to="/patients"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
@@ -79,6 +88,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
+                    onClick={closeSidebar}
                     to="/secretaries"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
@@ -93,6 +103,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
+                    onClick={closeSidebar}
                     to="/admins"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
@@ -107,6 +118,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
+                    onClick={closeSidebar}
                     to="/messages"
                     className={({ isActive }) =>
                         `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${

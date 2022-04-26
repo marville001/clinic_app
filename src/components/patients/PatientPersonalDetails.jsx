@@ -1,6 +1,6 @@
 import React from "react";
 import { FaHouseUser } from "react-icons/fa";
-import { HiCalendar } from "react-icons/hi";
+// import { HiCalendar } from "react-icons/hi";
 import { useSelector } from "react-redux";
 
 const PatientPersonalDetails = () => {
@@ -9,9 +9,7 @@ const PatientPersonalDetails = () => {
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
             <h3 className="text-md mb-4 font-bold">Personal Information</h3>
             <p className="text-sm my-2">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-                distinctio vero non libero nisi in voluptatibus atque, ut alias
-                ipsum?
+                {patient?.bio}
             </p>
 
             <div className="flex w-full sm:w-3/4 my-5">

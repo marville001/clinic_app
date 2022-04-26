@@ -21,7 +21,7 @@ const Doctors = () => {
         (state) => state.departmentsState
     );
     const { authDetails } = useSelector((state) => state.authState);
-    const { doctors, loading: loading_dct } = useSelector(
+    const { doctors, loading: loading_dct, deleting } = useSelector(
         (state) => state.doctorsState
     );
     const [addModalOpen, setAddModalOpen] = useState(false);
@@ -240,6 +240,7 @@ const Doctors = () => {
                     message="Deleting the doctor will erase everything about their
                         records. Are you sure you want to delete?"
                     actionMethod={handleDeleteDoctor}
+                    loading={deleting}
                 />
             </div>
         </DashboardWrapper>
