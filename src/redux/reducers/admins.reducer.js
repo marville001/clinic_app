@@ -33,7 +33,7 @@ const adminsReducer = (state = initialState, action) => {
         case CREATE_ADMIN.SUCCESS:
             return {
                 ...state,
-                admins: [action.payload, ...state.secretaries],
+                admins: [action.payload, ...state.admins],
                 creating: false,
             };
         case CREATE_ADMIN.FAIL:

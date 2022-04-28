@@ -12,6 +12,7 @@ import {
 } from "../redux/actions/admins.action";
 
 import { toast } from "react-toastify";
+import AddAdminModal from "../components/modals/AddAdminModal";
 
 const Admins = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -100,6 +101,8 @@ const Admins = () => {
                                     <th className="px-6 py-4">#</th>
                                     <th className="px-6 py-4">First Name</th>
                                     <th className="px-6 py-4">Last Name</th>
+                                    <th className="px-6 py-4">Gender</th>
+                                    <th className="px-6 py-4">Date Of Birth</th>
                                     <th className="px-6 py-4">Email</th>
                                     <th className="px-6 py-4">Username</th>
                                     <th className="px-6 py-4">
@@ -121,6 +124,14 @@ const Admins = () => {
                                         </td>
                                         <td className="px-6 py-4 capitalize">
                                             {admin?.lastname}
+                                        </td>
+                                        <td className="px-6 py-4 capitalize">
+                                            {admin?.gender}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {admin?.dob ?new Date(
+                                                admin?.dob
+                                            ).toDateString() : "-"}
                                         </td>
                                         <td className="px-6 py-4">
                                             {admin?.email}
@@ -179,6 +190,14 @@ const Admins = () => {
                         <span>Pagination</span>
                     </div>
                 </div>
+
+                <AddAdminModal
+                    isOpen={addModalOpen}
+                    closeModal={() => {
+                        setAddModalOpen(false);
+                    }}
+                />
+
                 <ConfirmDeleteModal
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
@@ -190,6 +209,7 @@ const Admins = () => {
                     actionMethod={handleDeleteAdmin}
                     loading={deleting_adm}
                 />
+
             </div>
         </DashboardWrapper>
     );
