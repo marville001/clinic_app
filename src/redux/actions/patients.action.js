@@ -11,10 +11,12 @@ import {
     getPatientUrl,
     updatePatientUrl,
 } from "../../constants";
+import { getContactTypesUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
     CREATE_PATIENT,
     DELETE_PATIENT,
+    GET_CONTACT_TYPE,
     GET_PATIENT,
     GET_PATIENTS,
     UPDATE_PATIENT,
@@ -111,5 +113,21 @@ export const deletePatientAction = (id) => async (dispatch) => {
             success: false,
             message: parseError(error),
         };
+    }
+};
+
+export const getContactTypesAction = () => async (dispatch) => {
+    dispatch({ type: GET_CONTACT_TYPE.REQUEST });
+    try {
+        const { data } = await getApi(getContactTypesUrl);
+        dispatch({
+            type: GET_CONTACT_TYPE.SUCCESS,
+            payload: data.contactType,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_CONTACT_TYPE.FAIL,
+            payload: parseError(error),
+        });
     }
 };
