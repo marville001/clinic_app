@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEye, FaSpinner, FaTrash, FaUserEdit } from "react-icons/fa";
+import { FaSpinner, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -13,6 +13,7 @@ import {
 
 import { toast } from "react-toastify";
 import AddAdminModal from "../components/modals/AddAdminModal";
+import EditAdminModal from "../components/modals/EditAdminModal";
 
 const Admins = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -24,7 +25,6 @@ const Admins = () => {
 
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
-    const [viewModalOpen, setViewModalOpen] = useState(false);
     const [selectedAdmin, setSelectedAdmin] = useState({});
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
@@ -33,11 +33,6 @@ const Admins = () => {
     const openEditModal = (admin) => {
         setSelectedAdmin(admin);
         setEditModalOpen(true);
-    };
-
-    const openViewModal = (admin) => {
-        setSelectedAdmin(admin);
-        setViewModalOpen(true);
     };
 
     const openDeleteModal = (admin) => {
@@ -129,9 +124,11 @@ const Admins = () => {
                                             {admin?.gender}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {admin?.dob ?new Date(
-                                                admin?.dob
-                                            ).toDateString() : "-"}
+                                            {admin?.dob
+                                                ? new Date(
+                                                      admin?.dob
+                                                  ).toDateString()
+                                                : "-"}
                                         </td>
                                         <td className="px-6 py-4">
                                             {admin?.email}
@@ -140,16 +137,6 @@ const Admins = () => {
                                             {admin?.username}
                                         </td>
                                         <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
-                                            <div
-                                                className=" flex items-center space-x-1 bg-seagreen text-white text-xs p-2 
-                                                rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
-                                                onClick={() =>
-                                                    openViewModal(admin)
-                                                }
-                                            >
-                                                <FaEye />
-                                            </div>
-
                                             <div
                                                 className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
                                                 rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
@@ -198,6 +185,15 @@ const Admins = () => {
                     }}
                 />
 
+                <EditAdminModal
+                    isOpen={editModalOpen}
+                    closeModal={() => {
+                        setEditModalOpen(false);
+                        setSelectedAdmin({});
+                    }}
+                    admin={selectedAdmin}
+                />
+
                 <ConfirmDeleteModal
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
@@ -209,7 +205,6 @@ const Admins = () => {
                     actionMethod={handleDeleteAdmin}
                     loading={deleting_adm}
                 />
-
             </div>
         </DashboardWrapper>
     );
