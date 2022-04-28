@@ -94,8 +94,8 @@ const Admins = () => {
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>
                                     <th className="px-6 py-4">#</th>
-                                    <th className="px-6 py-4">First Name</th>
-                                    <th className="px-6 py-4">Last Name</th>
+                                    <th className="px-6 py-4">Full Name</th>
+                                    <th className="px-6 py-4">Phone</th>
                                     <th className="px-6 py-4">Gender</th>
                                     <th className="px-6 py-4">Date Of Birth</th>
                                     <th className="px-6 py-4">Email</th>
@@ -115,10 +115,10 @@ const Admins = () => {
                                             {idx + 1}
                                         </td>
                                         <td className="px-6 py-4 capitalize">
-                                            {admin?.firstname}
+                                            {admin?.firstname} {admin?.lastname}
                                         </td>
                                         <td className="px-6 py-4 capitalize">
-                                            {admin?.lastname}
+                                            {admin?.phone}
                                         </td>
                                         <td className="px-6 py-4 capitalize">
                                             {admin?.gender}
