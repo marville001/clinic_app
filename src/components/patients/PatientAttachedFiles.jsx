@@ -31,16 +31,30 @@ const PatientAttachedFiles = () => {
                             <FaFileCsv className="text-flowerblue text-xl" />
                         </div>
                         <div className="flex flex-col ml-4 space-y-1">
-                            <span className="text-slate-900">
-                                {file.name}
+                            <span className="text-slate-900">{file.name}</span>
+                            <span className="text-xs">
+                                Size:{" "}
+                                {file.size / (1024 * 1024) > 0
+                                    ? (file.size / 1024).toFixed(2) + "KB"
+                                    : (file.size / (1024 * 1024)).toFixed(2) +
+                                      "MB"}
                             </span>
-                            <span className="text-xs">Size: {file.size/(1024*1024) > 0 ? (file.size/1024).toFixed(2) +"KB": (file.size/(1024*1024)).toFixed(2)+"MB"}</span>
                         </div>
-                        <a href={`${STATIC_FILE_BASE}${file.url}`} download className="ml-auto mr-5 p-2 rounded-md hover:bg-lightgray cursor-pointer">
+                        <a
+                            href={`${STATIC_FILE_BASE}${file.url}`}
+                            download
+                            className="ml-auto mr-5 p-2 rounded-md hover:bg-lightgray cursor-pointer"
+                        >
                             <FaDownload className="text-xl opacity-80" />
                         </a>
                     </div>
                 ))}
+
+                {patient?.files?.length <= 0 && (
+                    <div className="flex justify-center py-5">
+                        <h4 className="text-3xl  font-bold opacity-40">No File</h4>
+                    </div>
+                )}
                 {/* <div className="pt-5 flex justify-between w-full">
                     <button
                         className="flex items-center space-x-2 py-1 text-xs px-6 rounded-md text-white bg-seagreen 
