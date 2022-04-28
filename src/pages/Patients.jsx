@@ -9,6 +9,7 @@ import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import SearchInput from "../components/SearchInput";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 import {
+    deleteContactTypeAction,
     deletePatientAction,
     getContactTypesAction,
     getPatientsAction,
@@ -21,6 +22,7 @@ const Patients = () => {
         loading: loading_pat,
         patients,
         contactType,
+        deletingCType,
         deleting,
     } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
@@ -45,7 +47,7 @@ const Patients = () => {
     };
 
     const handleDeletePatient = async () => {
-        const res = await dispatch(deletePatientAction(selectedPatient?._id));
+        const res = await dispatch(deletePatientAction(selectedCType?._id));
 
         if (!res.success) {
             toast.error(res.message, {
@@ -63,6 +65,36 @@ const Patients = () => {
         dispatch(getPatientsAction());
 
         toast.success(`Patient Deleted Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+    };
+
+    const handleDeleteContactType = async () => {
+        const res = await dispatch(
+            deleteContactTypeAction(selectedCType?._id)
+        );
+
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            setConfirmDeleteCtypeModalOpen(false);
+            return;
+        }
+        setConfirmDeleteCtypeModalOpen(false);
+        dispatch(getContactTypesAction());
+
+        toast.success(`Contact Type Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -271,6 +303,16 @@ const Patients = () => {
                     message="Deleting the patient will erase everything about their
                         records. Are you sure you want to delete?"
                     actionMethod={handleDeletePatient}
+                />
+
+                <ConfirmDeleteModal
+                    isOpen={confirmDeleteCtypeModalOpen}
+                    closeModal={() => {
+                        setConfirmDeleteCtypeModalOpen(false);
+                    }}
+                    loading={deletingCType}
+                    message="Are you sure you want to delete the Contact Type?"
+                    actionMethod={handleDeleteContactType}
                 />
             </div>
         </DashboardWrapper>

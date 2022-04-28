@@ -43,3 +43,4 @@ export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
+export const deleteContactTypeUrl = (id) => `${API_BASE}patients/contact-type/${id}`;
