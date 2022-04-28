@@ -1,4 +1,4 @@
-import { CREATE_CONTACT_TYPE, CREATE_PATIENT, DELETE_CONTACT_TYPE, DELETE_PATIENT, GET_CONTACT_TYPE, GET_PATIENT, GET_PATIENTS, UPDATE_PATIENT } from "../types/patients.types";
+import { CREATE_CONTACT, CREATE_CONTACT_TYPE, CREATE_PATIENT, DELETE_CONTACT_TYPE, DELETE_PATIENT, GET_CONTACT_TYPE, GET_PATIENT, GET_PATIENTS, UPDATE_PATIENT } from "../types/patients.types";
 
 const initialState = {
     patients: [],
@@ -60,6 +60,17 @@ const patientsReducer = (state = initialState, action) => {
             return { ...state, deleting: false };
         case DELETE_PATIENT.FAIL:
             return { ...state, deleting: false };
+        
+        case CREATE_CONTACT.REQUEST:
+            return { ...state, creatingContact: true };
+        case CREATE_CONTACT.SUCCESS:
+            return {
+                ...state,
+                patient: {...state.patient, contact: [action.payload, ...state.patient.contact]},
+                creatingContact: false,
+            };
+        case CREATE_CONTACT.FAIL:
+            return { ...state, creatingContact: false };
         
         case CREATE_CONTACT_TYPE.REQUEST:
             return { ...state, creatingCType: true };

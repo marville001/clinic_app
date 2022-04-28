@@ -43,5 +43,9 @@ export {
     getPatientsUrl,
     createPatientUrl,
     updatePatientUrl,
-    deletePatientUrl
+    deletePatientUrl,
+    createContactTypesUrl,
+    deleteContactTypeUrl,
+    getContactTypesUrl,
+    createContactUrl
 } from "./networkUrls";
