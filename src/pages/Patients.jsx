@@ -162,6 +162,7 @@ const Patients = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getDepartmentsAction());
         authDetails?._id && dispatch(getContactTypesAction());
+        authDetails?._id && dispatch(getDiagnosisAction());
     }, [dispatch, authDetails?._id]);
 
     return (
