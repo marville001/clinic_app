@@ -46,3 +46,4 @@ export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const deleteContactTypeUrl = (id) => `${API_BASE}patients/contact-type/${id}`;
+export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;

@@ -9,10 +9,11 @@ import {
     deletePatientUrl,
     getPatientsUrl,
     getPatientUrl,
-    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl
+    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl, addPatientFileUrl
 } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
+    ADD_PATIENT_FILE,
     CREATE_CONTACT,
     CREATE_CONTACT_TYPE,
     CREATE_PATIENT,
@@ -130,6 +131,27 @@ export const createContactAction = (contact, id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CREATE_CONTACT.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const addPatientFileAction = (file, id) => async (dispatch) => {
+    dispatch({ type: ADD_PATIENT_FILE.REQUEST });
+    try {
+        const { data } = await postApi(addPatientFileUrl(id), file);
+        dispatch({
+            type: ADD_PATIENT_FILE.SUCCESS,
+            payload: data.file,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: ADD_PATIENT_FILE.FAIL,
             payload: parseError(error),
         });
         return {

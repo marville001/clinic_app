@@ -1,15 +1,22 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addPatientFileAction } from "../../redux/actions/patients.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
+import { useParams } from "react-router-dom";
+
+import { toast } from "react-toastify";
 
 const AddPatientFileModal = ({
     isOpen = false,
     closeModal = () => {},
     loading,
 }) => {
+    const [error, setError] = useState("");
+
     const {
         register,
         handleSubmit,
@@ -21,6 +28,9 @@ const AddPatientFileModal = ({
     const [selectedFile, setSelectedFile] = useState("");
     const [file_error, setFileError] = useState(false);
 
+
+    const dispatch = useDispatch()
+
     const handleCloseModal = () => {
         reset();
         clearErrors();
@@ -29,12 +39,39 @@ const AddPatientFileModal = ({
         closeModal();
     };
 
-    const handleAddFile = (data) => {
+    const {id} = useParams()
+
+    const handleAddFile = async (data) => {
+        setFileError(false);
         if (!selectedFile) {
             setFileError(true);
             return;
         }
-        console.log({ data });
+        setError("");
+        const formData = new FormData();
+
+        const { name, description } = data;
+
+        formData.append("name", name)
+        formData.append("description", description)
+        formData.append("file", selectedFile)
+
+        const res = await dispatch(addPatientFileAction(formData, id));
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+        
+        toast.success(`File Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+        handleCloseModal();
     };
 
     return (
@@ -50,6 +87,12 @@ const AddPatientFileModal = ({
                 <h4 className="text-center text-2xl text-slate-900 mb-6">
                     Add Patient File
                 </h4>
+
+                {error && (
+                    <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+                        {error}
+                    </div>
+                )}
 
                 <div className="flex gap-5 mt-4">
                     <InputField
