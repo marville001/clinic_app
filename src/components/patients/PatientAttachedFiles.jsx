@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { FaDownload, FaFileCsv, FaFileUpload } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { STATIC_FILE_BASE } from "../../constants";
 import AddPatientFileModal from "../modals/AddPatientFileModal";
 
 const PatientAttachedFiles = () => {
+    const { patient } = useSelector((state) => state.patientsState);
+
     const [addFileModalOpen, setAddFileModalOpen] = useState(false);
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow">
@@ -21,20 +25,20 @@ const PatientAttachedFiles = () => {
             </div>
 
             <div className="flex flex-col divide-y-[1px]">
-                {[1, 2, 3, 4].map((_, idx) => (
+                {patient?.files?.map((file, idx) => (
                     <div key={idx} className="flex items-center py-3">
                         <div className="flex bg-flowerblue bg-opacity-50 p-3 rounded-full">
                             <FaFileCsv className="text-flowerblue text-xl" />
                         </div>
                         <div className="flex flex-col ml-4 space-y-1">
                             <span className="text-slate-900">
-                                Medical Examination
+                                {file.name}
                             </span>
-                            <span className="text-xs">Size: 3.54 MB</span>
+                            <span className="text-xs">Size: {file.size/(1024*1024) > 0 ? (file.size/1024).toFixed(2) +"KB": (file.size/(1024*1024)).toFixed(2)+"MB"}</span>
                         </div>
-                        <div className="ml-auto mr-5 p-2 rounded-md hover:bg-lightgray cursor-pointer">
+                        <a href={`${STATIC_FILE_BASE}${file.url}`} download className="ml-auto mr-5 p-2 rounded-md hover:bg-lightgray cursor-pointer">
                             <FaDownload className="text-xl opacity-80" />
-                        </div>
+                        </a>
                     </div>
                 ))}
                 {/* <div className="pt-5 flex justify-between w-full">

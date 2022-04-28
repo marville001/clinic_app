@@ -86,6 +86,7 @@ const AddPatientFileModal = ({
                     <input
                         type="file"
                         onChange={(e) => {
+                            console.log(e.target.files);
                             if (e.target.files.length) {
                                 setFileError(false);
                                 setSelectedFile(e.target.files[0]);

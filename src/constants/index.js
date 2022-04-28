@@ -1,4 +1,7 @@
 export { departments, gender } from "./select-options";
+
+// export const STATIC_FILE_BASE = "http://localhost:9003/static/";
+export const STATIC_FILE_BASE = "https://my-clinic-api.herokuapp.com/static/";
 export {
     // Auth
     loginUrl,
