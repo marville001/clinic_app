@@ -1,5 +1,5 @@
-// const API_BASE = "http://localhost:9003/api/";
-const API_BASE = "https://my-clinic-api.herokuapp.com/api/";
+const API_BASE = "http://localhost:9003/api/";
+// const API_BASE = "https://my-clinic-api.herokuapp.com/api/";
 
 // Auth
 export const loginUrl = `${API_BASE}auth/login`;
@@ -42,7 +42,7 @@ export const createPatientUrl = `${API_BASE}patients`;
 export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
-export const createContactUrl = `${API_BASE}patients/contact`;
+export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const deleteContactTypeUrl = (id) => `${API_BASE}patients/contact-type/${id}`;

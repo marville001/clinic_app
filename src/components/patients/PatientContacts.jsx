@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import {  HiUserAdd } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import AddPatientContactModal from "../modals/AddPatientContactModal";
 
 const PatientContacts = () => {
-
+    const { patient } = useSelector((state) => state.patientsState);
+    
     const [addContactModalOpen, setAddContactModalOpen] = useState(false);
+
+    console.log(patient.contact);
 
     return (
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
@@ -38,24 +42,22 @@ const PatientContacts = () => {
                     </thead>
 
                     <tbody className="text-left">
-                        {[1, 2, 3, 4, 5, 6].map((contact, idx) => (
+                        {patient?.contact?.map((contact, idx) => (
                             <tr key={idx} className="border-b">
                                 <td className="text-xs py-3">{idx + 1}</td>
-                                <td className="text-xs py-3">Relative</td>
-                                <td className="text-xs py-3">Kaberm</td>
-                                <td className="text-xs py-3">Motash</td>
+                                <td className="text-xs py-3">{contact?.name}</td>
+                                <td className="text-xs py-3">{contact?.firstname}</td>
+                                <td className="text-xs py-3">{contact?.lastname}</td>
                                 <td className="text-xs py-3">
-                                    Steer 4345 - Kaka
+                                    {contact?.address}
                                 </td>
                                 <td className="text-xs py-3">
-                                    +(333344) 564 654 4554,
-                                    <br />
-                                    +(333344) 564 654 4554
+                                    {contact?.phone.join(",")}
                                 </td>
                                 <td className="text-xs py-3">
-                                    kaberm_motash@yopmail.com
+                                   {contact?.email}
                                 </td>
-                                <td className="text-xs py-3">10:00 - 14:00</td>
+                                <td className="text-xs py-3">{contact?.availability}</td>
                             </tr>
                         ))}
                     </tbody>

@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
+import SelectField from "../common/SelectField";
+
+import { toast } from "react-toastify";
+import { createContactAction } from "../../redux/actions/patients.action";
+import { useParams } from "react-router-dom";
 
 const AddPatientContactModal = ({
     isOpen = false,
     closeModal = () => {},
     loading,
 }) => {
+    const { contactType, creatingContact } = useSelector(
+        (state) => state.patientsState
+    );
+
+    const [error, setError] = useState("");
+
     const {
         register,
         handleSubmit,
@@ -17,22 +29,53 @@ const AddPatientContactModal = ({
         clearErrors,
     } = useForm();
 
+    const dispatch = useDispatch();
+
     const handleCloseModal = () => {
         reset();
         clearErrors();
         closeModal();
+        setError("");
     };
 
-    const handleAddContact = (data) => {
+    const {id} = useParams()
+
+    const handleAddContact = async (data) => {
+        setError("");
         console.log({ data });
+
+        const { timeend, timestart, type, phone, ...rest } = data;
+
+        const availability = `${timestart} - ${timeend}`;
+        const phoneArr = phone.split(",");
+
+        const res = await dispatch(
+            createContactAction({
+                ...rest,
+                availability,
+                phone: phoneArr,
+                contacttype: type,
+            }, id)
+        );
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+
+        toast.success(`Contact Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+        handleCloseModal();
     };
 
     return (
-        <Modal
-            size="xl"
-            isOpen={isOpen}
-            closeModal={handleCloseModal}
-        >
+        <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
             <form
                 onSubmit={handleSubmit(handleAddContact)}
                 className="bg-white p-5 _shadow rounded-md"
@@ -61,14 +104,20 @@ const AddPatientContactModal = ({
                 </div>
 
                 <div className="flex gap-5 mt-4">
-                    <InputField
+                    <SelectField
                         errors={errors}
                         name="type"
                         label="Contact Type"
                         register={register}
                         required={true}
-                        type="text"
+                        options={contactType.map((type) => {
+                            return {
+                                value: type._id,
+                                label: type.name,
+                            };
+                        })}
                     />
+
                     <InputField
                         errors={errors}
                         name="email"
@@ -133,12 +182,13 @@ const AddPatientContactModal = ({
                         No
                     </button>
                     <button
+                        disabled={creatingContact}
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {loading ? (
+                        {creatingContact ? (
                             <FaSpinner className="animate-spin mr-4" />
                         ) : (
                             "Add Contact"

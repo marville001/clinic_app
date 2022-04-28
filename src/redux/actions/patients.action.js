@@ -118,10 +118,10 @@ export const deletePatientAction = (id) => async (dispatch) => {
     }
 };
 
-export const createContactAction = (contact) => async (dispatch) => {
+export const createContactAction = (contact, id) => async (dispatch) => {
     dispatch({ type: CREATE_CONTACT.REQUEST });
     try {
-        const { data } = await postApi(createContactUrl, contact);
+        const { data } = await postApi(createContactUrl(id), contact);
         dispatch({
             type: CREATE_CONTACT.SUCCESS,
             payload: data.contact,
