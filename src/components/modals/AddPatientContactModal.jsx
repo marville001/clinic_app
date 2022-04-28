@@ -42,7 +42,6 @@ const AddPatientContactModal = ({
 
     const handleAddContact = async (data) => {
         setError("");
-        console.log({ data });
 
         const { timeend, timestart, type, phone, ...rest } = data;
 

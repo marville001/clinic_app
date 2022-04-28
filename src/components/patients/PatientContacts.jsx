@@ -8,8 +8,6 @@ const PatientContacts = () => {
     
     const [addContactModalOpen, setAddContactModalOpen] = useState(false);
 
-    console.log(patient.contact);
-
     return (
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
             <div className="flex justify-between items-center mb-4">
