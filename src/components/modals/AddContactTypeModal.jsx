@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { gender } from "../../constants";
-import {
-    getSecretariesAction,
-    updateSecretaryAction,
-} from "../../redux/actions/secretaries.action";
+import { getDepartmentsAction } from "../../redux/actions/departments.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
-import SelectField from "../common/SelectField";
+import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
+import { createContactTypeAction } from "../../redux/actions/patients.action";
 
-const EditSecretaryModal = ({
-    isOpen,
-    closeModal = () => {},
-    secretary = {},
-}) => {
-    const { updating: updating_sec } = useSelector(
-        (state) => state.secretariesState
-    );
+const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
+    const {creatingCType} = useSelector(state=>state.patientsState)
     const [error, setError] = useState("");
 
     const {
@@ -29,7 +20,6 @@ const EditSecretaryModal = ({
         formState: { errors },
         clearErrors,
         reset,
-        setValue,
     } = useForm();
 
     const dispatch = useDispatch();
@@ -37,21 +27,20 @@ const EditSecretaryModal = ({
     const handleCloseModal = () => {
         closeModal();
         clearErrors();
-        setError();
         reset();
-        dispatch(getSecretariesAction());
+        dispatch(getDepartmentsAction())
     };
 
-    const handleEditSecretary = async (data) => {
-        setError("");
-
-        const res = await dispatch(updateSecretaryAction(data, secretary?._id));
+    const handleAddContactType = async (data) => {
+        setError("")
+        const res = await dispatch(createContactTypeAction(data));
 
         if (!res.success) {
-            setError(res.message);
+            setError(res.message)
             return;
         }
-        toast.success(`Secretary Updated Successfully`, {
+
+        toast.success(`Contact Type Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -59,21 +48,9 @@ const EditSecretaryModal = ({
             pauseOnHover: true,
             draggable: true,
         });
+
         handleCloseModal();
     };
-
-    useEffect(() => {
-        if (secretary?._id) {
-            setValue("firstname", secretary?.firstname);
-            setValue("lastname", secretary?.lastname);
-            setValue("gender", secretary?.gender);
-            setValue("phone", secretary?.phone);
-            setValue("address", secretary?.address);
-
-            const temp_dob = secretary?.dob.slice(0, 10);
-            setValue("dob", temp_dob);
-        }
-    }, [secretary, setValue]);
 
     return (
         <Modal
@@ -82,11 +59,11 @@ const EditSecretaryModal = ({
             closeModal={handleCloseModal}
         >
             <form
-                onSubmit={handleSubmit(handleEditSecretary)}
+                onSubmit={handleSubmit(handleAddContactType)}
                 className="bg-white p-5 _shadow rounded-md"
             >
                 <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
-                    Edit Secretary
+                    Add Contact Type
                 </h4>
                 {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
@@ -96,59 +73,23 @@ const EditSecretaryModal = ({
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
-                        name="firstname"
-                        label="Firstname"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                    <InputField
-                        errors={errors}
-                        name="lastname"
-                        label="Lastname"
+                        name="name"
+                        label="Name"
                         register={register}
                         required={true}
                         type="text"
                     />
                 </div>
                 <div className="flex gap-5 mt-4">
-                    <SelectField
+                    <TextareaField
                         errors={errors}
-                        name="gender"
-                        label="Gender"
-                        register={register}
-                        required={true}
-                        options={gender}
-                    />
-                    <InputField
-                        errors={errors}
-                        name="dob"
-                        label="Date of Birth"
-                        register={register}
-                        required={true}
-                        type="date"
-                    />
-                </div>
-
-                <div className="flex gap-5 mt-4">
-                    <InputField
-                        errors={errors}
-                        name="phone"
-                        label="Phone Number"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                    <InputField
-                        errors={errors}
-                        name="address"
-                        label="Address"
+                        name="description"
+                        label="Description"
                         register={register}
                         required={true}
                         type="text"
                     />
                 </div>
-
                 <div className="flex justify-between items-center mt-8">
                     <button
                         type="button"
@@ -158,20 +99,20 @@ const EditSecretaryModal = ({
                         Cancel
                     </button>
                     <button
-                        disabled={updating_sec}
+                        disabled={creatingCType}
                         type="submit"
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {updating_sec ? (
+                        {creatingCType ? (
                             <>
                                 <FaSpinner className="animate-spin mr-4" />{" "}
                                 <span className="capitalize">Loading...</span>
                             </>
                         ) : (
-                            <span>Update</span>
+                            <span>Create</span>
                         )}
                     </button>
                 </div>
@@ -180,4 +121,4 @@ const EditSecretaryModal = ({
     );
 };
 
-export default EditSecretaryModal;
+export default AddContactTypeModal;

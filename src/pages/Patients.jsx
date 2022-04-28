@@ -16,6 +16,7 @@ import {
 } from "../redux/actions/patients.action";
 
 import { toast } from "react-toastify";
+import AddContactTypeModal from "../components/modals/AddContactTypeModal";
 
 const Patients = () => {
     const {
@@ -31,6 +32,7 @@ const Patients = () => {
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [confirmDeleteCtypeModalOpen, setConfirmDeleteCtypeModalOpen] =
         useState(false);
+    const [addCTypeModalOpen, setAddCTypeModalOpen] = useState(false)
     const [selectedPatient, setSelectedPatient] = useState({});
     const [selectedCType, setSelectedCType] = useState({});
 
@@ -47,7 +49,7 @@ const Patients = () => {
     };
 
     const handleDeletePatient = async () => {
-        const res = await dispatch(deletePatientAction(selectedCType?._id));
+        const res = await dispatch(deletePatientAction(selectedPatient?._id));
 
         if (!res.success) {
             toast.error(res.message, {
@@ -75,9 +77,7 @@ const Patients = () => {
     };
 
     const handleDeleteContactType = async () => {
-        const res = await dispatch(
-            deleteContactTypeAction(selectedCType?._id)
-        );
+        const res = await dispatch(deleteContactTypeAction(selectedCType?._id));
 
         if (!res.success) {
             toast.error(res.message, {
@@ -127,9 +127,19 @@ const Patients = () => {
             <div className="p-4">
                 <div className="flex gap-5 flex-col lg:flex-row mb-6">
                     <div className="py-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
-                        <h3 className="text-md mb-4 px-4 font-bold">
-                            Contact Types
-                        </h3>
+                        <div className="flex justify-between items-center px-4">
+                            <h3 className="text-md mb-4 font-bold">
+                                Contact Types
+                            </h3>
+                            <button
+                                onClick={() => setAddCTypeModalOpen(true)}
+                                className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                            >
+                                <HiPlusCircle />
+                                <span>Add Contact Type</span>
+                            </button>
+                        </div>
+
                         <div className="px-4 h-[200px] overflow-y-auto">
                             <table className="w-full text-sm text-left px-4">
                                 <thead className="text-md">
@@ -313,6 +323,13 @@ const Patients = () => {
                     loading={deletingCType}
                     message="Are you sure you want to delete the Contact Type?"
                     actionMethod={handleDeleteContactType}
+                />
+
+                <AddContactTypeModal
+                    isOpen={addCTypeModalOpen}
+                    closeModal={() => {
+                        setAddCTypeModalOpen(false);
+                    }}
                 />
             </div>
         </DashboardWrapper>

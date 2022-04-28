@@ -22,7 +22,6 @@ const AssignDoctorModal = ({
 
     return (
         <Modal
-            title={"New Board"}
             size="xl"
             isOpen={isOpen}
             closeModal={handleCloseModal}

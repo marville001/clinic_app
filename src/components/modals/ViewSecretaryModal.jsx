@@ -7,7 +7,6 @@ const ViewSecretaryModal = ({ isOpen, closeModal = () => {}, secretary }) => {
 
     return (
         <Modal
-            title={"New Board"}
             size="xl"
             isOpen={isOpen}
             closeModal={handleCloseModal}

@@ -56,7 +56,6 @@ const AddDiagnosisModal = ({ isOpen, closeModal = () => {} }) => {
 
     return (
         <Modal
-            title={"New Board"}
             size="xl"
             isOpen={isOpen}
             closeModal={handleCloseModal}

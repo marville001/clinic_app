@@ -11,7 +11,6 @@ const ConfirmDeleteModal = ({
 }) => {
     return (
         <Modal
-            title={"New Board"}
             size="xl"
             isOpen={isOpen}
             closeModal={() => {}}
