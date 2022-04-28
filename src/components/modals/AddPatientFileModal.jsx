@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPatientFileAction } from "../../redux/actions/patients.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
@@ -15,6 +15,7 @@ const AddPatientFileModal = ({
     closeModal = () => {},
     loading,
 }) => {
+    const { creatingFile } = useSelector((state) => state.patientsState);
     const [error, setError] = useState("");
 
     const {
@@ -162,12 +163,13 @@ const AddPatientFileModal = ({
                         No
                     </button>
                     <button
+                        disabled={creatingFile}
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {loading ? (
+                        {creatingFile ? (
                             <FaSpinner className="animate-spin mr-4" />
                         ) : (
                             "Add File"
