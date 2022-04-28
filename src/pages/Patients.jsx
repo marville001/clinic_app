@@ -10,6 +10,7 @@ import SearchInput from "../components/SearchInput";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 import {
     deletePatientAction,
+    getContactTypesAction,
     getPatientsAction,
 } from "../redux/actions/patients.action";
 
@@ -19,19 +20,28 @@ const Patients = () => {
     const {
         loading: loading_pat,
         patients,
+        contactType,
         deleting,
     } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
     const { departments } = useSelector((state) => state.departmentsState);
 
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+    const [confirmDeleteCtypeModalOpen, setConfirmDeleteCtypeModalOpen] =
+        useState(false);
     const [selectedPatient, setSelectedPatient] = useState({});
+    const [selectedCType, setSelectedCType] = useState({});
 
     const dispatch = useDispatch();
 
     const openDeleteModal = (patient) => {
         setSelectedPatient(patient);
         setConfirmDeleteModalOpen(true);
+    };
+
+    const openDeleteCtypeModal = (type) => {
+        setSelectedCType(type);
+        setConfirmDeleteCtypeModalOpen(true);
     };
 
     const handleDeletePatient = async () => {
@@ -76,6 +86,7 @@ const Patients = () => {
 
     useEffect(() => {
         authDetails?._id && dispatch(getDepartmentsAction());
+        authDetails?._id && dispatch(getContactTypesAction());
     }, [dispatch, authDetails?._id]);
 
     return (
@@ -83,10 +94,52 @@ const Patients = () => {
             <Header title="Patients" />
             <div className="p-4">
                 <div className="flex gap-5 flex-col lg:flex-row mb-6">
-                    <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
-                        <h3 className="text-md mb-4 font-bold">
+                    <div className="py-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
+                        <h3 className="text-md mb-4 px-4 font-bold">
                             Contact Types
                         </h3>
+                        <div className="px-4 h-[200px] overflow-y-auto">
+                            <table className="w-full text-sm text-left px-4">
+                                <thead className="text-md">
+                                    <tr>
+                                        <th className="py-4">#</th>
+                                        <th className="py-4">Type</th>
+                                        <th className="py-4">Description</th>
+                                        <th className="py-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {contactType?.map((type, idx) => (
+                                        <tr
+                                            key={type?._id}
+                                            className="group border-b "
+                                        >
+                                            <td className="py-2 font-bold">
+                                                {idx + 1}
+                                            </td>
+                                            <td className="py-2">
+                                                {type?.name}
+                                            </td>
+                                            <td className="py-2 capitalize">
+                                                {type?.description}
+                                            </td>
+                                            <td className="py-2 pr-12 text-right flex justify-end items-center space-x-1">
+                                                <div
+                                                    onClick={() =>
+                                                        openDeleteCtypeModal(
+                                                            type
+                                                        )
+                                                    }
+                                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                                >
+                                                    <FaTrash />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
                         <h3 className="text-md mb-4 font-bold">
