@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { postApi } from "../api";
 import parseError from "../utils/parseError";
 import { forgotPasswordUrl } from "../constants";
@@ -17,14 +17,18 @@ const ForgotPassword = () => {
         register,
         handleSubmit,
         formState: { errors },
+        reset
     } = useForm();
+
 
     const handleReset = async (details) => {
         setState({ error: "", loading: true, success: "" });
         try {
             const {data} = await postApi(forgotPasswordUrl, details);
-            console.log(data);
+            
             setState({ loading: false, success: data.message });
+
+            reset();
         } catch (error) {
             setState({ error: parseError(error), loading: false });
         }
