@@ -56,7 +56,7 @@ const PatientAttachedFiles = () => {
 
                     {patient?.files?.length <= 0 && (
                         <div className="flex justify-center py-5">
-                            <h4 className="text-3xl  font-bold opacity-40">
+                            <h4 className="text-xl  font-bold opacity-40">
                                 No File
                             </h4>
                         </div>

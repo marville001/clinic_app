@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { HiUserAdd } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import AssignDoctorModal from "../modals/AssignDoctorModal";
 
 const PatientAssignedDoctors = () => {
+    const { patient } = useSelector((state) => state.patientsState);
+    const { departments } = useSelector((state) => state.departmentsState);
+
     const [assignDoctorModalOpen, setAssignDoctorModalOpen] = useState(false);
+
+
+    console.log(departments, patient);
 
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow">
@@ -20,7 +27,7 @@ const PatientAssignedDoctors = () => {
             </div>
 
             <div className="flex flex-col divide-y-[1px]">
-                {[1, 2, 3, 4].map((_, idx) => (
+                {patient?.doctors?.map((doc, idx) => (
                     <div
                         key={idx}
                         className="flex justify-between items-center py-2"
@@ -31,26 +38,26 @@ const PatientAssignedDoctors = () => {
                                 className="w-8 h-8 rounded-full"
                                 alt=""
                             />
-                            <span className="text-sm">Daniellle Kerubo</span>
+                            <span className="text-sm">
+                                {doc?.firstname} {doc?.firstname}
+                            </span>
                         </div>
                         <div className="flex space-x-1">
-                            <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-1">
-                                Dentist
-                            </span>
-                            <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-1">
-                                Eye doctor
+                            <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-6">
+                                {departments?.find(
+                                    (dep) => dep?._id === doc?.department
+                                )?.name || "-"}
                             </span>
                         </div>
                     </div>
                 ))}
-                {/* <div className="pt-5 flex justify-between w-full">
-                    <button
-                        className="flex items-center space-x-2 py-1 text-xs px-6 rounded-md text-white bg-seagreen 
-						  hover:opacity-75 cursor-pointer"
-                    >
-                        View All
-                    </button>
-                </div> */}
+                {patient?.doctors?.length <= 0 && (
+                    <div className="flex justify-center py-5">
+                        <h4 className="text-xl  font-bold opacity-40">
+                            No Assigned Doctor
+                        </h4>
+                    </div>
+                )}
             </div>
 
             <AssignDoctorModal
