@@ -6,6 +6,8 @@ export {
     // Auth
     loginUrl,
     getProfileUrl,
+    forgotPasswordUrl,
+    resetPasswordUrl,
 
     // Secretaries
     getSecretariesUrl,

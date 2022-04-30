@@ -2,28 +2,31 @@ import React, { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { postApi } from "../api";
+import parseError from "../utils/parseError";
+import { forgotPasswordUrl } from "../constants";
 
 const ForgotPassword = () => {
     const [state, setState] = useState({
         error: "",
         loading: false,
+        success: "",
     });
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    const handleReset = (data) => {
-        setState({ error: "", loading: true });
+    const handleReset = async (details) => {
+        setState({ error: "", loading: true, success: "" });
         try {
-            setTimeout(() => {
-                setState({ ...state, loading: false });
-                navigate("/home");
-            }, 4000);
+            const {data} = await postApi(forgotPasswordUrl, details);
+            console.log(data);
+            setState({ loading: false, success: data.message });
         } catch (error) {
-            setState({ error: error.message, loading: false });
+            setState({ error: parseError(error), loading: false });
         }
     };
 
@@ -34,7 +37,7 @@ const ForgotPassword = () => {
                     <h2 className="mb-1 text-xl text-flowerblue font-bold">
                         Welcome Back!
                     </h2>
-                    <p className="text-flowerblue">sign in to continue</p>
+                    <p className="text-flowerblue">Enter email/Username to reset</p>
                     <img
                         src="/assets/profile-img.png"
                         className="hidden sm:block absolute bottom-0 w-48 h-28 right-5"
@@ -53,6 +56,11 @@ const ForgotPassword = () => {
                                 {state.error}
                             </div>
                         )}
+                        {state.success && (
+                        <div className="bg-green-200 text-sm my-4 p-2 rounded-lg text-center text-green-500">
+                            {state.success}!
+                        </div>
+                    )}
                         <label
                             htmlFor="username"
                             className="mb-2 block text-sm"
