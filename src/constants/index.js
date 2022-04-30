@@ -50,5 +50,6 @@ export {
     deleteContactTypeUrl,
     getContactTypesUrl,
     createContactUrl,
-    addPatientFileUrl
+    addPatientFileUrl,
+    assignPatientDoctorUrl,
 } from "./networkUrls";

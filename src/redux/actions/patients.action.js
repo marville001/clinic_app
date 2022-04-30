@@ -9,11 +9,12 @@ import {
     deletePatientUrl,
     getPatientsUrl,
     getPatientUrl,
-    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl, addPatientFileUrl
+    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl, addPatientFileUrl, assignPatientDoctorUrl
 } from "../../constants";
 import parseError from "../../utils/parseError";
 import {
     ADD_PATIENT_FILE,
+    ASSIGN_PATIENT_DOCTOR,
     CREATE_CONTACT,
     CREATE_CONTACT_TYPE,
     CREATE_PATIENT,
@@ -209,6 +210,27 @@ export const deleteContactTypeAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_CONTACT_TYPE.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const assignPatientDoctorAction = (pid, did) => async (dispatch) => {
+    dispatch({ type: ASSIGN_PATIENT_DOCTOR.REQUEST });
+    try {
+        const { data } = await putApi(assignPatientDoctorUrl(pid, did));
+        dispatch({
+            type: ASSIGN_PATIENT_DOCTOR.SUCCESS,
+            payload: data.doctor,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: ASSIGN_PATIENT_DOCTOR.FAIL,
             payload: parseError(error),
         });
         return {
