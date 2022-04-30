@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ViewDoctor from "./pages/ViewDoctor";
 import { useDispatch } from "react-redux";
 import { getUserProfileAction } from "./redux/actions/auth.action";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
                 <Route path="/home" element={<AdminHome />} />
                 <Route path="/doctors" element={<Doctors />} />
                 <Route path="/doctors/new" element={<AddDoctor />} />
