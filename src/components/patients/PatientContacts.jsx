@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import {  HiUserAdd } from "react-icons/hi";
+import { HiUserAdd } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import AddPatientContactModal from "../modals/AddPatientContactModal";
 
 const PatientContacts = () => {
-    const { patient } = useSelector((state) => state.patientsState);
-    
+    const { patient, contactType } = useSelector(
+        (state) => state.patientsState
+    );
+
     const [addContactModalOpen, setAddContactModalOpen] = useState(false);
 
     return (
@@ -43,9 +45,19 @@ const PatientContacts = () => {
                         {patient?.contact?.map((contact, idx) => (
                             <tr key={idx} className="border-b">
                                 <td className="text-xs py-3">{idx + 1}</td>
-                                <td className="text-xs py-3">{contact?.name}</td>
-                                <td className="text-xs py-3">{contact?.firstname}</td>
-                                <td className="text-xs py-3">{contact?.lastname}</td>
+                                <td className="text-xs py-3">
+                                    {
+                                        contactType?.find(
+                                            (c) => c._id === contact.contacttype
+                                        )?.name || "-"
+                                    }
+                                </td>
+                                <td className="text-xs py-3">
+                                    {contact?.firstname}
+                                </td>
+                                <td className="text-xs py-3">
+                                    {contact?.lastname}
+                                </td>
                                 <td className="text-xs py-3">
                                     {contact?.address}
                                 </td>
@@ -53,9 +65,11 @@ const PatientContacts = () => {
                                     {contact?.phone.join(",")}
                                 </td>
                                 <td className="text-xs py-3">
-                                   {contact?.email}
+                                    {contact?.email}
                                 </td>
-                                <td className="text-xs py-3">{contact?.availability}</td>
+                                <td className="text-xs py-3">
+                                    {contact?.availability}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
