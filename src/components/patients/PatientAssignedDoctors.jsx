@@ -1,13 +1,60 @@
 import React, { useState } from "react";
+import { FaTrash, FaUser } from "react-icons/fa";
 import { HiUserAdd } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { unAssignPatientDoctorAction } from "../../redux/actions/patients.action";
 import AssignDoctorModal from "../modals/AssignDoctorModal";
+import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 
 const PatientAssignedDoctors = () => {
-    const { patient } = useSelector((state) => state.patientsState);
+    const { patient, unassigning } = useSelector(
+        (state) => state.patientsState
+    );
     const { departments } = useSelector((state) => state.departmentsState);
 
     const [assignDoctorModalOpen, setAssignDoctorModalOpen] = useState(false);
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+    const [selectedDoctor, setSelectedDoctor] = useState({});
+
+    const openDeleteModal = (doc) => {
+        setSelectedDoctor(doc);
+        setConfirmDeleteModalOpen(true);
+    };
+
+    const dispatch = useDispatch();
+
+    const handleCloseDeleteModal = () => {
+        setConfirmDeleteModalOpen(false);
+        setSelectedDoctor({});
+    };
+
+    const handleReassignDoc = async () => {
+        const res = await dispatch(
+            unAssignPatientDoctorAction(patient?._id, selectedDoctor._id)
+        );
+
+        handleCloseDeleteModal()
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            return;
+        }
+        toast.success(`Doctor UnAssigned Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+    };
 
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow">
@@ -31,21 +78,29 @@ const PatientAssignedDoctors = () => {
                             className="flex justify-between items-center py-2"
                         >
                             <div className="flex items-center space-x-3">
-                                <img
-                                    src="https://randomuser.me/api/portraits/women/85.jpg"
-                                    className="w-8 h-8 rounded-full"
-                                    alt=""
-                                />
+                                <div className="p-2 bg-lightgray rounded-full">
+                                    <FaUser className="text-lg text-dimgray" />
+                                </div>
                                 <span className="text-sm">
                                     {doc?.firstname} {doc?.lastname}
                                 </span>
                             </div>
-                            <div className="flex space-x-1">
+                            <div className="flex space-x-4">
                                 <span className="bg-flowerblue bg-opacity-40 rounded py-1 text-xs text-flowerblue px-6">
                                     {departments?.find(
                                         (dep) => dep?._id === doc?.department
                                     )?.name || "-"}
                                 </span>
+
+                                <div
+                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
+                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                    onClick={() => {
+                                        openDeleteModal(doc);
+                                    }}
+                                >
+                                    <FaTrash />
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -64,6 +119,14 @@ const PatientAssignedDoctors = () => {
                 closeModal={() => {
                     setAssignDoctorModalOpen(false);
                 }}
+            />
+
+            <ConfirmDeleteModal
+                isOpen={confirmDeleteModalOpen}
+                closeModal={handleCloseDeleteModal}
+                message="Please confirm you want to remove the doctor from assigned list for this patient?"
+                actionMethod={handleReassignDoc}
+                loading={unassigning}
             />
         </div>
     );

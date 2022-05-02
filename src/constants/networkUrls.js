@@ -50,3 +50,4 @@ export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const deleteContactTypeUrl = (id) => `${API_BASE}patients/contact-type/${id}`;
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
 export const assignPatientDoctorUrl = (pid, did) => `${API_BASE}patients/assign-doctor/${pid}/${did}`;
+export const unAssignPatientDoctorUrl = (pid, did) => `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;

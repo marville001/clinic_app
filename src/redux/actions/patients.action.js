@@ -11,6 +11,7 @@ import {
     getPatientUrl,
     updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl, addPatientFileUrl, assignPatientDoctorUrl
 } from "../../constants";
+import { unAssignPatientDoctorUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
     ADD_PATIENT_FILE,
@@ -23,6 +24,7 @@ import {
     GET_CONTACT_TYPE,
     GET_PATIENT,
     GET_PATIENTS,
+    UN_ASSIGN_PATIENT_DOCTOR,
     UPDATE_PATIENT,
 } from "../types/patients.types";
 
@@ -231,6 +233,27 @@ export const assignPatientDoctorAction = (pid, did) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ASSIGN_PATIENT_DOCTOR.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const unAssignPatientDoctorAction = (pid, did) => async (dispatch) => {
+    dispatch({ type: UN_ASSIGN_PATIENT_DOCTOR.REQUEST });
+    try {
+        await putApi(unAssignPatientDoctorUrl(pid, did));
+        dispatch({
+            type: UN_ASSIGN_PATIENT_DOCTOR.SUCCESS,
+            payload: did,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: UN_ASSIGN_PATIENT_DOCTOR.FAIL,
             payload: parseError(error),
         });
         return {
