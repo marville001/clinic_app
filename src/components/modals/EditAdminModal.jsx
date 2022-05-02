@@ -32,7 +32,6 @@ const EditAdminModal = ({ isOpen, closeModal = () => {}, admin = {} }) => {
         clearErrors();
         setError();
         reset();
-        dispatch(getAdminsAction());
     };
 
     const handleEditAdmin = async (data) => {
@@ -44,6 +43,8 @@ const EditAdminModal = ({ isOpen, closeModal = () => {}, admin = {} }) => {
             setError(res.message);
             return;
         }
+        
+        dispatch(getAdminsAction());
         toast.success(`Admin Updated Successfully`, {
             position: "top-right",
             autoClose: 5000,

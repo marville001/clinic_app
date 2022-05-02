@@ -39,7 +39,6 @@ const EditSecretaryModal = ({
         clearErrors();
         setError();
         reset();
-        dispatch(getSecretariesAction());
     };
 
     const handleEditSecretary = async (data) => {
@@ -51,6 +50,8 @@ const EditSecretaryModal = ({
             setError(res.message);
             return;
         }
+        
+        dispatch(getSecretariesAction());
         toast.success(`Secretary Updated Successfully`, {
             position: "top-right",
             autoClose: 5000,

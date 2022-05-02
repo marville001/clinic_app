@@ -27,7 +27,6 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
         closeModal();
         clearErrors();
         reset();
-        dispatch(getDepartmentsAction())
     };
 
     const handleAddDepartment = async (data) => {
@@ -39,6 +38,7 @@ const AddDepartmentModal = ({ isOpen, closeModal = () => { } }) => {
             return;
         }
 
+        dispatch(getDepartmentsAction())
         toast.success(`Department Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
