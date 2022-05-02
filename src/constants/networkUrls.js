@@ -1,11 +1,15 @@
 // const API_BASE = "http://localhost:9003/api/";
-const API_BASE = "https://my-clinic-api.herokuapp.com/api/";
+const API_BASE =
+    process.env.NODE_ENV === "production"
+        ? "https://my-clinic-api.herokuapp.com/api/"
+        : "http://localhost:9003/api/";
 
 // Auth
 export const loginUrl = `${API_BASE}auth/login`;
 export const getProfileUrl = `${API_BASE}auth/me`;
 export const forgotPasswordUrl = `${API_BASE}auth/forgot-password`;
-export const resetPasswordUrl = (token)=>`${API_BASE}auth/reset-password/${token}`;
+export const resetPasswordUrl = (token) =>
+    `${API_BASE}auth/reset-password/${token}`;
 
 // Secretaries
 export const getSecretariesUrl = `${API_BASE}secretaries`;
@@ -47,7 +51,10 @@ export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
-export const deleteContactTypeUrl = (id) => `${API_BASE}patients/contact-type/${id}`;
+export const deleteContactTypeUrl = (id) =>
+    `${API_BASE}patients/contact-type/${id}`;
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
-export const assignPatientDoctorUrl = (pid, did) => `${API_BASE}patients/assign-doctor/${pid}/${did}`;
-export const unAssignPatientDoctorUrl = (pid, did) => `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;
+export const assignPatientDoctorUrl = (pid, did) =>
+    `${API_BASE}patients/assign-doctor/${pid}/${did}`;
+export const unAssignPatientDoctorUrl = (pid, did) =>
+    `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;

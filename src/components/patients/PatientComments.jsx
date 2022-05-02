@@ -1,10 +1,36 @@
 import React from "react";
 import { HiCalendar } from "react-icons/hi";
+import { Tab } from "@headlessui/react";
 
 const PatientComments = () => {
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
             <h3 className="text-md mb-4 font-bold">Comments</h3>
+
+            <div className="my-4">
+                <Tab.Group>
+                    <Tab.List className="flex space-x-5">
+                        {["Generay", "Doctor's", "Confidential"].map((category) => (
+                            <Tab
+                                key={category}
+                                className={({ selected }) =>
+                                    `
+                  'w-full py-1.5 text-md px-2 font-medium leading-5 text-blue-700',
+                  'focus:outline-none ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:ring-2',
+                  ${
+                      selected
+                          ? "border-b-2 border-steelblue bg-flowerblue bg-opacity-25 rounded-t-md text-white px-7"
+                          : "text-slate-800 hover:bg-white/[0.12] hover:text-slate-900"
+                  }
+                `
+                                }
+                            >
+                                {category}
+                            </Tab>
+                        ))}
+                    </Tab.List>
+                </Tab.Group>
+            </div>
             <p className="text-sm my-2">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
                 distinctio vero non libero nisi in voluptatibus atque, ut alias
