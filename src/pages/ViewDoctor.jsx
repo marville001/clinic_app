@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getDoctorAction, getDoctorsAction } from "../redux/actions/doctors.action";
 import { FaSpinner } from "react-icons/fa";
+import { getDepartmentsAction } from "../redux/actions/departments.action";
 
 const ViewDoctor = () => {
     const { loading: loading_doc, doctor } = useSelector(
@@ -19,8 +20,8 @@ const ViewDoctor = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        authDetails?._id && dispatch(getDoctorsAction());
         authDetails?._id && dispatch(getDoctorAction(id));
+        authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id, id]);
 
     return (

@@ -10,7 +10,7 @@ const PatientComments = () => {
             <div className="my-4">
                 <Tab.Group>
                     <Tab.List className="flex space-x-5">
-                        {["Generay", "Doctor's", "Confidential"].map((category) => (
+                        {["General", "Doctor's", "Confidential"].map((category) => (
                             <Tab
                                 key={category}
                                 className={({ selected }) =>

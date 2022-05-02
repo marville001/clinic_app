@@ -39,7 +39,7 @@ const AssignedPatients = () => {
                     {doctor?.patients?.length <= 0 && (
                         <div className="flex justify-center py-5">
                             <h4 className="text-xl  font-bold opacity-40">
-                                No Assigned Doctor
+                                No Assigned Patient
                             </h4>
                         </div>
                     )}
