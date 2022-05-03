@@ -20,7 +20,7 @@ const ChatUsers = () => {
                 <FaSearch className="absolute right-4 text-xl top-1/2 opacity-40 -translate-y-1/2 z-40" />
             </div>
 
-            <div className="flex flex-col gap-4 max-h-[500px] overflow-auto no-scroll">
+            <div className="flex flex-col gap-4 max-h-[570px] overflow-auto no-scroll">
                 {[
                     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
                 ].map((chat) => (
