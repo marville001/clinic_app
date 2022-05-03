@@ -10,7 +10,7 @@ const ChatMessages = () => {
 			  <h2>Chat with</h2>
 			  <h1 className='font-bold text-lg'>Martin Kamau</h1>
 		  </div>
-		  <div className="bg-gray-100 p-4 min-h-[550px] h-[580px] overflow-scroll no-scroll">
+		  <div className="min-h-[550px] h-[580px] overflow-scroll no-scroll">
 			  {
 				  [1, 2, 3, 4, 5, 6, 7].map(chat => (
 					  <React.Fragment key={chat}>
