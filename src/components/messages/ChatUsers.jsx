@@ -21,7 +21,9 @@ const ChatUsers = () => {
             </div>
 
             <div className="flex flex-col gap-4 max-h-[500px] overflow-auto no-scroll">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((chat) => (
+                {[
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+                ].map((chat) => (
                     <div
                         key={chat}
                         className="flex gap-4 items-center cursor-pointer"
@@ -31,14 +33,14 @@ const ChatUsers = () => {
                             className="w-12 h-12 rounded-full"
                             alt=""
                         />
-                        <div>
-                            <h2 className="text-sm font-bold">
-                                Martin Kamau{" "}
-                                <span className="text-steelblue ml-2 text-xs font-medium">
+                        <div className="flex-1">
+                            <h2 className="text-sm font-bold flex justify-between w-full items-center">
+                                <span className="block">Martin Kamau </span>
+                                <span className="text-steelblue block text-[10px] font-medium">
                                     {chat} hours ago
                                 </span>
                             </h2>
-                            <p className="text-xs">
+                            <p className="text-xs mt-2">
                                 Lorem ipsum dolor sit....{" "}
                             </p>
                         </div>
