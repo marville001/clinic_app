@@ -14,7 +14,7 @@ import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getContactTypesAction, getPatientAction } from "../redux/actions/patients.action";
 
 const ViewPatient = () => {
-    const { loading: loading_pat, patient, contactType } = useSelector(
+    const { loading: loading_pat, patient } = useSelector(
         (state) => state.patientsState
     );
     const { authDetails } = useSelector((state) => state.authState);

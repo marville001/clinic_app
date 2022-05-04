@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";

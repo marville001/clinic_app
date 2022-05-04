@@ -6,7 +6,7 @@ import AssignedPatients from "../components/doctors/AssignedPatients";
 import DoctorCalendar from "../components/doctors/DoctorCalendar";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getDoctorAction, getDoctorsAction } from "../redux/actions/doctors.action";
+import { getDoctorAction } from "../redux/actions/doctors.action";
 import { FaSpinner } from "react-icons/fa";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 
