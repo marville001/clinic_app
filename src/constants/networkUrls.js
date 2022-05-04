@@ -58,3 +58,7 @@ export const assignPatientDoctorUrl = (pid, did) =>
     `${API_BASE}patients/assign-doctor/${pid}/${did}`;
 export const unAssignPatientDoctorUrl = (pid, did) =>
     `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;
+
+
+// Chats
+export const getChatsUrl = `${API_BASE}chats`;

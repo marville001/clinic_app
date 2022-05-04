@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import parseInitials from "../../utils/parseInitials";
+import { format } from "timeago.js";
 
 const ChatUsers = () => {
+    const { chats } = useSelector((state) => state.messagesState);
+
     return (
         <div className="w-[300px] pr-5 h-full">
             <div className="my-5 flex justify-between items-center">
@@ -14,7 +19,9 @@ const ChatUsers = () => {
                 <div className="p-3 rounded-full bg-lightgray">
                     <FaPlus className="text-steelblue font-bold" />
                 </div>
-                <h4 className="flex-1 text-center text-xl font-bold opacity-60">Create New</h4>
+                <h4 className="flex-1 text-center text-xl font-bold opacity-60">
+                    Create New
+                </h4>
             </div>
 
             <div className="my-8 flex relative bg-lightgray p-1 rounded-full overflow-hidden">
@@ -27,32 +34,41 @@ const ChatUsers = () => {
                 <FaSearch className="absolute right-4 text-xl top-1/2 opacity-40 -translate-y-1/2 z-40" />
             </div>
 
-            <div className="flex flex-col gap-4 max-h-[570px] overflow-auto no-scroll">
-                {[
-                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                ].map((chat) => (
+            <div className="flex flex-col divide-y-[1px] gap-4 max-h-[570px] overflow-auto no-scroll">
+                {chats?.map((chat) => (
                     <div
-                        key={chat}
-                        className="flex gap-4 items-center cursor-pointer"
+                        key={chat._id}
+                        className="flex gap-4 items-center cursor-pointer hover:bg-lightgray p-2 rounded-lg"
                     >
-                        <img
-                            src="https://randomuser.me/api/portraits/men/0.jpg"
-                            className="w-12 h-12 rounded-full"
-                            alt=""
-                        />
+                        <div className="p-2 rounded-full h-10 w-10 flex items-center justify-center bg-lightgray">
+                            <span className="text-sm font-bold opacity-70 text-steelblue">
+                                {parseInitials(chat?.users[0])}
+                            </span>
+                        </div>
                         <div className="flex-1">
                             <h2 className="text-sm font-bold flex justify-between w-full items-center">
-                                <span className="block">Martin Kamau </span>
+                                <span className="block">
+                                    {chat?.users[0].firstname}{" "}
+                                    {chat?.users[0].lastname}
+                                </span>
                                 <span className="text-steelblue block text-[10px] font-medium">
-                                    {chat} hours ago
+                                    {format(chat?.updatedAt, "en_US")}
                                 </span>
                             </h2>
                             <p className="text-xs mt-2">
-                                Lorem ipsum dolor sit....{" "}
+                                {chat?.latestMessage?.content.substring(0, 25)}{" "}
+                                {chat?.latestMessage?.content?.length > 25 &&
+                                    "..."}
                             </p>
                         </div>
                     </div>
                 ))}
+
+                {chats?.length === 0 && (
+                    <div className="p-5 flex justify-center items-center flex-col">
+                        <h3 className="text-xl opacity-75">No Chat Yes</h3>
+                    </div>
+                )}
             </div>
         </div>
     );

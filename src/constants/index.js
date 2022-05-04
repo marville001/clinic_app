@@ -52,4 +52,9 @@ export {
     createContactUrl,
     addPatientFileUrl,
     assignPatientDoctorUrl,
+
+
+    // Chats
+    getChatsUrl,
+    
 } from "./networkUrls";
