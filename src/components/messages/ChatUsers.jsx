@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSearch } from "react-icons/fa";
+import { FaPlus, FaSearch } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 
 const ChatUsers = () => {
@@ -8,6 +8,13 @@ const ChatUsers = () => {
             <div className="my-5 flex justify-between items-center">
                 <h3 className="text-xl font-bold">Chat</h3>
                 <HiDotsHorizontal className="text-2xl cursor-pointer" />
+            </div>
+
+            <div className="my-5 flex _shadow rounded-full p-2 cursor-pointer items-center gap-5 justfy-center">
+                <div className="p-3 rounded-full bg-lightgray">
+                    <FaPlus className="text-steelblue font-bold" />
+                </div>
+                <h4 className="flex-1 text-center text-xl font-bold opacity-60">Create New</h4>
             </div>
 
             <div className="my-8 flex relative bg-lightgray p-1 rounded-full overflow-hidden">
