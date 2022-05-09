@@ -1,9 +1,25 @@
 
 import { getApi, postApi } from "../../api";
 import { getChatsUrl } from "../../constants";
-import { getChatMessagesUrl, sendMessageUrl } from "../../constants/networkUrls";
+import { createChatsUrl, getChatMessagesUrl, sendMessageUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
-import { GET_CHATS, GET_CHAT_MESSAGES, SEND_MESSAGE } from "../types/messages.types";
+import { CREATE_CHAT, GET_CHATS, GET_CHAT_MESSAGES, SEND_MESSAGE } from "../types/messages.types";
+
+export const createChatAction = (details) => async (dispatch) => {
+    dispatch({ type: CREATE_CHAT.REQUEST });
+    try {
+        const { data } = await postApi(createChatsUrl, details);
+        dispatch({
+            type: CREATE_CHAT.SUCCESS,
+            payload: data.chat,
+        });
+    } catch (error) {
+        dispatch({
+            type: CREATE_CHAT.FAIL,
+            payload: parseError(error),
+        });
+    }
+};
 
 export const getChatsAction = () => async (dispatch) => {
     dispatch({ type: GET_CHATS.REQUEST });
@@ -52,3 +68,5 @@ export const sendMessageAction = (message) => async (dispatch) => {
         });
     }
 };
+
+

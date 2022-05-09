@@ -1,54 +1,65 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { FaSearch, FaSpinner } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { gender } from "../../constants";
-import InputField from "../common/InputField";
+import { useDispatch } from "react-redux";
 import Modal from "../common/Modal";
-import PasswordField from "../common/PasswordField";
-import SelectField from "../common/SelectField";
 
 import { toast } from "react-toastify";
 import {
     createAdminAction,
     getAdminsAction,
 } from "../../redux/actions/admins.action";
+import { getApi } from "../../api";
+import { searchChatUserUrl } from "../../constants/networkUrls";
+import { createChatAction, getChatsAction } from "../../redux/actions/messages.action";
 
 const NewChatModal = ({ isOpen, closeModal = () => {} }) => {
-    const { creating } = useSelector((state) => state.adminsState);
-
     const [chatWith, setChatWith] = useState("Admin");
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [creating, setCreating] = useState(false);
+    const [found, setFound] = useState([]);
 
     const dispatch = useDispatch();
 
     const handleClose = () => {
-        closeModal()
-        setChatWith("Admin")
-        setSearch("")
-    }
+        closeModal();
+        setChatWith("Admin");
+        setFound([])
+        setSearch("");
+        setCreating(false)
+        setLoading(false)
+    };
 
-    const handleAddAdmin = async (data) => {
-        const res = await dispatch(createAdminAction(data));
-
-        if (!res.success) {
-            return;
-        }
-
-        dispatch(getAdminsAction());
-        toast.success(`Admin Added Successfully`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
+    const handleAddChat = async (user) => {
+        setCreating(true)
+        await dispatch(createChatAction({
+            userId: user?._id,
+            userRole: user?.role
+        }));
+        dispatch(getChatsAction());
+        handleClose();
     };
 
     const handleSearch = async (e) => {
         e.preventDefault();
-    }
+        setLoading(true);
+        setFound([]);
+
+        const key =
+            chatWith === "Admin"
+                ? "admins"
+                : chatWith === "Doctor"
+                ? "doctors"
+                : "secretaries";
+
+        try {
+            const { data } = await getApi(searchChatUserUrl(key, search));
+            setFound(data.results);
+            setLoading(false);
+        } catch (error) {
+            setLoading(false);
+        }
+    };
 
     return (
         <Modal size="lg" isOpen={isOpen} closeModal={handleClose}>
@@ -61,36 +72,89 @@ const NewChatModal = ({ isOpen, closeModal = () => {} }) => {
                 <div className="flex gap-2">
                     <button
                         type="button"
-                        onClick={() => setChatWith("Admin")}
-                        className={`flex-1 py-2 text-white rounded-lg ${chatWith ==="Admin" ? "bg-steelblue":"bg-flowerblue"}`}
+                        onClick={() => {
+                            setChatWith("Admin");
+                            setFound([]);
+                        }}
+                        className={`flex-1 py-2 text-white rounded-lg ${
+                            chatWith === "Admin"
+                                ? "bg-steelblue"
+                                : "bg-flowerblue"
+                        }`}
                     >
                         Admin
                     </button>
                     <button
                         type="button"
-                        onClick={() => setChatWith("Doctor")}
-                        className={`flex-1 py-2 text-white rounded-lg ${chatWith ==="Doctor" ? "bg-steelblue":"bg-flowerblue"}`}
+                        onClick={() => {
+                            setChatWith("Doctor");
+                            setFound([]);
+                        }}
+                        className={`flex-1 py-2 text-white rounded-lg ${
+                            chatWith === "Doctor"
+                                ? "bg-steelblue"
+                                : "bg-flowerblue"
+                        }`}
                     >
                         Doctor
                     </button>
                     <button
                         type="button"
-                        onClick={() => setChatWith("Secretary")}
-                        className={`flex-1 py-2 text-white rounded-lg ${chatWith ==="Secretary" ? "bg-steelblue":"bg-flowerblue"}`}
+                        onClick={() => {
+                            setChatWith("Secretary");
+                            setFound([]);
+                        }}
+                        className={`flex-1 py-2 text-white rounded-lg ${
+                            chatWith === "Secretary"
+                                ? "bg-steelblue"
+                                : "bg-flowerblue"
+                        }`}
                     >
                         Secretary
                     </button>
                 </div>
 
-                <form onSubmit={handleSearch} className="w-full my-5 flex items-center h-10 gap-2">
-                    <input value={search} onChange={e=>setSearch(e.target.value)} setSearch={setSearch} type="text" className="w-full rounded-lg" placeholder={`Search ${chatWith} ...`} />
-                    <button type="submit" className="p-2 cursor-pointer bg-flowerblue text-lg h-full rounded-lg text-white  flex items-center justify-center w-12">
+                <form
+                    onSubmit={handleSearch}
+                    className="w-full my-5 flex items-center h-10 gap-2"
+                >
+                    <input
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                        }}
+                        disabled={creating}
+                        setSearch={setSearch}
+                        type="text"
+                        className="w-full rounded-lg disabled:cursor-pointer disabled:bg-slate-50"
+                        placeholder={`Search ${chatWith} ...`}
+                    />
+                    <button
+                        type="submit"
+                        className="p-2 cursor-pointer bg-flowerblue text-lg h-full rounded-lg text-white  flex items-center justify-center w-12"
+                    >
                         <FaSearch />
                     </button>
                 </form>
 
                 <div className="max-h-48">
+                    {found.map((user) => (
+                        <div
+                            key={user._id}
+                            onClick={() => handleAddChat(user)}
+                            className="py-2 bg-gray-50 px-2 mb-2 cursor-pointer"
+                        >
+                            <h4>
+                                {user.firstname} {user.lastname} - {user.email}
+                            </h4>
+                        </div>
+                    ))}
 
+                    {loading && (
+                        <div className="flex justify-center py-5">
+                            <FaSpinner className="animate-spin" />
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex justify-between items-center mt-8">
