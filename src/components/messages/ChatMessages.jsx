@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import ChatContainer from "./ChatContainer";
 import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";

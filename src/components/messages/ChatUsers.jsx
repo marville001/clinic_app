@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
@@ -10,7 +10,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
     const { authDetails } = useSelector((state) => state.authState);
     const { chats } = useSelector((state) => state.messagesState);
 
-    const [newChatModalOpen, setNewChatModalOpen] = useState(false)
+    const [newChatModalOpen, setNewChatModalOpen] = useState(false);
 
     return (
         <div className="w-[300px] h-full overflow-auto no-scroll">
@@ -28,7 +28,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 </h4>
             </div>
 
-            <div className="my-8 flex relative bg-lightgray mx-5 p-1 rounded-full overflow-hidden">
+            {/* <div className="my-8 flex relative bg-lightgray mx-5 p-1 rounded-full overflow-hidden">
                 <input
                     type="text"
                     name=""
@@ -36,9 +36,9 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                     className="border-0 opacity-80 outline-none w-[90%] ring-0 bg-transparent focus:ring-0 focus:outline-none"
                 />
                 <FaSearch className="absolute right-4 text-xl top-1/2 opacity-40 -translate-y-1/2 z-40" />
-            </div>
+            </div> */}
 
-            <div className="flex flex-col divide-y-[1px] gap-4 overflow-auto no-scroll">
+            <div className="flex flex-col divide-y-[1px] gap-4 mt-14 px-5 overflow-auto no-scroll">
                 {chats?.map((chat) => (
                     <div
                         key={chat._id}

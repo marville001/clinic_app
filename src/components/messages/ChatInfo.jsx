@@ -1,22 +1,9 @@
 import React from "react";
 import { FaChevronCircleRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
-const ChatInfo = ({ chatInfoOpen, setChatInfoOpen }) => {
-
-    // const handleClickOutside = (e) => {
-    //     if (chatInfomenuRef && !chatInfomenuRef?.current?.contains(e.target)) {
-    //         if (chatInfoOpen) setChatInfoOpen(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     document.addEventListener("click", handleClickOutside);
-
-    //     return () => {
-    //         document.removeEventListener("click", handleClickOutside);
-    //     };
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
+const ChatInfo = ({ chatInfoOpen, setChatInfoOpen, selectedChat }) => {
+    const { authDetails } = useSelector((state) => state.authState);
 
     return (
         <div
@@ -32,6 +19,15 @@ const ChatInfo = ({ chatInfoOpen, setChatInfoOpen }) => {
                     className="cursor-pointer lg:hidden text-lg opacity-70"
                 />
                 <h2 className="text-xl opacity-80 font-bold">Chat Info</h2>
+            </div>
+
+            <div className="my-6">
+                <h4 className="text-center">
+                    {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.firstname}{" "}
+                                    {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
+                </h4>
+
+                <h3 className="capitalize text-center font-bold text-lg mt-4 opacity-50 "> {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.role}</h3>
             </div>
         </div>
     );

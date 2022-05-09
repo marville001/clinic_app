@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
@@ -52,6 +52,7 @@ const Messages = () => {
                 <ChatInfo
                     chatInfoOpen={chatInfoOpen}
                     setChatInfoOpen={setChatInfoOpen}
+                    selectedChat={selectedChat}
                 />
             </div>
         </DashboardWrapper>

@@ -3,11 +3,6 @@ import { FaSearch, FaSpinner } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import Modal from "../common/Modal";
 
-import { toast } from "react-toastify";
-import {
-    createAdminAction,
-    getAdminsAction,
-} from "../../redux/actions/admins.action";
 import { getApi } from "../../api";
 import { searchChatUserUrl } from "../../constants/networkUrls";
 import { createChatAction, getChatsAction } from "../../redux/actions/messages.action";
