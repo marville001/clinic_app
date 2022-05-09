@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
 import { format } from "timeago.js";
+import NewChatModal from "../modals/NewChatModal";
 
 const ChatUsers = ({ setSelectedChat, selectedChat }) => {
     const { authDetails } = useSelector((state) => state.authState);
     const { chats } = useSelector((state) => state.messagesState);
+
+    const [newChatModalOpen, setNewChatModalOpen] = useState(false)
 
     return (
         <div className="w-[300px] h-full overflow-auto no-scroll">
@@ -16,7 +19,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 <HiDotsHorizontal className="text-2xl cursor-pointer" />
             </div>
 
-            <div className="my-5 flex _shadow rounded-full p-2 mx-5 cursor-pointer items-center gap-5 justfy-center">
+            <div onClick={()=>setNewChatModalOpen(true)} className="my-5 flex _shadow rounded-full p-2 mx-5 cursor-pointer items-center gap-5 justfy-center">
                 <div className="p-3 rounded-full bg-lightgray">
                     <FaPlus className="text-steelblue font-bold" />
                 </div>
@@ -72,6 +75,13 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                     </div>
                 )}
             </div>
+
+            <NewChatModal
+                    isOpen={newChatModalOpen}
+                    closeModal={() => {
+                        setNewChatModalOpen(false);
+                    }}
+                />
         </div>
     );
 };
