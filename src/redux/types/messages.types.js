@@ -21,3 +21,7 @@ export const CREATE_CHAT = {
     SUCCESS:"CREATE_CHAT_SUCCESS",
     FAIL:"CREATE_CHAT_FAIL",
 }
+
+export const RESET_MESSAGES = {
+    REQUEST:"RESET_MESSAGES"
+}

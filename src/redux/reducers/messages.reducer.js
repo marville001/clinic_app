@@ -1,4 +1,9 @@
-import { GET_CHATS, GET_CHAT_MESSAGES, SEND_MESSAGE } from "../types/messages.types";
+import {
+    GET_CHATS,
+    GET_CHAT_MESSAGES,
+    RESET_MESSAGES,
+    SEND_MESSAGE,
+} from "../types/messages.types";
 
 const initialState = {
     chats: [],
@@ -39,9 +44,9 @@ const messagesReducer = (state = initialState, action) => {
                 loadingMessages: false,
                 error: action.payload,
             };
-        
+
         case SEND_MESSAGE.REQUEST:
-            return { ...state, sendingMessages: false,};
+            return { ...state, sendingMessages: false };
         case SEND_MESSAGE.SUCCESS:
             return {
                 ...state,
@@ -52,6 +57,12 @@ const messagesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sendingMessages: false,
+            };
+
+        case RESET_MESSAGES:
+            return {
+                ...state,
+                messages: [],
             };
 
         default:

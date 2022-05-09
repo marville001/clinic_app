@@ -8,6 +8,7 @@ import ChatUsers from "../components/messages/ChatUsers";
 import {
     getChatMessagesAction,
     getChatsAction,
+    resetMessagesAction,
 } from "../redux/actions/messages.action";
 
 const Messages = () => {
@@ -28,6 +29,13 @@ const Messages = () => {
             selectedChat?._id &&
             dispatch(getChatMessagesAction(selectedChat?._id));
     }, [dispatch, authDetails?._id, selectedChat?._id]);
+
+    useEffect(() => {
+        return () => {
+            dispatch(resetMessagesAction());
+            setSelectedChat({});
+        };
+    }, [dispatch]);
 
     return (
         <DashboardWrapper>
