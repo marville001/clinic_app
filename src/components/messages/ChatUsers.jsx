@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
 import { format } from "timeago.js";
 
-const ChatUsers = ({setSelectedChat, selectedChat}) => {
+const ChatUsers = ({ setSelectedChat, selectedChat }) => {
+    const { authDetails } = useSelector((state) => state.authState);
     const { chats } = useSelector((state) => state.messagesState);
 
     return (
@@ -43,14 +44,14 @@ const ChatUsers = ({setSelectedChat, selectedChat}) => {
                     >
                         <div className="p-2 rounded-full h-10 w-10 flex items-center justify-center bg-lightgray">
                             <span className="text-sm font-bold opacity-70 text-steelblue">
-                                {parseInitials(chat?.users[0])}
+                                {parseInitials(chat?.users?.find(c=>c._id !== authDetails?._id))}
                             </span>
                         </div>
                         <div className="flex-1">
                             <h2 className="text-sm font-bold flex justify-between w-full items-center">
                                 <span className="block">
-                                    {chat?.users[0].firstname}{" "}
-                                    {chat?.users[0].lastname}
+                                    {chat?.users?.find(c=>c._id !== authDetails?._id)?.firstname}{" "}
+                                    {chat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
                                 </span>
                                 <span className="text-steelblue block text-[10px] font-medium">
                                     {format(chat?.updatedAt, "en_US")}
