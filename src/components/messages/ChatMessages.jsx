@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ChatContainer from "./ChatContainer";
 import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
 import { sendMessageAction } from "../../redux/actions/messages.action";
+import ScrollableFeed from "react-scrollable-feed";
 
 const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
     const { messages, loadingMessages } = useSelector(
@@ -11,19 +11,21 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
     );
     const { authDetails } = useSelector((state) => state.authState);
 
-    const [text, setText] = useState("")
-    const [error, setError] = useState("")
+    const [text, setText] = useState("");
+    const [error, setError] = useState("");
 
     const dispatch = useDispatch();
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        setError("")
+        setError("");
 
         if (text === "") {
-            setError("Please type a message to continue")
+            setError("Please type a message to continue");
             return;
         }
+
+        setText("");
 
         await dispatch(
             sendMessageAction({
@@ -31,14 +33,13 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
                 content: text,
             })
         );
-
-        setText("")
-
     };
 
     const typingHandler = (e) => {
-        setError("")
-        setText(e.target.value)
+        setError("");
+        setText(e.target.value);
+
+        // Typing Indicator Logic
     };
 
     return (
@@ -68,11 +69,11 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
                 </div>
             )}
             <div className="flex-[1] overflow-scroll no-scroll">
-                {messages?.map((chat) => (
-                    <React.Fragment key={chat._id}>
-                        <ChatContainer chat={chat} />
-                    </React.Fragment>
-                ))}
+                <ScrollableFeed forceScroll={true}>
+                    {messages?.map((chat) => (
+                            <ChatContainer key={chat._id} chat={chat} />
+                    ))}
+                </ScrollableFeed>
 
                 {!selectedChat?._id && (
                     <div className="h-full flex flex-col justify-center items-center">
