@@ -24,3 +24,7 @@ body {
 .no-scroll::-webkit-scrollbar {
     display: none !important;
 }
+
+.chat-container{
+    height: calc(100vh - 60px);
+}

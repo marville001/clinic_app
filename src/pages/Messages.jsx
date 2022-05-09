@@ -32,7 +32,7 @@ const Messages = () => {
     return (
         <DashboardWrapper>
             <Header title="Messages" />
-            <div className="p-4 flex divide-x-[1px] min-h-[600px] relative">
+            <div className="p-4 flex divide-x-[1px] min-h-[600px] relative chat-container">
                 <ChatUsers
                     setSelectedChat={setSelectedChat}
                     selectedChat={selectedChat}

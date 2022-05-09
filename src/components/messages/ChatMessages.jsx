@@ -47,7 +47,7 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
                     <FaBars onClick={()=>setChatInfoOpen(true)} className="text-lg cursor-pointer opacity-70 lg:hidden" />
                 </div>
             }
-            <div className="min-h-[550px] h-[580px] overflow-scroll no-scroll">
+            <div className="flex-[1] overflow-scroll no-scroll">
                 {messages?.map((chat) => (
                     <React.Fragment key={chat._id}>
                         <ChatContainer chat={chat} />

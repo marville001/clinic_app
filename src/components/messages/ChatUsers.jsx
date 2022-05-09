@@ -10,13 +10,13 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
     const { chats } = useSelector((state) => state.messagesState);
 
     return (
-        <div className="w-[300px] pr-5 h-full">
-            <div className="my-5 flex justify-between items-center">
+        <div className="w-[300px] h-full overflow-auto no-scroll">
+            <div className="my-5 flex justify-between items-center px-5">
                 <h3 className="text-xl font-bold">Chat</h3>
                 <HiDotsHorizontal className="text-2xl cursor-pointer" />
             </div>
 
-            <div className="my-5 flex _shadow rounded-full p-2 cursor-pointer items-center gap-5 justfy-center">
+            <div className="my-5 flex _shadow rounded-full p-2 mx-5 cursor-pointer items-center gap-5 justfy-center">
                 <div className="p-3 rounded-full bg-lightgray">
                     <FaPlus className="text-steelblue font-bold" />
                 </div>
@@ -25,7 +25,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 </h4>
             </div>
 
-            <div className="my-8 flex relative bg-lightgray p-1 rounded-full overflow-hidden">
+            <div className="my-8 flex relative bg-lightgray mx-5 p-1 rounded-full overflow-hidden">
                 <input
                     type="text"
                     name=""
@@ -35,7 +35,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 <FaSearch className="absolute right-4 text-xl top-1/2 opacity-40 -translate-y-1/2 z-40" />
             </div>
 
-            <div className="flex flex-col divide-y-[1px] gap-4 max-h-[570px] overflow-auto no-scroll">
+            <div className="flex flex-col divide-y-[1px] gap-4 overflow-auto no-scroll">
                 {chats?.map((chat) => (
                     <div
                         key={chat._id}
