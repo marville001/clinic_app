@@ -36,7 +36,7 @@ const messagesReducer = (state = initialState, action) => {
         case GET_CHAT_MESSAGES.FAIL:
             return {
                 ...state,
-                loading: false,
+                loadingMessages: false,
                 error: action.payload,
             };
 
