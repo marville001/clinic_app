@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
 import { format } from "timeago.js";
 
-const ChatUsers = () => {
+const ChatUsers = ({setSelectedChat, selectedChat}) => {
     const { chats } = useSelector((state) => state.messagesState);
 
     return (
@@ -38,6 +38,7 @@ const ChatUsers = () => {
                 {chats?.map((chat) => (
                     <div
                         key={chat._id}
+                        onClick={()=>selectedChat._id !== chat?._id && setSelectedChat(chat)}
                         className="flex gap-4 items-center cursor-pointer hover:bg-lightgray p-2 rounded-lg"
                     >
                         <div className="p-2 rounded-full h-10 w-10 flex items-center justify-center bg-lightgray">

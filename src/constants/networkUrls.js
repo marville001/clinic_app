@@ -62,3 +62,4 @@ export const unAssignPatientDoctorUrl = (pid, did) =>
 
 // Chats
 export const getChatsUrl = `${API_BASE}chats`;
+export const getChatMessagesUrl = id=>`${API_BASE}messages/${id}`;

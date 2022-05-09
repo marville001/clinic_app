@@ -1,7 +1,8 @@
-import { GET_CHATS } from "../types/messages.types";
+import { GET_CHATS, GET_CHAT_MESSAGES } from "../types/messages.types";
 
 const initialState = {
     chats: [],
+    messages: [],
     loading: false,
     error: "",
 };
@@ -18,6 +19,21 @@ const messagesReducer = (state = initialState, action) => {
                 error: "",
             };
         case GET_CHATS.FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+
+        case GET_CHAT_MESSAGES.REQUEST:
+            return { ...state, loadingMessages: true, messages: [], error: "" };
+        case GET_CHAT_MESSAGES.SUCCESS:
+            return {
+                ...state,
+                messages: action.payload,
+                loadingMessages: false,
+            };
+        case GET_CHAT_MESSAGES.FAIL:
             return {
                 ...state,
                 loading: false,
