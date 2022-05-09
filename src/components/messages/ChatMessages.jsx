@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import ChatContainer from "./ChatContainer";
-import { FaPaperPlane, FaSpinner } from "react-icons/fa";
+import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { sendMessageAction } from "../../redux/actions/messages.action";
 
-const ChatMessages = ({ selectedChat }) => {
+const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
     const { messages, loadingMessages } = useSelector(
         (state) => state.messagesState
     );
@@ -29,16 +29,22 @@ const ChatMessages = ({ selectedChat }) => {
 
         reset();
     };
+
+   
+
     return (
         <div className="flex-[1] px-5 flex flex-col h-full">
             {/* Header */}
             {selectedChat?._id &&
-                <div className="my-5">
-                    <h2>Chat with</h2>
-                    <h1 className="font-bold text-lg">
-                        {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.firstname}{" "}
-                        {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
-                    </h1>
+                <div className="flex items-center justify-between">
+                    <div className="my-5">
+                        <h2>Chat with</h2>
+                        <h1 className="font-bold text-lg">
+                            {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.firstname}{" "}
+                            {selectedChat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
+                        </h1>
+                    </div>
+                    <FaBars onClick={()=>setChatInfoOpen(true)} className="text-lg cursor-pointer opacity-70 lg:hidden" />
                 </div>
             }
             <div className="min-h-[550px] h-[580px] overflow-scroll no-scroll">
