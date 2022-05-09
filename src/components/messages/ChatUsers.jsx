@@ -54,7 +54,7 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                                     {chat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
                                 </span>
                                 <span className="text-steelblue block text-[10px] font-medium">
-                                    {format(chat?.updatedAt, "en_US")}
+                                    {format(chat?.latestMessage?.updatedAt, "en_US")}
                                 </span>
                             </h2>
                             <p className="text-xs mt-2">
