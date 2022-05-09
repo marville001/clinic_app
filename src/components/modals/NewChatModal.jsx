@@ -133,6 +133,11 @@ const NewChatModal = ({ isOpen, closeModal = () => {} }) => {
                 </form>
 
                 <div className="max-h-48">
+                    {creating && (
+                        <div className="flex justify-center py-5">
+                            <FaSpinner className="animate-spin" />
+                        </div>
+                    )}
                     {found.map((user) => (
                         <div
                             key={user._id}
