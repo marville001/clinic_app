@@ -19,7 +19,10 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 <HiDotsHorizontal className="text-2xl cursor-pointer" />
             </div>
 
-            <div onClick={()=>setNewChatModalOpen(true)} className="my-5 flex _shadow rounded-full p-2 mx-5 cursor-pointer items-center gap-5 justfy-center">
+            <div
+                onClick={() => setNewChatModalOpen(true)}
+                className="my-5 flex _shadow rounded-full p-2 mx-5 cursor-pointer items-center gap-5 justfy-center"
+            >
                 <div className="p-3 rounded-full bg-lightgray">
                     <FaPlus className="text-steelblue font-bold" />
                 </div>
@@ -42,22 +45,40 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 {chats?.map((chat) => (
                     <div
                         key={chat._id}
-                        onClick={()=>selectedChat._id !== chat?._id && setSelectedChat(chat)}
+                        onClick={() =>
+                            selectedChat._id !== chat?._id &&
+                            setSelectedChat(chat)
+                        }
                         className="flex gap-4 items-center cursor-pointer hover:bg-lightgray p-2 rounded-lg"
                     >
                         <div className="p-2 rounded-full h-10 w-10 flex items-center justify-center bg-lightgray">
                             <span className="text-sm font-bold opacity-70 text-steelblue">
-                                {parseInitials(chat?.users?.find(c=>c._id !== authDetails?._id))}
+                                {parseInitials(
+                                    chat?.users?.find(
+                                        (c) => c._id !== authDetails?._id
+                                    )
+                                )}
                             </span>
                         </div>
                         <div className="flex-1">
                             <h2 className="text-sm font-bold flex justify-between w-full items-center">
                                 <span className="block">
-                                    {chat?.users?.find(c=>c._id !== authDetails?._id)?.firstname}{" "}
-                                    {chat?.users?.find(c=>c._id !== authDetails?._id)?.lastname}
+                                    {
+                                        chat?.users?.find(
+                                            (c) => c._id !== authDetails?._id
+                                        )?.firstname
+                                    }{" "}
+                                    {
+                                        chat?.users?.find(
+                                            (c) => c._id !== authDetails?._id
+                                        )?.lastname
+                                    }
                                 </span>
                                 <span className="text-steelblue block text-[10px] font-medium">
-                                    {format(chat?.latestMessage?.updatedAt, "en_US")}
+                                    {format(
+                                        chat?.latestMessage?.updatedAt,
+                                        "en_US"
+                                    )}
                                 </span>
                             </h2>
                             <p className="text-xs mt-2">
@@ -77,11 +98,12 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
             </div>
 
             <NewChatModal
-                    isOpen={newChatModalOpen}
-                    closeModal={() => {
-                        setNewChatModalOpen(false);
-                    }}
-                />
+                setSelectedChat={setSelectedChat}
+                isOpen={newChatModalOpen}
+                closeModal={() => {
+                    setNewChatModalOpen(false);
+                }}
+            />
         </div>
     );
 };

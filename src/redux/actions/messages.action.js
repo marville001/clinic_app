@@ -22,6 +22,7 @@ export const createChatAction = (details) => async (dispatch) => {
             type: CREATE_CHAT.SUCCESS,
             payload: data.chat,
         });
+        return {chat: data.chat};
     } catch (error) {
         dispatch({
             type: CREATE_CHAT.FAIL,

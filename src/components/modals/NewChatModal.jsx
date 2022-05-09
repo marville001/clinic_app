@@ -7,7 +7,7 @@ import { getApi } from "../../api";
 import { searchChatUserUrl } from "../../constants/networkUrls";
 import { createChatAction, getChatsAction } from "../../redux/actions/messages.action";
 
-const NewChatModal = ({ isOpen, closeModal = () => {} }) => {
+const NewChatModal = ({ isOpen, closeModal = () => {}, setSelectedChat }) => {
     const [chatWith, setChatWith] = useState("Admin");
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(false);
@@ -27,10 +27,14 @@ const NewChatModal = ({ isOpen, closeModal = () => {} }) => {
 
     const handleAddChat = async (user) => {
         setCreating(true)
-        await dispatch(createChatAction({
+        const res = await dispatch(createChatAction({
             userId: user?._id,
             userRole: user?.role
         }));
+
+        if (res.chat) {
+            setSelectedChat(res.chat)
+        }
         dispatch(getChatsAction());
         handleClose();
     };
