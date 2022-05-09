@@ -1,5 +1,5 @@
 // const API_BASE = "http://localhost:9003/api/";
-const API_BASE =
+export const API_BASE =
     process.env.NODE_ENV === "production"
         ? "https://my-clinic-api.herokuapp.com/api/"
         : "http://localhost:9003/api/";

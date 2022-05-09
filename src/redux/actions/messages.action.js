@@ -71,6 +71,8 @@ export const sendMessageAction = (message) => async (dispatch) => {
             type: SEND_MESSAGE.SUCCESS,
             payload: data.message,
         });
+
+        return {message: data.message}
     } catch (error) {
         dispatch({
             type: SEND_MESSAGE.FAIL,

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import ChatContainer from "./ChatContainer";
 import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessageAction } from "../../redux/actions/messages.action";
 import ScrollableFeed from "react-scrollable-feed";
 
-const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
-    const { messages, loadingMessages } = useSelector(
+const ChatMessages = ({ selectedChat, setChatInfoOpen, messages, socket }) => {
+    const { loadingMessages } = useSelector(
         (state) => state.messagesState
     );
     const { authDetails } = useSelector((state) => state.authState);
@@ -15,6 +15,7 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
     const [error, setError] = useState("");
 
     const dispatch = useDispatch();
+
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -27,12 +28,14 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
 
         setText("");
 
-        await dispatch(
+        const data = await dispatch(
             sendMessageAction({
                 chatId: selectedChat?._id,
                 content: text,
             })
         );
+
+        socket?.emit("new message", data.message)
     };
 
     const typingHandler = (e) => {
@@ -71,7 +74,7 @@ const ChatMessages = ({ selectedChat, setChatInfoOpen }) => {
             <div className="flex-[1] overflow-scroll no-scroll">
                 <ScrollableFeed forceScroll={true}>
                     {messages?.map((chat) => (
-                            <ChatContainer key={chat._id} chat={chat} />
+                        <ChatContainer key={chat._id} chat={chat} />
                     ))}
                 </ScrollableFeed>
 
