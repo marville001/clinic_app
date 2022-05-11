@@ -7,6 +7,7 @@ import {
 } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
+    ADD_MESSAGE,
     CREATE_CHAT,
     GET_CHATS,
     GET_CHAT_MESSAGES,
@@ -22,7 +23,7 @@ export const createChatAction = (details) => async (dispatch) => {
             type: CREATE_CHAT.SUCCESS,
             payload: data.chat,
         });
-        return {chat: data.chat};
+        return { chat: data.chat };
     } catch (error) {
         dispatch({
             type: CREATE_CHAT.FAIL,
@@ -72,7 +73,7 @@ export const sendMessageAction = (message) => async (dispatch) => {
             payload: data.message,
         });
 
-        return {message: data.message}
+        return { message: data.message };
     } catch (error) {
         dispatch({
             type: SEND_MESSAGE.FAIL,
@@ -84,5 +85,12 @@ export const sendMessageAction = (message) => async (dispatch) => {
 export const resetMessagesAction = () => (dispatch) => {
     dispatch({
         type: RESET_MESSAGES,
+    });
+};
+
+export const addMessageAction = (message) => (dispatch) => {
+    dispatch({
+        type: ADD_MESSAGE,
+        payload: message,
     });
 };

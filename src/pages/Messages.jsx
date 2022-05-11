@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
@@ -6,6 +6,7 @@ import ChatInfo from "../components/messages/ChatInfo";
 import ChatMessages from "../components/messages/ChatMessages";
 import ChatUsers from "../components/messages/ChatUsers";
 import {
+    addMessageAction,
     getChatMessagesAction,
     getChatsAction,
     resetMessagesAction,
@@ -20,22 +21,37 @@ const END_POINT =
 
 const Messages = () => {
     const { authDetails } = useSelector((state) => state.authState);
-    const state = useSelector((state) => state.messagesState);
+    const { messages } = useSelector((state) => state.messagesState);
 
     const [selectedChat, setSelectedChat] = useState({});
-    const [messages, setMessages] = useState([]);
-
     const [chatInfoOpen, setChatInfoOpen] = useState(false);
-
     const [socketConnected, setSocketConnected] = useState(false);
+    const [typing, setTyping] = useState(false);
+    const [isTyping, setIsTyping] = useState(false);
 
+    const scrollRef = useRef();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        socket = io(END_POINT);
-        socket.emit("setup", authDetails);
-        socket.on("connected", () => setSocketConnected(true));
-    }, []);
+        if (authDetails._id) {
+            socket = io(END_POINT);
+            socket.emit("setup", authDetails);
+            socket.on("connected", () => setSocketConnected(true));
+            socket.on("typing", () => setIsTyping(true));
+            socket.on("stop typing", () => setIsTyping(false));
+
+            socket?.on("message received", (newMessageReceived) => {
+                if (
+                    !selectedChatCompare ||
+                    newMessageReceived?.chat?._id !== selectedChatCompare._id
+                ) {
+                    //give notification
+                } else {
+                    dispatch(addMessageAction(newMessageReceived));
+                }
+            });
+        }
+    }, [authDetails]);
 
     useEffect(() => {
         authDetails?._id && dispatch(getChatsAction());
@@ -58,24 +74,16 @@ const Messages = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        setMessages(state.messages);
-    }, [state.messages]);
+        return () => {
+            dispatch(resetMessagesAction());
+        };
+    }, [dispatch]);
 
-    console.log(selectedChatCompare);
+    useEffect(() => {});
 
     useEffect(() => {
-        socket?.on("message received", (newMessageReceived) => {
-            console.log(newMessageReceived);
-            if (
-                !selectedChatCompare ||
-                newMessageReceived?.chat?._id !== selectedChatCompare._id
-            ) {
-                //give notification
-            } else {
-                setMessages([...messages, newMessageReceived]);
-            }
-        });
-    }, []);
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     return (
         <DashboardWrapper>
@@ -90,6 +98,11 @@ const Messages = () => {
                     setChatInfoOpen={setChatInfoOpen}
                     selectedChat={selectedChat}
                     socket={socket}
+                    ref={scrollRef}
+                    socketConnected={socketConnected}
+                    typing={typing}
+                    setTyping={setTyping}
+                    isTyping={isTyping}
                 />
                 <ChatInfo
                     chatInfoOpen={chatInfoOpen}

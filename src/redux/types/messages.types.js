@@ -25,3 +25,7 @@ export const CREATE_CHAT = {
 export const RESET_MESSAGES = {
     REQUEST:"RESET_MESSAGES"
 }
+
+export const ADD_MESSAGE = {
+    REQUEST:"ADD_MESSAGE"
+}

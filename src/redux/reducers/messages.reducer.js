@@ -1,4 +1,5 @@
 import {
+    ADD_MESSAGE,
     GET_CHATS,
     GET_CHAT_MESSAGES,
     RESET_MESSAGES,
@@ -63,6 +64,19 @@ const messagesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 messages: [],
+            };
+
+        case ADD_MESSAGE:
+            console.log(state);
+            return {
+                ...state,
+                messages: [...state.messages, action.payload],
+                chats: [...state.chats.map(chat => {
+                    if (chat._id === action.payload.chat._id) {
+                        chat.latestMessage = action.payload
+                    }
+                    return chat;
+                })]
             };
 
         default:
