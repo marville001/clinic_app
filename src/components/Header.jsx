@@ -26,7 +26,7 @@ const Header = ({ title }) => {
                 <h2 className="capitalize text-slate-900">{title}</h2>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 z-[88]">
                 <Menu as="div" className="relative inline-block text-left">
                     <Menu.Button className="p-2 py-2 relative hover:bg-lightgray group rounded-md cursor-pointer flex items-center gap-2">
                         <FaRegBell className="text-xl" />
@@ -53,6 +53,7 @@ const Header = ({ title }) => {
                                         </button>
                                 </Menu.Item>
                             </div>
+                            
                         </Menu.Items>
                     </Transition>
                 </Menu>

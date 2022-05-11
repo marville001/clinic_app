@@ -47,6 +47,7 @@ const Messages = () => {
                 ) {
                     //give notification
                 } else {
+                    console.log("dispatching");
                     dispatch(addMessageAction(newMessageReceived));
                 }
             });
