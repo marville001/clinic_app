@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -47,7 +48,6 @@ const Messages = () => {
                 ) {
                     //give notification
                 } else {
-                    console.log("dispatching");
                     dispatch(addMessageAction(newMessageReceived));
                 }
             });

@@ -21,9 +21,11 @@ const Doctors = () => {
         (state) => state.departmentsState
     );
     const { authDetails } = useSelector((state) => state.authState);
-    const { doctors, loading: loading_dct, deleting } = useSelector(
-        (state) => state.doctorsState
-    );
+    const {
+        doctors,
+        loading: loading_dct,
+        deleting,
+    } = useSelector((state) => state.doctorsState);
     const [addModalOpen, setAddModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [deleteDoctor, setDeleteDoctor] = useState({});
@@ -182,12 +184,12 @@ const Doctors = () => {
                                             <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
                                                 <Link
                                                     className="
-                                                flex items-center space-x-1 bg-seagreen text-white 
-                                                text-xs p-2 rounded-full hover:opacity-90 
+                                                flex items-center space-x-1 
+                                                text-xs rounded-full hover:opacity-90 
                                                 hover:scale-[1.02] "
                                                     to={`/doctors/${doctor?._id}`}
                                                 >
-                                                    <FaEye />
+                                                    <FaEye className="text-seagreen text-xl" />
                                                 </Link>
 
                                                 <Link
