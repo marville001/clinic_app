@@ -29,6 +29,7 @@ const Messages = () => {
     const [socketConnected, setSocketConnected] = useState(false);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
+        const [text, setText] = useState("");
 
     const scrollRef = useRef();
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Messages = () => {
             socket = io(END_POINT);
             socket.emit("setup", authDetails);
             socket.on("connected", () => setSocketConnected(true));
-            socket.on("typing", () => setIsTyping(true));
+            socket.on("typing", (room) => room === selectedChat?.id && setIsTyping(true));
             socket.on("stop typing", () => setIsTyping(false));
 
             socket?.on("message received", (newMessageReceived) => {
@@ -93,6 +94,7 @@ const Messages = () => {
                 <ChatUsers
                     setSelectedChat={setSelectedChat}
                     selectedChat={selectedChat}
+                    setText={setText}
                 />
                 <ChatMessages
                     messages={messages}
@@ -104,6 +106,8 @@ const Messages = () => {
                     typing={typing}
                     setTyping={setTyping}
                     isTyping={isTyping}
+                    text={text}
+                    setText={setText}
                 />
                 <ChatInfo
                     chatInfoOpen={chatInfoOpen}

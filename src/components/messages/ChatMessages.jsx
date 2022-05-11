@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import ChatContainer from "./ChatContainer";
 import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,13 +15,14 @@ const ChatMessages = React.forwardRef(
             typing,
             setTyping,
             isTyping,
+            text,
+            setText,
         },
         ref
     ) => {
         const { loadingMessages } = useSelector((state) => state.messagesState);
         const { authDetails } = useSelector((state) => state.authState);
 
-        const [text, setText] = useState("");
         const [error, setError] = useState("");
 
         const dispatch = useDispatch();

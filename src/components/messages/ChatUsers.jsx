@@ -6,7 +6,7 @@ import parseInitials from "../../utils/parseInitials";
 import { format } from "timeago.js";
 import NewChatModal from "../modals/NewChatModal";
 
-const ChatUsers = ({ setSelectedChat, selectedChat }) => {
+const ChatUsers = ({ setSelectedChat, selectedChat, setText }) => {
     const { authDetails } = useSelector((state) => state.authState);
     const { chats } = useSelector((state) => state.messagesState);
 
@@ -45,10 +45,12 @@ const ChatUsers = ({ setSelectedChat, selectedChat }) => {
                 {chats?.map((chat) => (
                     <div
                         key={chat._id}
-                        onClick={() =>
-                            selectedChat._id !== chat?._id &&
-                            setSelectedChat(chat)
-                        }
+                        onClick={() => {
+                            if (selectedChat._id !== chat?._id) {
+                                setSelectedChat(chat);
+                                setText("");
+                            }
+                        }}
                         className="flex gap-4 items-center cursor-pointer hover:bg-lightgray p-2 rounded-lg"
                     >
                         <div className="p-2 rounded-full h-10 w-10 flex items-center justify-center bg-lightgray">

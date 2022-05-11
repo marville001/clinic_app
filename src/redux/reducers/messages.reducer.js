@@ -71,12 +71,12 @@ const messagesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 messages: [...state.messages, action.payload],
-                chats: [...state.chats.map(chat => {
-                    if (chat._id === action.payload.chat._id) {
-                        chat.latestMessage = action.payload
-                    }
-                    return chat;
-                })]
+                // chats: [...state.chats.map(chat => {
+                //     if (chat._id === action.payload.chat._id) {
+                //         chat.latestMessage = action.payload
+                //     }
+                //     return chat;
+                // })]
             };
 
         default:
