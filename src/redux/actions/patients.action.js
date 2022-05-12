@@ -9,7 +9,7 @@ import {
     deletePatientUrl,
     getPatientsUrl,
     getPatientUrl,
-    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, createContactUrl, addPatientFileUrl, assignPatientDoctorUrl
+    updatePatientUrl,createContactTypesUrl, deleteContactTypeUrl, getContactTypesUrl, getCommentTypesUrl, createContactUrl, addPatientFileUrl, assignPatientDoctorUrl
 } from "../../constants";
 import { unAssignPatientDoctorUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
@@ -21,11 +21,13 @@ import {
     CREATE_PATIENT,
     DELETE_CONTACT_TYPE,
     DELETE_PATIENT,
+    GET_COMMENT_TYPE,
     GET_CONTACT_TYPE,
     GET_PATIENT,
     GET_PATIENTS,
     UN_ASSIGN_PATIENT_DOCTOR,
     UPDATE_PATIENT,
+  
 } from "../types/patients.types";
 
 export const createPatientAction = (user) => async (dispatch) => {
@@ -260,5 +262,21 @@ export const unAssignPatientDoctorAction = (pid, did) => async (dispatch) => {
             success: false,
             message: parseError(error),
         };
+    }
+};
+
+export const getCommentTypesAction = () => async (dispatch) => {
+    dispatch({ type: GET_COMMENT_TYPE.REQUEST });
+    try {
+        const { data } = await getApi(getCommentTypesUrl);
+        dispatch({
+            type: GET_COMMENT_TYPE.SUCCESS,
+            payload: data.commentType,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_COMMENT_TYPE.FAIL,
+            payload: parseError(error),
+        });
     }
 };
