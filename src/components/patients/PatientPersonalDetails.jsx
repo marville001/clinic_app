@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 const PatientPersonalDetails = () => {
     const { patient } = useSelector((state) => state.patientsState);
+
     return (
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
             <h3 className="text-md mb-4 font-bold">Personal Information</h3>

@@ -11,12 +11,13 @@ import PatientContacts from "../components/patients/PatientContacts";
 import PatientPersonalDetails from "../components/patients/PatientPersonalDetails";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
-import { getContactTypesAction, getPatientAction } from "../redux/actions/patients.action";
+import { getCommentTypesAction, getContactTypesAction, getPatientAction } from "../redux/actions/patients.action";
 
 const ViewPatient = () => {
     const { loading: loading_pat, patient } = useSelector(
         (state) => state.patientsState
     );
+    console.log(patient)
     const { authDetails } = useSelector((state) => state.authState);
 
     const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const ViewPatient = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getPatientAction(id));
         authDetails?._id && dispatch(getDoctorsAction());
+        authDetails?._id && dispatch(getCommentTypesAction());
         authDetails?._id && dispatch(getContactTypesAction());
         authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id, id]);

@@ -1,15 +1,15 @@
 // const API_BASE = "http://localhost:9003/api/";
 export const API_BASE =
-    process.env.NODE_ENV === "production"
-        ? "https://my-clinic-api.herokuapp.com/api/"
-        : "http://localhost:9003/api/";
+  process.env.NODE_ENV === "production"
+    ? "https://my-clinic-api.herokuapp.com/api/"
+    : "http://localhost:9003/api/";
 
 // Auth
 export const loginUrl = `${API_BASE}auth/login`;
 export const getProfileUrl = `${API_BASE}auth/me`;
 export const forgotPasswordUrl = `${API_BASE}auth/forgot-password`;
 export const resetPasswordUrl = (token) =>
-    `${API_BASE}auth/reset-password/${token}`;
+  `${API_BASE}auth/reset-password/${token}`;
 
 // Secretaries
 export const getSecretariesUrl = `${API_BASE}secretaries`;
@@ -48,22 +48,24 @@ export const createPatientUrl = `${API_BASE}patients`;
 export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
+//contact
 export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const deleteContactTypeUrl = (id) =>
-    `${API_BASE}patients/contact-type/${id}`;
+  `${API_BASE}patients/contact-type/${id}`;
+//comments
+export const getCommentTypesUrl = `${API_BASE}patients/comment-type`;
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
 export const assignPatientDoctorUrl = (pid, did) =>
-    `${API_BASE}patients/assign-doctor/${pid}/${did}`;
+  `${API_BASE}patients/assign-doctor/${pid}/${did}`;
 export const unAssignPatientDoctorUrl = (pid, did) =>
-    `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;
-
+  `${API_BASE}patients/un-assign-doctor/${pid}/${did}`;
 
 // Chats
 export const getChatsUrl = `${API_BASE}chats`;
 export const createChatsUrl = `${API_BASE}chats`;
-export const getChatMessagesUrl = id=>`${API_BASE}messages/${id}`;
+export const getChatMessagesUrl = (id) => `${API_BASE}messages/${id}`;
 export const sendMessageUrl = `${API_BASE}messages`;
-export const searchChatUserUrl =(key, query)=> `${API_BASE}${key}/search?search=${query}`;
-
+export const searchChatUserUrl = (key, query) =>
+  `${API_BASE}${key}/search?search=${query}`;

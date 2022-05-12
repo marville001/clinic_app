@@ -49,6 +49,7 @@ export {
     createContactTypesUrl,
     deleteContactTypeUrl,
     getContactTypesUrl,
+    getCommentTypesUrl,
     createContactUrl,
     addPatientFileUrl,
     assignPatientDoctorUrl,
