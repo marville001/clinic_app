@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HiPlusCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { parseAppointments } from "../../utils/calendar";
 import CalendarGrid from "../common/CalendarGrid";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
 
@@ -11,41 +12,8 @@ const DoctorCalendar = () => {
         useState(false);
     const [appoints, setAppoints] = useState([]);
 
-    const getTodayStr = (date) => {
-        return new Date(date).toISOString().replace(/T.*$/, "");
-    };
-
-    const getTimeStr = (time) => {
-        return "T" + (time ? time.toString() : "00:00") + ":00";
-    };
-
     useEffect(() => {
-        const _apps = appointments.map((appointment) => {
-            const {
-                title,
-                timeFrom,
-                timeTo,
-                allDay,
-                startDate,
-                endDate,
-                description,
-            } = appointment;
-
-            console.log(appointment);
-            return {
-                title,
-                start: allDay
-                    ? getTodayStr(startDate) + getTimeStr(timeFrom)
-                    : getTodayStr(startDate),
-                end: allDay ? getTodayStr(endDate) + getTimeStr(timeTo) : "",
-                id: appointment._id,
-                description,
-            };
-        });
-
-        console.log(_apps);
-
-        setAppoints(_apps);
+        setAppoints(parseAppointments(appointments));
     }, [appointments]);
 
     return (

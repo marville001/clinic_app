@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FaBed,
     FaCheckSquare,
@@ -19,6 +19,7 @@ import { getAppointmentsAction } from "../redux/actions/appointments.action";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getPatientsAction } from "../redux/actions/patients.action";
 import { getSecretariesAction } from "../redux/actions/secretaries.action";
+import {  parseAppointments } from "../utils/calendar";
 
 const AdminHome = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -27,6 +28,8 @@ const AdminHome = () => {
     const { secretaries } = useSelector((state) => state.secretariesState);
     const { admins } = useSelector((state) => state.adminsState);
     const { appointments } = useSelector((state) => state.appointmentsState);
+
+    const [appoints, setAppoints] = useState([]);
 
     const dispatch = useDispatch();
 
@@ -44,6 +47,10 @@ const AdminHome = () => {
             dispatch(getAppointmentsAction(authDetails?._id));
         }
     }, [dispatch, authDetails]);
+
+    useEffect(() => {
+        setAppoints(parseAppointments(appointments));
+    }, [appointments]);
 
     return (
         <DashboardWrapper>
@@ -66,11 +73,13 @@ const AdminHome = () => {
                         count={secretaries?.length}
                         text="Secretaries"
                     />
-                    <DashCountCard
-                        icon={FaCheckSquare}
-                        count={125}
-                        text="Appointments"
-                    />
+                    {authDetails?.role === "doctor" && (
+                        <DashCountCard
+                            icon={FaCheckSquare}
+                            count={appointments?.length}
+                            text="Appointments"
+                        />
+                    )}
                     <DashCountCard
                         icon={FaUserShield}
                         count={admins?.length}
@@ -151,7 +160,7 @@ const AdminHome = () => {
                 {authDetails?.role === "doctor" && (
                     <div className="w-full my-8 bg-white p-5 _shadow">
                         <h2 className="text-xl font-bold mb-6">My Calendar</h2>
-                        <CalendarGrid appointments={appointments} />
+                        <CalendarGrid appointments={appoints} />
                     </div>
                 )}
             </div>
