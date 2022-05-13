@@ -3,7 +3,6 @@ import { FaPlus } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
-import { format } from "timeago.js";
 import NewChatModal from "../modals/NewChatModal";
 
 const ChatUsers = ({ setSelectedChat, selectedChat, setText }) => {
@@ -77,10 +76,10 @@ const ChatUsers = ({ setSelectedChat, selectedChat, setText }) => {
                                     }
                                 </span>
                                 <span className="text-steelblue block text-[10px] font-medium">
-                                    {format(
-                                        chat?.latestMessage?.updatedAt,
-                                        "en_US"
-                                    )}
+                                    {new Date(chat?.latestMessage?.updatedAt)
+                                        .toDateString()
+                                        .toString()
+                                        .replaceAll("/", "-")}
                                 </span>
                             </h2>
                             <p className="text-xs mt-2">

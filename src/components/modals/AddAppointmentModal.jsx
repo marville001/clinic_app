@@ -9,8 +9,10 @@ import {
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
+import {useParams} from "react-router-dom"
 
 import { toast } from "react-toastify";
+import { createAppointmentAction } from "../../redux/actions/appointments.action";
 
 const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
     const { creating } = useSelector((state) => state.departmentsState);
@@ -28,6 +30,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
     } = useForm();
 
     const dispatch = useDispatch();
+    const {id} = useParams()
 
     const handleCloseModal = () => {
         closeModal();
@@ -36,26 +39,27 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
     };
 
     const handleAddDepartment = async (data) => {
-        console.log({...data, allDay});
-        // setError("");
-        // const res = await dispatch(createDepartmentAction({...data, allDay}));
+        setError("");
+        const res = await dispatch(
+            createAppointmentAction({ ...data, allDay, doctorId:  id})
+        );
 
-        // if (!res.success) {
-        //     setError(res.message);
-        //     return;
-        // }
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
 
-        // dispatch(getDepartmentsAction());
-        // toast.success(`Appointment Added Successfully`, {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: false,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        // });
+        dispatch(getDepartmentsAction());
+        toast.success(`Appointment Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
 
-        // handleCloseModal();
+        handleCloseModal();
     };
 
     return (
@@ -76,7 +80,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}
-                        name="name"
+                        name="title"
                         label="Title"
                         register={register}
                         required={true}
@@ -90,9 +94,9 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
                             type="checkbox"
                             checked={allDay}
                             onChange={(e) => {
-                                setAllDay(e.target.checked)
+                                setAllDay(e.target.checked);
                                 if (!e.target.checked) {
-                                    setValue("endDate", "")
+                                    setValue("endDate", "");
                                 }
                             }}
                             className="ring-0 focus:ring-0 active:ring-0"

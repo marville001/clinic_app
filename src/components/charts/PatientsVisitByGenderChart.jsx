@@ -2,7 +2,7 @@ import React from "react";
 
 import Chart from 'react-apexcharts'
 
-const PatientsVisitByGenderChart = () => {
+const PatientsVisitByGenderChart = ({patients}) => {
     const series = [
         {
             name: "Male",

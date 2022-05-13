@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { HiPlusCircle } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import CalendarGrid from "../common/CalendarGrid";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
 
 const DoctorCalendar = () => {
+    const { appointments } = useSelector((state) => state.appointmentsState);
 
     const [addAppointmentModalOpen, setAddAppointmentModalOpen] = useState(false);
 
@@ -20,7 +22,7 @@ const DoctorCalendar = () => {
             </div>
 
             <div className="w-full mt-6">
-                <CalendarGrid />
+                <CalendarGrid appointments={appointments}/>
             </div>
 
             <AddAppointmentModal
