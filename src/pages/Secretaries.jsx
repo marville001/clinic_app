@@ -15,6 +15,7 @@ import {
 
 import { toast } from "react-toastify";
 import ViewSecretaryModal from "../components/modals/ViewSecretaryModal";
+import { useNavigate } from "react-router-dom";
 
 const Secretaries = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -82,6 +83,16 @@ const Secretaries = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getSecretariesAction());
     }, [dispatch, authDetails?._id]);
+
+    const navigate = useNavigate();
+
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" || authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
+    }
 
     return (
         <DashboardWrapper>

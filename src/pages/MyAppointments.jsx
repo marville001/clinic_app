@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaBed, FaCheckSquare } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import CalendarGrid from "../components/common/CalendarGrid";
 import DashCountCard from "../components/common/DashCountCard";
 import DashboardWrapper from "../components/DashboardWrapper";
@@ -33,6 +34,13 @@ const MyAppointments = () => {
     useEffect(() => {
         setAppoints(parseAppointments(appointments));
     }, [appointments]);
+
+    const navigate = useNavigate();
+
+    if (authDetails?._id && authDetails?.role !== "doctor") {
+        navigate("/home");
+        return null;
+    }
 
     return (
         <DashboardWrapper>

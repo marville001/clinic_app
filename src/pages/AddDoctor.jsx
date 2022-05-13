@@ -15,192 +15,203 @@ import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { toast } from "react-toastify";
 
 const AddDoctor = () => {
-  const { creating } = useSelector((state) => state.doctorsState);
-  const { departments } = useSelector((state) => state.departmentsState);
-  const { authDetails } = useSelector((state) => state.authState);
+    const { creating } = useSelector((state) => state.doctorsState);
+    const { departments } = useSelector((state) => state.departmentsState);
+    const { authDetails } = useSelector((state) => state.authState);
 
-  const [error, setError] = useState("");
+    const [error, setError] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const handleAddDoctor = async (data) => {
-    setError("");
+    const handleAddDoctor = async (data) => {
+        setError("");
 
-    const res = await dispatch(createDoctorAction(data));
+        const res = await dispatch(createDoctorAction(data));
 
-    if (!res.success) {
-      setError(res.message);
-      return;
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+
+        toast.success(`Doctor Added Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+
+        reset();
+        setError("");
+        navigate("/doctors");
+    };
+
+    useEffect(() => {
+        authDetails?._id && dispatch(getDepartmentsAction());
+    }, [dispatch, authDetails?._id]);
+
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" || authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
     }
 
-    toast.success(`Doctor Added Successfully`, {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    return (
+        <DashboardWrapper>
+            <Header title="Dashboard" />
+            <div className="p-4  max-w-4xl mx-auto ">
+                <div className="my-4 p-5 bg-white _shadow">
+                    <h2 className="font-medium">Add Doctor</h2>
+                </div>
 
-    reset();
-    setError("");
-    navigate("/doctors");
-  };
+                {error && (
+                    <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+                        {error}
+                    </div>
+                )}
 
-  useEffect(() => {
-    authDetails?._id && dispatch(getDepartmentsAction());
-  }, [dispatch, authDetails?._id]);
+                <div className="bg-white p-5 _shadow">
+                    <form
+                        onSubmit={handleSubmit(handleAddDoctor)}
+                        autoComplete="off"
+                    >
+                        <div className="flex gap-5">
+                            <InputField
+                                errors={errors}
+                                name="firstname"
+                                label="Firstname"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="lastname"
+                                label="Lastname"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                        </div>
 
-  return (
-    <DashboardWrapper>
-      <Header title="Dashboard" />
-      <div className="p-4  max-w-4xl mx-auto ">
-        <div className="my-4 p-5 bg-white _shadow">
-          <h2 className="font-medium">Add Doctor</h2>
-        </div>
+                        <div className="flex gap-5 mt-4">
+                            <InputField
+                                errors={errors}
+                                name="username"
+                                label="Username"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="email"
+                                label="Email"
+                                register={register}
+                                required={true}
+                                type="email"
+                            />
+                        </div>
 
-        {error && (
-          <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
-            {error}
-          </div>
-        )}
+                        <div className="flex gap-5 mt-4">
+                            <SelectField
+                                errors={errors}
+                                name="gender"
+                                label="Gender"
+                                register={register}
+                                required={true}
+                                options={gender}
+                            />
+                            <SelectField
+                                errors={errors}
+                                name="department"
+                                label="Department"
+                                register={register}
+                                required={true}
+                                options={departments.map((dep) => {
+                                    return {
+                                        value: dep._id,
+                                        label: dep.name,
+                                    };
+                                })}
+                            />
+                        </div>
 
-        <div className="bg-white p-5 _shadow">
-          <form onSubmit={handleSubmit(handleAddDoctor)} autoComplete="off">
-            <div className="flex gap-5">
-              <InputField
-                errors={errors}
-                name="firstname"
-                label="Firstname"
-                register={register}
-                required={true}
-                type="text"
-              />
-              <InputField
-                errors={errors}
-                name="lastname"
-                label="Lastname"
-                register={register}
-                required={true}
-                type="text"
-              />
-            </div>
+                        <div className="flex gap-5 mt-4">
+                            <InputField
+                                errors={errors}
+                                name="phone"
+                                label="Phone Number"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                            <InputField
+                                errors={errors}
+                                name="dob"
+                                label="Date of Birth"
+                                register={register}
+                                required={true}
+                                type="date"
+                            />
+                        </div>
+                        <div className="flex gap-5 mt-4">
+                            <PasswordField
+                                errors={errors}
+                                name="password"
+                                label="Password"
+                                register={register}
+                                required={true}
+                            />
+                            <InputField
+                                errors={errors}
+                                name="address"
+                                label="Address"
+                                register={register}
+                                required={true}
+                                type="text"
+                            />
+                        </div>
+                        <div className="flex gap-5 mt-4">
+                            <TextareaField
+                                errors={errors}
+                                name="bio"
+                                label="Doctors Bio"
+                                register={register}
+                                required={true}
+                            />
+                        </div>
 
-            <div className="flex gap-5 mt-4">
-              <InputField
-                errors={errors}
-                name="username"
-                label="Username"
-                register={register}
-                required={true}
-                type="text"
-              />
-              <InputField
-                errors={errors}
-                name="email"
-                label="Email"
-                register={register}
-                required={true}
-                type="email"
-              />
-            </div>
-
-            <div className="flex gap-5 mt-4">
-              <SelectField
-                errors={errors}
-                name="gender"
-                label="Gender"
-                register={register}
-                required={true}
-                options={gender}
-              />
-              <SelectField
-                errors={errors}
-                name="department"
-                label="Department"
-                register={register}
-                required={true}
-                options={departments.map((dep) => {
-                  return {
-                    value: dep._id,
-                    label: dep.name,
-                  };
-                })}
-              />
-            </div>
-
-            <div className="flex gap-5 mt-4">
-              <InputField
-                errors={errors}
-                name="phone"
-                label="Phone Number"
-                register={register}
-                required={true}
-                type="text"
-              />
-              <InputField
-                errors={errors}
-                name="dob"
-                label="Date of Birth"
-                register={register}
-                required={true}
-                type="date"
-              />
-            </div>
-            <div className="flex gap-5 mt-4">
-              <PasswordField
-                errors={errors}
-                name="password"
-                label="Password"
-                register={register}
-                required={true}
-              />
-              <InputField
-                errors={errors}
-                name="address"
-                label="Address"
-                register={register}
-                required={true}
-                type="text"
-              />
-            </div>
-            <div className="flex gap-5 mt-4">
-              <TextareaField
-                errors={errors}
-                name="bio"
-                label="Doctors Bio"
-                register={register}
-                required={true}
-              />
-            </div>
-
-            <button
-              disabled={creating}
-              className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
+                        <button
+                            disabled={creating}
+                            className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {creating ? (
-                <>
-                  <FaSpinner className="animate-spin" />
-                  <span className="text-sm">Loading...</span>
-                </>
-              ) : (
-                <span>Submit</span>
-              )}
-            </button>
-          </form>
-        </div>
-      </div>
-    </DashboardWrapper>
-  );
+                        >
+                            {creating ? (
+                                <>
+                                    <FaSpinner className="animate-spin" />
+                                    <span className="text-sm">Loading...</span>
+                                </>
+                            ) : (
+                                <span>Submit</span>
+                            )}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </DashboardWrapper>
+    );
 };
 
 export default AddDoctor;

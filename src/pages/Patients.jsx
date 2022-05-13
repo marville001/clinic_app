@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaEye, FaSpinner, FaTrash, FaUserEdit } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
@@ -18,7 +18,10 @@ import {
 import { toast } from "react-toastify";
 import AddContactTypeModal from "../components/modals/AddContactTypeModal";
 import AddDiagnosisModal from "../components/modals/AddDiagnosisModal";
-import { deleteDiagnosisAction, getDiagnosisAction } from "../redux/actions/diagnosis.action";
+import {
+    deleteDiagnosisAction,
+    getDiagnosisAction,
+} from "../redux/actions/diagnosis.action";
 
 const Patients = () => {
     const {
@@ -30,13 +33,17 @@ const Patients = () => {
     } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
     const { departments } = useSelector((state) => state.departmentsState);
-    const { diagnosis, deleting: deleting_diag } = useSelector((state) => state.diagnosisState);
+    const { diagnosis, deleting: deleting_diag } = useSelector(
+        (state) => state.diagnosisState
+    );
 
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [confirmDeleteCtypeModalOpen, setConfirmDeleteCtypeModalOpen] =
         useState(false);
-     const [confirmDeleteDiagnosisModalOpen, setConfirmDeleteDiagnosisModalOpen] =
-        useState(false);
+    const [
+        confirmDeleteDiagnosisModalOpen,
+        setConfirmDeleteDiagnosisModalOpen,
+    ] = useState(false);
     const [addCTypeModalOpen, setAddCTypeModalOpen] = useState(false);
     const [addDiagnosisModalOpen, setAddDiagnosisModalOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState({});
@@ -77,7 +84,7 @@ const Patients = () => {
         }
         setConfirmDeleteModalOpen(false);
         dispatch(getPatientsAction());
-        setSelectedPatient({})
+        setSelectedPatient({});
 
         toast.success(`Patient Deleted Successfully`, {
             position: "top-right",
@@ -106,7 +113,7 @@ const Patients = () => {
         }
         setConfirmDeleteCtypeModalOpen(false);
         dispatch(getContactTypesAction());
-        setSelectedCType({})
+        setSelectedCType({});
 
         toast.success(`Contact Type Deleted Successfully`, {
             position: "top-right",
@@ -119,7 +126,9 @@ const Patients = () => {
     };
 
     const handleDeleteDiagnosis = async () => {
-        const res = await dispatch(deleteDiagnosisAction(selectedDiagnosis?._id));
+        const res = await dispatch(
+            deleteDiagnosisAction(selectedDiagnosis?._id)
+        );
 
         if (!res.success) {
             toast.error(res.message, {
@@ -135,7 +144,7 @@ const Patients = () => {
         }
         setConfirmDeleteDiagnosisModalOpen(false);
         dispatch(getDiagnosisAction());
-        setSelectedCType({})
+        setSelectedCType({});
 
         toast.success(`Diagnosis Deleted Successfully`, {
             position: "top-right",
@@ -161,6 +170,16 @@ const Patients = () => {
         authDetails?._id && dispatch(getContactTypesAction());
         authDetails?._id && dispatch(getDiagnosisAction());
     }, [dispatch, authDetails?._id]);
+
+    const navigate = useNavigate();
+
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" || authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
+    }
 
     return (
         <DashboardWrapper>
@@ -401,7 +420,7 @@ const Patients = () => {
                     isOpen={confirmDeleteModalOpen}
                     closeModal={() => {
                         setConfirmDeleteModalOpen(false);
-                        setSelectedPatient({})
+                        setSelectedPatient({});
                     }}
                     loading={deleting}
                     message="Deleting the patient will erase everything about their
@@ -413,7 +432,7 @@ const Patients = () => {
                     isOpen={confirmDeleteCtypeModalOpen}
                     closeModal={() => {
                         setConfirmDeleteCtypeModalOpen(false);
-                        setSelectedCType({})
+                        setSelectedCType({});
                     }}
                     loading={deletingCType}
                     message="Are you sure you want to delete the Contact Type?"
@@ -424,7 +443,7 @@ const Patients = () => {
                     isOpen={confirmDeleteDiagnosisModalOpen}
                     closeModal={() => {
                         setConfirmDeleteDiagnosisModalOpen(false);
-                        setSelectedDiagnosis({})
+                        setSelectedDiagnosis({});
                     }}
                     loading={deleting_diag}
                     message="Are you sure you want to delete the Diagnosis?"

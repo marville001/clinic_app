@@ -5,7 +5,7 @@ import DoctorPersonalDetails from "../components/doctors/DoctorPersonalDetails";
 import AssignedPatients from "../components/doctors/AssignedPatients";
 import DoctorCalendar from "../components/doctors/DoctorCalendar";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDoctorAction } from "../redux/actions/doctors.action";
 import { FaSpinner } from "react-icons/fa";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
@@ -25,6 +25,16 @@ const ViewDoctor = () => {
         authDetails?._id && dispatch(getAppointmentsAction(id));
         authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id, id]);
+
+    const navigate = useNavigate();
+
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" || authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
+    }
 
     return (
         <DashboardWrapper>

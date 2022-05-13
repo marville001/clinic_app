@@ -81,6 +81,14 @@ const EditPatient = () => {
         authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id, id]);
 
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" || authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
+    }
+
     return (
         <DashboardWrapper>
             <Header title="Dashboard" />
