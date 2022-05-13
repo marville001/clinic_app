@@ -240,11 +240,11 @@ const AddPatient = () => {
                         </div>
 
                         <button
-                            disabled={creating.loading}
+                            disabled={creating}
                             className="mt-6 bg-seagreen py-2 text-sm px-10 text-white rounded-md 
                             flex items-center space-x-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
-                            {creating.loading ? (
+                            {creating ? (
                                 <>
                                     <FaSpinner className="animate-spin" />
                                     <span className="text-sm">Loading...</span>

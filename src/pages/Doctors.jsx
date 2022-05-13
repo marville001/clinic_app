@@ -209,7 +209,7 @@ const Doctors = () => {
                                                 rounded-full hover:opacity-90 hover:scale-[1.02]"
                                                     to={`/doctors/${doctor?._id}/edit`}
                                                 >
-                                                    <FaUserEdit />
+                                                    <FaUserEdit className="text-dimgray" />
                                                 </Link>
 
                                                 <div
