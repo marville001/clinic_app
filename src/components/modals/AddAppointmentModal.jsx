@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    createDepartmentAction,
-    getDepartmentsAction,
-} from "../../redux/actions/departments.action";
+import { useDispatch } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
