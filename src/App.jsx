@@ -15,13 +15,13 @@ import AddDoctor from "./pages/AddDoctor";
 import EditDoctor from "./pages/EditDoctor";
 import AddPatient from "./pages/AddPatient";
 import EditPatient from "./pages/EditPatient";
-import Appointments from "./pages/Appointments";
 import ViewPatient from "./pages/ViewPatient";
 import ForgotPassword from "./pages/ForgotPassword";
 import ViewDoctor from "./pages/ViewDoctor";
 import { useDispatch } from "react-redux";
 import { getUserProfileAction } from "./redux/actions/auth.action";
 import ResetPassword from "./pages/ResetPassword";
+import MyAppointments from "./pages/MyAppointments";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -47,7 +47,7 @@ const App = () => {
                 <Route path="/patients/:id/edit" element={<EditPatient />} />
                 <Route path="/secretaries" element={<Secretaries />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/appointments/:id" element={<Appointments />} />
+                <Route path="/appointments" element={<MyAppointments />} />
             </Routes>
 
             <ToastContainer />

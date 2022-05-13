@@ -14,6 +14,7 @@ import {
 import { toast } from "react-toastify";
 import AddAdminModal from "../components/modals/AddAdminModal";
 import EditAdminModal from "../components/modals/EditAdminModal";
+import { useNavigate } from "react-router-dom";
 
 const Admins = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -29,6 +30,7 @@ const Admins = () => {
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const openEditModal = (admin) => {
         setSelectedAdmin(admin);
@@ -72,6 +74,11 @@ const Admins = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getAdminsAction());
     }, [dispatch, authDetails?._id]);
+
+    if (authDetails?._id && authDetails?.role !== "admin") {
+        navigate("/home");
+        return null;
+    }
 
     return (
         <DashboardWrapper>

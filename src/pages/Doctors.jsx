@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import SearchInput from "../components/SearchInput";
@@ -72,6 +72,18 @@ const Doctors = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getDoctorsAction());
     }, [dispatch, authDetails?._id]);
+
+    const navigate = useNavigate();
+
+    if (
+        authDetails?._id &&
+        (authDetails?.role !== "admin" && authDetails?.role !== "secretary")
+    ) {
+        navigate("/home");
+        return null;
+    }
+
+    // console.log(authDetails);
 
     return (
         <DashboardWrapper>

@@ -9,6 +9,7 @@ import {
     FaRocketchat,
     FaPowerOff,
     FaUserShield,
+    FaLayerGroup,
 } from "react-icons/fa";
 import { NavContext } from "../nav.context";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,65 +59,88 @@ const Sidebar = () => {
                     <FaUncharted />
                     <span>Dashboard</span>
                 </NavLink>
-                <NavLink
-                    to="/doctors"
-                    onClick={closeSidebar}
-                    className={({ isActive }) =>
-                        `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive
+                {
+                    authDetails?.role === "doctor" &&
+                
+                    <NavLink
+                        to="/appointments"
+                        onClick={closeSidebar}
+                        className={({ isActive }) =>
+                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${isActive
                                 ? "bg-white text-slate-900"
                                 : "text-white opacity-70 hover:bg-slate-700 "
-                        }`
-                    }
-                >
-                    <FaHospitalUser />
-                    <span>Doctors</span>
-                </NavLink>
-                <NavLink
-                    onClick={closeSidebar}
-                    to="/patients"
-                    className={({ isActive }) =>
-                        `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive
-                                ? "bg-white text-slate-900"
-                                : "text-white opacity-70 hover:bg-slate-700 "
-                        }`
-                    }
-                >
-                    <FaUserInjured />
-                    <span>Patients</span>
-                </NavLink>
-
-                <NavLink
-                    onClick={closeSidebar}
-                    to="/secretaries"
-                    className={({ isActive }) =>
-                        `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive
-                                ? "bg-white text-slate-900"
-                                : "text-white opacity-70 hover:bg-slate-700 "
-                        }`
-                    }
-                >
-                    <FaUserShield />
-                    <span>Secretaries</span>
-                </NavLink>
-
-                <NavLink
-                    onClick={closeSidebar}
-                    to="/admins"
-                    className={({ isActive }) =>
-                        `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                            isActive
-                                ? "bg-white text-slate-900"
-                                : "text-white opacity-70 hover:bg-slate-700 "
-                        }`
-                    }
-                >
-                    <FaUserSecret />
-                    <span>Admins</span>
-                </NavLink>
-
+                            }`
+                        }
+                    >
+                        <FaLayerGroup />
+                        <span>My Appointments</span>
+                    </NavLink>
+                }
+                {(authDetails?.role === "admin" ||
+                    authDetails?.role === "secretary" ||
+                    (authDetails?.role === "doctor" &&
+                        authDetails?.isAdmin)) && (
+                    <>
+                        <NavLink
+                            to="/doctors"
+                            onClick={closeSidebar}
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaHospitalUser />
+                            <span>Doctors</span>
+                        </NavLink>
+                        <NavLink
+                            onClick={closeSidebar}
+                            to="/patients"
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaUserInjured />
+                            <span>Patients</span>
+                        </NavLink>
+                        <NavLink
+                            onClick={closeSidebar}
+                            to="/secretaries"
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaUserShield />
+                            <span>Secretaries</span>
+                        </NavLink>
+                    </>
+                )}
+                {authDetails?.role === "admin" && (
+                    <NavLink
+                        onClick={closeSidebar}
+                        to="/admins"
+                        className={({ isActive }) =>
+                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                isActive
+                                    ? "bg-white text-slate-900"
+                                    : "text-white opacity-70 hover:bg-slate-700 "
+                            }`
+                        }
+                    >
+                        <FaUserSecret />
+                        <span>Admins</span>
+                    </NavLink>
+                )}
                 <NavLink
                     onClick={closeSidebar}
                     to="/messages"

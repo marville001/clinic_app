@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
     FaBed,
     FaCheckSquare,
@@ -6,6 +6,7 @@ import {
     FaUserNurse,
     FaUserShield,
 } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PatientsByDepartmentChart from "../components/charts/PatientsByDepartmentChart";
 import PatientsVisitByGenderChart from "../components/charts/PatientsVisitByGenderChart";
@@ -13,33 +14,75 @@ import CalendarGrid from "../components/common/CalendarGrid";
 import DashCountCard from "../components/common/DashCountCard";
 import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
+import { getAdminsAction } from "../redux/actions/admins.action";
+import { getAppointmentsAction } from "../redux/actions/appointments.action";
+import { getDoctorsAction } from "../redux/actions/doctors.action";
+import { getPatientsAction } from "../redux/actions/patients.action";
+import { getSecretariesAction } from "../redux/actions/secretaries.action";
+import {  parseAppointments } from "../utils/calendar";
 
 const AdminHome = () => {
+    const { authDetails } = useSelector((state) => state.authState);
+    const { patients } = useSelector((state) => state.patientsState);
+    const { doctors } = useSelector((state) => state.doctorsState);
+    const { secretaries } = useSelector((state) => state.secretariesState);
+    const { admins } = useSelector((state) => state.adminsState);
+    const { appointments } = useSelector((state) => state.appointmentsState);
+
+    const [appoints, setAppoints] = useState([]);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (authDetails?._id) {
+            dispatch(getDoctorsAction());
+            dispatch(getPatientsAction());
+            dispatch(getSecretariesAction());
+            dispatch(getAdminsAction());
+        }
+    }, [dispatch, authDetails?._id]);
+
+    useEffect(() => {
+        if (authDetails?._id && authDetails?.role === "doctor") {
+            dispatch(getAppointmentsAction(authDetails?._id));
+        }
+    }, [dispatch, authDetails]);
+
+    useEffect(() => {
+        setAppoints(parseAppointments(appointments));
+    }, [appointments]);
+
     return (
         <DashboardWrapper>
             <Header title="Dashboard" />
             <div className="p-4">
                 <h4 className="text-lg">Dashboard</h4>
                 <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5 my-5">
-                    <DashCountCard icon={FaBed} count={444} text="Patients" />
+                    <DashCountCard
+                        icon={FaBed}
+                        count={patients?.length}
+                        text="Patients"
+                    />
                     <DashCountCard
                         icon={FaUserNurse}
-                        count={20}
+                        count={doctors?.length}
                         text="Doctors"
                     />
                     <DashCountCard
                         icon={FaUserFriends}
-                        count={40}
+                        count={secretaries?.length}
                         text="Secretaries"
                     />
-                    <DashCountCard
-                        icon={FaCheckSquare}
-                        count={125}
-                        text="Appointments"
-                    />
+                    {authDetails?.role === "doctor" && (
+                        <DashCountCard
+                            icon={FaCheckSquare}
+                            count={appointments?.length}
+                            text="Appointments"
+                        />
+                    )}
                     <DashCountCard
                         icon={FaUserShield}
-                        count={5}
+                        count={admins?.length}
                         text="Admins"
                     />
                 </div>
@@ -61,7 +104,7 @@ const AdminHome = () => {
                                 <option value="2019">2019</option>
                             </select>
                         </div>
-                        <PatientsVisitByGenderChart />
+                        <PatientsVisitByGenderChart patients={patients} />
                     </div>
 
                     <div className="p-4 bg-white rounded-lg _shadow">
@@ -114,15 +157,12 @@ const AdminHome = () => {
                 </div>
 
                 {/* Calendar */}
-                <div className="w-full my-8 bg-white p-5 _shadow">
-                    <h2 className="text-xl font-bold mb-6">
-                        My Calendar{" "}
-                        <span className="text-sm font-light">
-                            Only if admin is a doctor
-                        </span>{" "}
-                    </h2>
-                    <CalendarGrid />
-                </div>
+                {authDetails?.role === "doctor" && (
+                    <div className="w-full my-8 bg-white p-5 _shadow">
+                        <h2 className="text-xl font-bold mb-6">My Calendar</h2>
+                        <CalendarGrid appointments={appoints} />
+                    </div>
+                )}
             </div>
         </DashboardWrapper>
     );

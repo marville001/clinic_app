@@ -7,6 +7,7 @@ import secretariesReducer from "./secretaries.reducer";
 import diagnosisReducer from "./diagnosis.reducer";
 import patientsReducer from "./patients.reducer";
 import messagesReducer from "./messages.reducer";
+import appointmentsReducer from "./appointments.reducer";
 
 const rootReducer = combineReducers({
     authState: authReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     diagnosisState: diagnosisReducer,
     patientsState: patientsReducer,
     messagesState: messagesReducer,
+    appointmentsState: appointmentsReducer,
 });
 
 export default rootReducer;

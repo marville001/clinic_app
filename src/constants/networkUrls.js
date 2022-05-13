@@ -71,3 +71,8 @@ export const getChatMessagesUrl = (id) => `${API_BASE}messages/${id}`;
 export const sendMessageUrl = `${API_BASE}messages`;
 export const searchChatUserUrl = (key, query) =>
   `${API_BASE}${key}/search?search=${query}`;
+
+
+// Appointment
+export const getAppointmentsUrl = (id)=> `${API_BASE}appointments/${id}`;
+export const createAppointmentUrl = `${API_BASE}appointments`;

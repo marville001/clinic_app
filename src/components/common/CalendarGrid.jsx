@@ -10,29 +10,23 @@ export default class CalendarGrid extends React.Component {
     constructor() {
         super();
         this.state = {
-            events: [
-                {
-                    id: "434",
-                    title: "All-day event",
-                    start: this.getTodayStr(),
-                },
-                {
-                    id: "535",
-                    title: "Timed event",
-                    start: this.getTodayStr() + "T12:00:00",
-                },
-            ],
+            events: [],
         };
     }
 
-    getTodayStr = () => {
-        return new Date().toISOString().replace(/T.*$/, "");
+    getTodayStr = (date) => {
+        return new Date(date).toISOString().replace(/T.*$/, "");
+    };
+
+    getTimeStr = (time) => {
+        return "T" + time.toString() + ":00";
     };
 
     handleDateClick = (arg) => {
-        // bind with an arrow function
         alert(arg.dateStr);
     };
+
+
     render() {
         return (
             <FullCalendar
@@ -48,7 +42,7 @@ export default class CalendarGrid extends React.Component {
                 selectMirror={true}
                 dayMaxEvents={true}
                 select={this.handleDateSelect}
-                events={this.state.events}
+                events={this.props.appointments}
                 eventContent={renderEventContent}
                 eventClick={this.handleEventClick}
                 eventAdd={this.handleEventAdd}
@@ -59,33 +53,35 @@ export default class CalendarGrid extends React.Component {
     }
 
     handleDateSelect = (selectInfo) => {
-        let calendarApi = selectInfo.view.calendar;
-        let title = prompt("Please enter a new title for your event");
+        console.log(selectInfo);
+        // let calendarApi = selectInfo.view.calendar;
+        // let title = prompt("Please enter a new title for your event");
 
-        calendarApi.unselect(); // clear date selection
+        // calendarApi.unselect(); // clear date selection
 
-        if (title) {
-            calendarApi.addEvent(
-                {
-                    // will render immediately. will call handleEventAdd
-                    title,
-                    start: selectInfo.startStr,
-                    end: selectInfo.endStr,
-                    allDay: selectInfo.allDay,
-                },
-                true
-            ); // temporary=true, will get overwritten when reducer gives new events
-        }
+        // if (title) {
+        //     calendarApi.addEvent(
+        //         {
+        //             // will render immediately. will call handleEventAdd
+        //             title,
+        //             start: selectInfo.startStr,
+        //             end: selectInfo.endStr,
+        //             allDay: selectInfo.allDay,
+        //         },
+        //         true
+        //     ); // temporary=true, will get overwritten when reducer gives new events
+        // }
     };
 
     handleEventClick = (clickInfo) => {
-        if (
-            window.confirm(
-                `Are you sure you want to delete the event '${clickInfo.event.title}'`
-            )
-        ) {
-            clickInfo.event.remove(); // will render immediately. will call handleEventRemove
-        }
+        console.log(clickInfo);
+        // if (
+        //     window.confirm(
+        //         `Are you sure you want to delete the event '${clickInfo.event.title}'`
+        //     )
+        // ) {
+        //     clickInfo.event.remove(); // will render immediately. will call handleEventRemove
+        // }
     };
 
     handleEventAdd = (addInfo) => {
