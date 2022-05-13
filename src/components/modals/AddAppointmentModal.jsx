@@ -9,16 +9,19 @@ import {
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
-import {useParams} from "react-router-dom"
+import { useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
-import { createAppointmentAction } from "../../redux/actions/appointments.action";
+import {
+    createAppointmentAction,
+    getAppointmentsAction,
+} from "../../redux/actions/appointments.action";
 
 const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
-    const { creating } = useSelector((state) => state.departmentsState);
     const [error, setError] = useState("");
 
     const [allDay, setAllDay] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -30,7 +33,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
     } = useForm();
 
     const dispatch = useDispatch();
-    const {id} = useParams()
+    const { id } = useParams();
 
     const handleCloseModal = () => {
         closeModal();
@@ -40,16 +43,18 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
 
     const handleAddDepartment = async (data) => {
         setError("");
+        setLoading(true);
         const res = await dispatch(
-            createAppointmentAction({ ...data, allDay, doctorId:  id})
+            createAppointmentAction({ ...data, allDay, doctorId: id })
         );
+        setLoading(false);
 
         if (!res.success) {
             setError(res.message);
             return;
         }
 
-        dispatch(getDepartmentsAction());
+        dispatch(getAppointmentsAction(id));
         toast.success(`Appointment Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
@@ -166,14 +171,14 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
                         Cancel
                     </button>
                     <button
-                        disabled={creating}
+                        disabled={loading}
                         type="submit"
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {creating ? (
+                        {loading ? (
                             <>
                                 <FaSpinner className="animate-spin mr-4" />{" "}
                                 <span className="capitalize">Loading...</span>

@@ -10,32 +10,24 @@ export default class CalendarGrid extends React.Component {
     constructor() {
         super();
         this.state = {
-            events: [
-                {
-                    id: "434",
-                    title: "All-day event",
-                    start: this.getTodayStr() + "T22:30:00",
-                    end: this.getTodayStr() + "T23:35:00"
-                },
-                {
-                    id: "535",
-                    title: "Timed event",
-                    start: this.getTodayStr() + "T12:00:00",
-                },
-            ],
+            events: [],
         };
     }
 
-    getTodayStr = () => {
-        return new Date().toISOString().replace(/T.*$/, "");
+    getTodayStr = (date) => {
+        return new Date(date).toISOString().replace(/T.*$/, "");
+    };
+
+    getTimeStr = (time) => {
+        return "T" + time.toString() + ":00";
     };
 
     handleDateClick = (arg) => {
-        // bind with an arrow function
         alert(arg.dateStr);
     };
+
+
     render() {
-        console.log(this.getTodayStr());
         return (
             <FullCalendar
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -50,7 +42,7 @@ export default class CalendarGrid extends React.Component {
                 selectMirror={true}
                 dayMaxEvents={true}
                 select={this.handleDateSelect}
-                events={this.state.events}
+                events={this.props.appointments}
                 eventContent={renderEventContent}
                 eventClick={this.handleEventClick}
                 eventAdd={this.handleEventAdd}
