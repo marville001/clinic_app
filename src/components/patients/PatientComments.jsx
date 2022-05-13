@@ -2,22 +2,24 @@ import React, { useEffect, useState } from "react";
 import { HiCalendar } from "react-icons/hi";
 import { Tab } from "@headlessui/react";
 import { useSelector } from "react-redux";
-import { FaComment } from "react-icons/fa";
+import { FaComment, FaUser, FaSpinner, FaTrash } from "react-icons/fa";
 import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 
 const PatientComments = () => {
   const { commentType, patient } = useSelector((state) => state.patientsState);
   const [addCommentModalOpen, setAddCommentModalOpen] = useState(false);
-  const [selectedType, setSelectedType] = useState({});
+  const [selectedType, setSelectedType] = useState(commentType[0]);
   const [filteredComments, setFilteredComments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState({});
+  const openDeleteModal = (comment) => {
+    setSelectedComment(comment);
+    setConfirmDeleteModalOpen(true);
+};
 
   useEffect(() => {
-    if (commentType.length > 0) {
-      setSelectedType(commentType[0]);
-    }
-  }, [commentType]);
-
-  useEffect(() => {
+    setLoading(true);
     if (selectedType?._id) {
       setFilteredComments(
         patient?.comment?.filter(
@@ -25,8 +27,8 @@ const PatientComments = () => {
         )
       );
     }
+    setLoading(false);
   }, [selectedType?._id, patient?.comment]);
-  console.log(selectedType, filteredComments);
   return (
     <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
       <div className="flex justify-between items-center mb-4">
@@ -51,17 +53,20 @@ const PatientComments = () => {
                 key={category.id}
                 className={({ selected }) =>
                   `
-                  'w-full py-1.5 text-md px-2 font-medium leading-5 text-blue-700',
+                  'w-full py-1.5 text-md px-0 font-medium leading-5 text-blue-700',
                   'focus:outline-none ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:ring-2',
                   ${
                     selected
-                      ? "border-b-2 border-steelblue bg-flowerblue bg-opacity-25 rounded-t-md text-white px-7"
+                      ? "border-b-2 border-steelblue bg-flowerblue bg-opacity-25 rounded-t-md text-white px-0"
                       : "text-slate-800 hover:bg-white/[0.12] hover:text-slate-900"
                   }
                 `
                 }
               >
-                <div onClick={() => setSelectedType(category)} className="cursor-pointer">
+                <div
+                  onClick={() => setSelectedType(category)}
+                  className="cursor-pointer w-full h-full contain p-2 px-4 "
+                >
                   {category.name}
                 </div>
               </Tab>
@@ -69,43 +74,37 @@ const PatientComments = () => {
           </Tab.List>
         </Tab.Group>
       </div>
-      <p className="text-sm my-2">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga
-        distinctio vero non libero nisi in voluptatibus atque, ut alias ipsum?
-      </p>
-
-      <div className="flex w-3/4 my-5">
-        <table className="w-full">
-          <thead className="text-left">
-            <tr className="border-b">
-              <td className="py-2 font-bold text-sm">Full Name</td>
-              <td className="py-2 text-sm">Martin Mwangi</td>
-            </tr>
-            <tr className="border-b">
-              <td className="py-2 text-sm font-bold">Mobile</td>
-              <td className="py-2  text-sm">(+435) 06355727453</td>
-            </tr>
-
-            <tr className="border-b">
-              <td className="py-2 text-sm font-bold">Email</td>
-              <td className="py-2  text-sm">mwjdjhdjjtyFG@hh.com</td>
-            </tr>
-
-            <tr className="border-b">
-              <td className="py-1 text-sm font-bold">Location</td>
-              <td className="py-1  text-sm">New York, United States</td>
-            </tr>
-          </thead>
-        </table>
-      </div>
-
-      <div className="flex flex-col text-sm space-y-2">
-        <div className="flex items-center space-x-2 text-sm">
-          <HiCalendar className="text-flowerblue" />
-          <span>Last Visit</span>
+      {loading ? (
+        <div className="w-full flex pt-20 justify-center">
+          <FaSpinner className="text-3xl animate-spin" />
         </div>
-        <h4 className="text-md opacity-80">08 Sept, 2019</h4>
-      </div>
+      ) : (
+        <div className="text-sm my-2">
+          {filteredComments?.map((comment) => (
+            <div className="flex justify-between">
+            <div className="flex items-center space-x-3 p-2">
+              <div className="p-2 bg-lightgray rounded-full">
+                <FaUser className="text-lg text-dimgray" />
+              </div>
+              <span className=" flex flex-col text-sm">
+                <p className="font-bold">{comment?.senderRole}</p>
+                <p>{comment.comment}</p>
+              </span>{" "}
+              </div>
+              <div
+                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
+                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                    onClick={() => {
+                                        openDeleteModal(comment);
+                                    }}
+                                >
+                                    <FaTrash />
+                                </div>            </div>
+            
+          ))}
+        </div>
+      )}
+
       <AddPatientCommentModal
         isOpen={addCommentModalOpen}
         closeModal={() => {

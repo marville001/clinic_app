@@ -17,7 +17,6 @@ const ViewPatient = () => {
     const { loading: loading_pat, patient } = useSelector(
         (state) => state.patientsState
     );
-    console.log(patient)
     const { authDetails } = useSelector((state) => state.authState);
 
     const dispatch = useDispatch();

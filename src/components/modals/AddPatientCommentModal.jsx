@@ -7,205 +7,145 @@ import Modal from "../common/Modal";
 import SelectField from "../common/SelectField";
 
 import { toast } from "react-toastify";
-import { createContactAction } from "../../redux/actions/patients.action";
+import {
+  createCommentAction,
+  createContactAction,
+} from "../../redux/actions/patients.action";
 import { useParams } from "react-router-dom";
 
-
 const AddPatientCommentModal = ({
-    isOpen = false,
-    closeModal = () => {},
-    loading,
+  isOpen = false,
+  closeModal = () => {},
+  loading,
 }) => {
-    const { contactType, creatingContact } = useSelector(
-        (state) => state.patientsState
+  const { authDetails } = useSelector(
+    (state) => state.authState
+  );
+  const { commentType, creatingComment } = useSelector(
+    (state) => state.patientsState
+  );
+
+
+  const [error, setError] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    clearErrors,
+  } = useForm();
+
+  const dispatch = useDispatch();
+
+  const handleCloseModal = () => {
+    reset();
+    clearErrors();
+    closeModal();
+    setError("");
+  };
+
+  const { id } = useParams();
+
+  const handleAddComment = async (data) => {
+    setError("");
+
+    const { type, comment, ...rest } = data;
+
+    const res = await dispatch(
+      createCommentAction(
+        {
+          ...rest,
+          comment,
+          commenttype:type,
+          senderRole: authDetails.role,
+          senderId: authDetails._id
+        },
+        id
+      )
     );
 
-    const [error, setError] = useState("");
+    if (!res.success) {
+      setError(res.message);
+      return;
+    }
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset,
-        clearErrors,
-    } = useForm();
+    toast.success(`Comment Added Successfully`, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+    handleCloseModal();
+  };
 
-    const dispatch = useDispatch();
+  return (
+    <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
+      <form
+        onSubmit={handleSubmit(handleAddComment)}
+        className="bg-white p-5 _shadow rounded-md"
+      >
+        <h4 className="text-center text-2xl text-slate-900 mb-6">
+          Add Comment
+        </h4>
 
-    const handleCloseModal = () => {
-        reset();
-        clearErrors();
-        closeModal();
-        setError("");
-    };
+        {error && (
+          <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
+            {error}
+          </div>
+        )}
 
-    const {id} = useParams()
+        <div className="flex  flex-col gap-5 mt-4">
+          <SelectField
+            errors={errors}
+            name="type"
+            label="Comment Type"
+            register={register}
+            required={true}
+            options={commentType.map((type) => {
+              return {
+                value: type._id,
+                label: type.name,
+              };
+            })}
+          />
+          <InputField
+            errors={errors}
+            name="comment"
+            label="Comment"
+            register={register}
+            required={true}
+            type="text"
+          />
+        </div>
 
-    const handleAddContact = async (data) => {
-        setError("");
-
-        const { timeend, timestart, type, phone, ...rest } = data;
-
-        const availability = `${timestart} - ${timeend}`;
-        const phoneArr = phone.split(",");
-
-        const res = await dispatch(
-            createContactAction({
-                ...rest,
-                availability,
-                phone: phoneArr,
-                contacttype: type,
-            }, id)
-        );
-
-        if (!res.success) {
-            setError(res.message);
-            return;
-        }
-
-        toast.success(`Contact Added Successfully`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-        });
-        handleCloseModal();
-    };
-
-    return (
-        <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
-            <form
-                onSubmit={handleSubmit(handleAddContact)}
-                className="bg-white p-5 _shadow rounded-md"
-            >
-                <h4 className="text-center text-2xl text-slate-900 mb-6">
-                    Add Contact
-                </h4>
-
-                {error && (
-                    <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
-                        {error}
-                    </div>
-                )}
-
-                <div className="flex gap-5 mt-4">
-                    <InputField
-                        errors={errors}
-                        name="firstname"
-                        label="Firstname"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                    <InputField
-                        errors={errors}
-                        name="lastname"
-                        label="Lastame"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                </div>
-
-                <div className="flex gap-5 mt-4">
-                    <SelectField
-                        errors={errors}
-                        name="type"
-                        label="Contact Type"
-                        register={register}
-                        required={true}
-                        options={contactType.map((type) => {
-                            return {
-                                value: type._id,
-                                label: type.name,
-                            };
-                        })}
-                    />
-
-                    <InputField
-                        errors={errors}
-                        name="email"
-                        label="Email"
-                        register={register}
-                        required={true}
-                        type="email"
-                    />
-                </div>
-
-                <div className="flex gap-5 mt-4">
-                    <div className="flex flex-col flex-1">
-                        <label className="text-md mb-1">Availability</label>
-                        <div className="flex gap-1">
-                            <InputField
-                                errors={errors}
-                                name="timestart"
-                                register={register}
-                                required={true}
-                                type="time"
-                                shortError
-                            />
-                            <span className="block mt-4">-</span>
-                            <InputField
-                                errors={errors}
-                                name="timeend"
-                                register={register}
-                                required={true}
-                                type="time"
-                                shortError
-                            />
-                        </div>
-                    </div>
-                    <InputField
-                        errors={errors}
-                        name="address"
-                        label="Address"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                </div>
-
-                <div className="flex gap-5 mt-4">
-                    <InputField
-                        errors={errors}
-                        name="phone"
-                        label="Phone"
-                        subLabel="separate with comma"
-                        register={register}
-                        required={true}
-                        type="text"
-                    />
-                </div>
-
-                <div className="flex justify-between items-center mt-8">
-                    <button
-                        type="button"
-                        onClick={handleCloseModal}
-                        className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
-                    >
-                        No
-                    </button>
-                    <button
-                        disabled={creatingContact}
-                        className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
+        <div className="flex justify-between items-center mt-8">
+          <button
+            type="button"
+            onClick={handleCloseModal}
+            className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+          >
+            No
+          </button>
+          <button
+            disabled={creatingComment}
+            className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
-                    >
-                        {creatingContact ? (
-                            <FaSpinner className="animate-spin mr-4" />
-                        ) : (
-                            "Add Contact"
-                        )}
-                    </button>
-                </div>
-            </form>
-        </Modal>
-    );
+          >
+            {creatingComment ? (
+              <FaSpinner className="animate-spin mr-4" />
+            ) : (
+              "Add Comment"
+            )}
+          </button>
+        </div>
+      </form>
+    </Modal>
+  );
 };
 
-
-
-export default AddPatientCommentModal
+export default AddPatientCommentModal;
