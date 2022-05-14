@@ -30,6 +30,10 @@ const Doctors = () => {
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [deleteDoctor, setDeleteDoctor] = useState({});
 
+    // const [page, setPage] = useState(0)
+    // const [pageSize, setPageSize] = useState(0)
+    const [search, setSearch] = useState("");
+
     const dispatch = useDispatch();
 
     const openDeleteModal = (doctor) => {
@@ -65,6 +69,17 @@ const Doctors = () => {
         });
     };
 
+    const handleSearch = async (e) => {
+        e.preventDefault();
+
+        if (search === "") {
+            dispatch(getDoctorsAction());
+            return;
+        }
+
+        dispatch(getDoctorsAction({ search }));
+    };
+
     useEffect(() => {
         authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id]);
@@ -77,7 +92,8 @@ const Doctors = () => {
 
     if (
         authDetails?._id &&
-        (authDetails?.role !== "admin" && authDetails?.role !== "secretary")
+        authDetails?.role !== "admin" &&
+        authDetails?.role !== "secretary"
     ) {
         navigate("/home");
         return null;
@@ -124,7 +140,7 @@ const Doctors = () => {
                 </div>
                 <div>
                     <div className="flex justify-between items-center">
-                        <SearchInput />
+                        <SearchInput value={search} onChange={setSearch} onSubmit={handleSearch} />
                         <Link
                             to="/doctors/new"
                             className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
@@ -232,10 +248,10 @@ const Doctors = () => {
                             )}
                         </div>
 
-                        <div className="flex my-4 justify-between">
+                        {/* <div className="flex my-4 justify-between">
                             <p>Showing 1-10 out of 50 </p>
                             <span>Pagination</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 

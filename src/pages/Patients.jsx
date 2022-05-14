@@ -410,10 +410,10 @@ const Patients = () => {
                         )}
                     </div>
 
-                    <div className="flex my-4 justify-between">
+                    {/* <div className="flex my-4 justify-between">
                         <p>Showing 1-10 out of 50 </p>
                         <span>Pagination</span>
-                    </div>
+                    </div> */}
                 </div>
 
                 <ConfirmDeleteModal
