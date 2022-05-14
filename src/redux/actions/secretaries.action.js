@@ -46,10 +46,10 @@ export const getSecretaryAction = (id) => async (dispatch) => {
     }
 };
 
-export const getSecretariesAction = () => async (dispatch) => {
+export const getSecretariesAction = (params) => async (dispatch) => {
     dispatch({ type: GET_SECRETARIES.REQUEST });
     try {
-        const { data } = await getApi(getSecretariesUrl);
+        const { data } = await getApi(getSecretariesUrl({ search: params?.search ?? "" }));
         dispatch({
             type: GET_SECRETARIES.SUCCESS,
             payload: data.secretaries,

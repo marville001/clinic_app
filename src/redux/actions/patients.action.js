@@ -70,10 +70,10 @@ export const getPatientAction = (id) => async (dispatch) => {
   }
 };
 
-export const getPatientsAction = () => async (dispatch) => {
+export const getPatientsAction = (params) => async (dispatch) => {
   dispatch({ type: GET_PATIENTS.REQUEST });
   try {
-    const { data } = await getApi(getPatientsUrl);
+    const { data } = await getApi(getPatientsUrl({ search: params?.search ?? "" }));
     dispatch({
       type: GET_PATIENTS.SUCCESS,
       payload: data.patients,

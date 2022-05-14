@@ -46,10 +46,10 @@ export const getAdminAction = (id) => async (dispatch) => {
     }
 };
 
-export const getAdminsAction = () => async (dispatch) => {
+export const getAdminsAction = (params) => async (dispatch) => {
     dispatch({ type: GET_ADMINS.REQUEST });
     try {
-        const { data } = await getApi(getAdminsUrl)
+        const { data } = await getApi(getAdminsUrl({ search: params?.search ?? "" }))
         dispatch({
             type: GET_ADMINS.SUCCESS,
             payload: data.admins,

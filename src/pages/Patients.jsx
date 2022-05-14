@@ -50,6 +50,9 @@ const Patients = () => {
     const [selectedCType, setSelectedCType] = useState({});
     const [selectedDiagnosis, setSelectedDiagnosis] = useState({});
 
+    // const [page, setPage] = useState(0)
+    // const [pageSize, setPageSize] = useState(0)
+
     const dispatch = useDispatch();
 
     const openDeleteModal = (patient) => {
@@ -162,6 +165,17 @@ const Patients = () => {
         if (type === "inactive") return "Inactive";
 
         return "Not Subscribed";
+    };
+
+    const handleSearch = async (e, search) => {
+        e.preventDefault();
+
+        if (search === "") {
+            dispatch(getPatientsAction());
+            return;
+        }
+
+        dispatch(getPatientsAction({ search }));
     };
 
     useEffect(() => {
@@ -302,7 +316,7 @@ const Patients = () => {
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <SearchInput />
+                    <SearchInput onSubmit={handleSearch} />
                     <Link
                         to="/patients/new"
                         className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"

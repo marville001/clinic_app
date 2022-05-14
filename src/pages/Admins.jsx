@@ -29,6 +29,9 @@ const Admins = () => {
     const [selectedAdmin, setSelectedAdmin] = useState({});
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
+    // const [page, setPage] = useState(0)
+    // const [pageSize, setPageSize] = useState(0);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -71,6 +74,17 @@ const Admins = () => {
         });
     };
 
+    const handleSearch = async (e, search) => {
+        e.preventDefault();
+
+        if (search === "") {
+            dispatch(getAdminsAction());
+            return;
+        }
+
+        dispatch(getAdminsAction({ search }));
+    };
+
     useEffect(() => {
         authDetails?._id && dispatch(getAdminsAction());
     }, [dispatch, authDetails?._id]);
@@ -85,7 +99,7 @@ const Admins = () => {
             <Header title="Admins List" />
             <div className="p-4 ">
                 <div className="flex justify-between items-center">
-                    <SearchInput />
+                    <SearchInput onSubmit={handleSearch}  />
                     <div
                         onClick={() => setAddModalOpen(true)}
                         className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"

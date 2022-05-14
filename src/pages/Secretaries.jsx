@@ -32,6 +32,9 @@ const Secretaries = () => {
 
     const [selectedSecretary, setSelectedSecretary] = useState({});
 
+    // const [page, setPage] = useState(0)
+    // const [pageSize, setPageSize] = useState(0)
+
     const dispatch = useDispatch();
 
     const openEditModal = (secretary) => {
@@ -47,6 +50,17 @@ const Secretaries = () => {
     const openDeleteModal = (secretary) => {
         setSelectedSecretary(secretary);
         setConfirmDeleteModalOpen(true);
+    };
+
+    const handleSearch = async (e, search) => {
+        e.preventDefault();
+
+        if (search === "") {
+            dispatch(getSecretariesAction());
+            return;
+        }
+
+        dispatch(getSecretariesAction({ search }));
     };
 
     const handleDeleteSecretary = async () => {
@@ -99,7 +113,7 @@ const Secretaries = () => {
             <Header title="Secretaries" />
             <div className="p-4 ">
                 <div className="flex justify-between items-center">
-                    <SearchInput />
+                    <SearchInput onSubmit={handleSearch} />
                     <div
                         onClick={() => setAddModalOpen(true)}
                         className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"

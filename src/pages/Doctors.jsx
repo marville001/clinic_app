@@ -32,7 +32,6 @@ const Doctors = () => {
 
     // const [page, setPage] = useState(0)
     // const [pageSize, setPageSize] = useState(0)
-    const [search, setSearch] = useState("");
 
     const dispatch = useDispatch();
 
@@ -69,7 +68,7 @@ const Doctors = () => {
         });
     };
 
-    const handleSearch = async (e) => {
+    const handleSearch = async (e, search) => {
         e.preventDefault();
 
         if (search === "") {
@@ -140,7 +139,7 @@ const Doctors = () => {
                 </div>
                 <div>
                     <div className="flex justify-between items-center">
-                        <SearchInput value={search} onChange={setSearch} onSubmit={handleSearch} />
+                        <SearchInput onSubmit={handleSearch} />
                         <Link
                             to="/doctors/new"
                             className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
