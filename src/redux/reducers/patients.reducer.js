@@ -2,6 +2,7 @@ import {
   ADD_PATIENT_FILE,
   ASSIGN_PATIENT_DOCTOR,
   CREATE_CONTACT,
+  CREATE_COMMENT,
   CREATE_CONTACT_TYPE,
   CREATE_PATIENT,
   DELETE_CONTACT_TYPE,
@@ -12,7 +13,6 @@ import {
   UN_ASSIGN_PATIENT_DOCTOR,
   UPDATE_PATIENT,
   GET_COMMENT_TYPE,
-  
 } from "../types/patients.types";
 
 const initialState = {
@@ -32,7 +32,6 @@ const patientsReducer = (state = initialState, action) => {
     case GET_PATIENTS.REQUEST:
       return { ...state, loading: true, error: "" };
     case GET_PATIENTS.SUCCESS:
-      console.log(action.payload)
       return {
         ...state,
         patients: action.payload,
@@ -163,11 +162,24 @@ const patientsReducer = (state = initialState, action) => {
     case DELETE_CONTACT_TYPE.FAIL:
       return { ...state, deletingCType: false };
     case GET_COMMENT_TYPE.REQUEST:
-      return { ...state, loading: true, error: "" };
+      return { ...state, loadingCType: true, error: "" };
     case GET_COMMENT_TYPE.SUCCESS:
-      return { ...state, commentType: action.payload, loading: false };
+      return { ...state, commentType: action.payload, loadingCType: false };
     case GET_COMMENT_TYPE.FAIL:
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loadingCType: false, error: action.payload };
+    case CREATE_COMMENT.REQUEST:
+      return { ...state, creatingCType: true };
+    case CREATE_COMMENT.SUCCESS:
+      return {
+        ...state,
+        patient: {
+          ...state.patient,
+          comment: [action.payload, ...state.patient.comment],
+        },
+        creatingComment: false,
+      };
+    case CREATE_CONTACT.FAIL:
+      return { ...state, creatingCType: false };
 
     default:
       return { ...state };
