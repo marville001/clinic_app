@@ -193,15 +193,15 @@ const Doctors = () => {
                                                         doctor?.department
                                                 )?.name || "-"}
                                             </td>
-                                            <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
+                                            <td className="px-6  py-4 text-right  flex justify-end items-center space-x-1">
                                                 <Link
                                                     className="
-                                                flex items-center space-x-1 
+                                                flex items-center space-x-1 bg-seagreen p-2 text-white
                                                 text-xs rounded-full hover:opacity-90 
                                                 hover:scale-[1.02] "
                                                     to={`/doctors/${doctor?._id}`}
                                                 >
-                                                    <FaEye className="text-seagreen text-xl" />
+                                                    <FaEye className="" />
                                                 </Link>
 
                                                 <Link
@@ -209,7 +209,7 @@ const Doctors = () => {
                                                 rounded-full hover:opacity-90 hover:scale-[1.02]"
                                                     to={`/doctors/${doctor?._id}/edit`}
                                                 >
-                                                    <FaUserEdit />
+                                                    <FaUserEdit className="" />
                                                 </Link>
 
                                                 <div
