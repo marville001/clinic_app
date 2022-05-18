@@ -6,7 +6,7 @@ import { FaComment, FaUser, FaSpinner, FaTrash } from "react-icons/fa";
 import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 
 const PatientComments = () => {
-    const { commentType, patient } = useSelector(
+    const { commentType, patient , comments} = useSelector(
         (state) => state.patientsState
     );
     const [addCommentModalOpen, setAddCommentModalOpen] = useState(false);
@@ -25,13 +25,13 @@ const PatientComments = () => {
         setLoading(true);
         if (selectedType?._id) {
             setFilteredComments(
-                patient?.comment?.filter(
+                comments?.filter(
                     (comment) => comment?.commenttype === selectedType?._id
                 )
             );
         }
         setLoading(false);
-    }, [selectedType?._id, patient?.comment]);
+    }, [selectedType?._id, comments]);
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
             <div className="flex justify-between items-center mb-4">
@@ -91,7 +91,8 @@ const PatientComments = () => {
                                 </div>
                                 <span className=" flex flex-col text-sm">
                                     <p className="font-bold">
-                                        {comment?.senderRole}
+                                        {comment?.senderId.firstname +' '+
+                                        comment?.senderId.lastname}
                                     </p>
                                     <p>{comment.comment}</p>
                                 </span>{" "}

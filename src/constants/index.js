@@ -44,6 +44,7 @@ export {
   deleteContactTypeUrl,
   getContactTypesUrl,
   getCommentTypesUrl,
+  getCommentsUrl,
   createContactUrl,
   createCommentUrl,
   addPatientFileUrl,

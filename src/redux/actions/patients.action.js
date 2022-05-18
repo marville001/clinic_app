@@ -9,6 +9,7 @@ import {
   deleteContactTypeUrl,
   getContactTypesUrl,
   getCommentTypesUrl,
+  getCommentsUrl,
   createContactUrl,
   createCommentUrl,
   addPatientFileUrl,
@@ -25,6 +26,7 @@ import {
   CREATE_PATIENT,
   DELETE_CONTACT_TYPE,
   DELETE_PATIENT,
+  GET_COMMENT,
   GET_COMMENT_TYPE,
   GET_CONTACT_TYPE,
   GET_PATIENT,
@@ -302,5 +304,22 @@ export const createCommentAction = (comment, id) => async (dispatch) => {
       success: false,
       message: parseError(error),
     };
+  }
+};
+export const getCommentsAction = (id) => async (dispatch) => {
+  dispatch({ type: GET_COMMENT.REQUEST });
+  try {
+    const { data } = await getApi(getCommentsUrl(id));
+
+    dispatch({
+      type: GET_COMMENT.SUCCESS,
+      payload: data.comments,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: GET_COMMENT.FAIL,
+      payload: parseError(error),
+    });
   }
 };

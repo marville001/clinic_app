@@ -11,7 +11,7 @@ import PatientContacts from "../components/patients/PatientContacts";
 import PatientPersonalDetails from "../components/patients/PatientPersonalDetails";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
-import { getCommentTypesAction, getContactTypesAction, getPatientAction } from "../redux/actions/patients.action";
+import { getCommentTypesAction, getContactTypesAction, getPatientAction,getCommentsAction } from "../redux/actions/patients.action";
 
 const ViewPatient = () => {
     const { loading: loading_pat, patient } = useSelector(
@@ -23,7 +23,9 @@ const ViewPatient = () => {
     const { id } = useParams();
 
     useEffect(() => {
+        console.log(id)
         authDetails?._id && dispatch(getPatientAction(id));
+        authDetails?._id && dispatch(getCommentsAction(id));
         authDetails?._id && dispatch(getDoctorsAction());
         authDetails?._id && dispatch(getCommentTypesAction());
         authDetails?._id && dispatch(getContactTypesAction());

@@ -7,6 +7,7 @@ import {
   CREATE_PATIENT,
   DELETE_CONTACT_TYPE,
   DELETE_PATIENT,
+  GET_COMMENT,
   GET_CONTACT_TYPE,
   GET_PATIENT,
   GET_PATIENTS,
@@ -18,6 +19,7 @@ import {
 const initialState = {
   patients: [],
   patient: {},
+  comments:[],
   contactType: [],
   commentType: [],
   loading: false,
@@ -172,15 +174,19 @@ const patientsReducer = (state = initialState, action) => {
     case CREATE_COMMENT.SUCCESS:
       return {
         ...state,
-        patient: {
-          ...state.patient,
-          comment: [action.payload, ...state.patient.comment],
-        },
+        comments:[action.payload, ...state.patient.comment],
         creatingComment: false,
       };
     case CREATE_CONTACT.FAIL:
       return { ...state, creatingCType: false };
-
+      case GET_COMMENT.REQUEST:
+        return { ...state, loading: true, error: "" };
+      case GET_COMMENT.SUCCESS:
+        return { ...state, loading: false,
+        comments:action.payload
+        };
+      case GET_COMMENT.FAIL:
+        return { ...state, loading: false, error: action.payload };
     default:
       return { ...state };
   }
