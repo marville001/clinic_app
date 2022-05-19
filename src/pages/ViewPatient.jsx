@@ -23,7 +23,6 @@ const ViewPatient = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        console.log(id)
         authDetails?._id && dispatch(getPatientAction(id));
         authDetails?._id && dispatch(getCommentsAction(id));
         authDetails?._id && dispatch(getDoctorsAction());

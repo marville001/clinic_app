@@ -57,6 +57,7 @@ export const deleteContactTypeUrl = (id) =>
 //comments
 export const createCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
 export const getCommentsUrl = (id) => `${API_BASE}patients/comment/${id}`;
+export const deleteCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
 export const getCommentTypesUrl = `${API_BASE}patients/comment-type`;
 //files
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;

@@ -6,6 +6,7 @@ import {
   CREATE_CONTACT_TYPE,
   CREATE_PATIENT,
   DELETE_CONTACT_TYPE,
+  DELETE_COMMENT,
   DELETE_PATIENT,
   GET_COMMENT,
   GET_CONTACT_TYPE,
@@ -174,10 +175,10 @@ const patientsReducer = (state = initialState, action) => {
     case CREATE_COMMENT.SUCCESS:
       return {
         ...state,
-        comments:[action.payload, ...state.patient.comment],
+        comments:[...state.comments,action.payload ],
         creatingComment: false,
       };
-    case CREATE_CONTACT.FAIL:
+    case CREATE_COMMENT.FAIL:
       return { ...state, creatingCType: false };
       case GET_COMMENT.REQUEST:
         return { ...state, loading: true, error: "" };
@@ -187,6 +188,17 @@ const patientsReducer = (state = initialState, action) => {
         };
       case GET_COMMENT.FAIL:
         return { ...state, loading: false, error: action.payload };
+
+        case DELETE_COMMENT.REQUEST:
+          return { ...state, deleting: true };
+        case DELETE_COMMENT.SUCCESS:
+          return { ...state, deleting: false ,    comments: [
+            ...state.comments.filter(
+              (comment) => comment._id !== action.payload
+            ),
+          ], };
+        case DELETE_COMMENT.FAIL:
+          return { ...state, deleting: false };
     default:
       return { ...state };
   }

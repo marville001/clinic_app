@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import SelectField from "../common/SelectField";
-
 import { toast } from "react-toastify";
 import {
   createCommentAction,
   createContactAction,
+  getCommentsAction
 } from "../../redux/actions/patients.action";
 import { useParams } from "react-router-dom";
 
@@ -51,7 +51,6 @@ const AddPatientCommentModal = ({
     setError("");
 
     const { type, comment, ...rest } = data;
-
     const res = await dispatch(
       createCommentAction(
         {
@@ -79,6 +78,8 @@ const AddPatientCommentModal = ({
       draggable: true,
     });
     handleCloseModal();
+    authDetails?._id && dispatch(getCommentsAction(id));
+
   };
 
   return (
