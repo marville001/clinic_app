@@ -10,6 +10,7 @@ const initialState = {
     secretaries: [],
     secretary: {},
     loading: false,
+    loadingSec: false,
     creating: false,
     updating: false,
     deleting: false,
@@ -46,11 +47,11 @@ const secretariesReducer = (state = initialState, action) => {
             return { ...state, creating: false };
 
         case GET_SECRETARY.REQUEST:
-            return { ...state, loading: true, secretary: {}, error: "" };
+            return { ...state, loadingSec: true, secretary: {}, error: "" };
         case GET_SECRETARY.SUCCESS:
-            return { ...state, secretary: action.payload, loading: false };
+            return { ...state, secretary: action.payload, loadingSec: false };
         case GET_SECRETARY.FAIL:
-            return { ...state, loading: false, error: action.payload };
+            return { ...state, loadingSec: false, error: action.payload };
 
         case UPDATE_SECRETARY.REQUEST:
             return { ...state, updating: true };

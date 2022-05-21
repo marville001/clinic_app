@@ -15,6 +15,7 @@ const PatientComments = () => {
     const [selectedType, setSelectedType] = useState(commentType[0]);
     const [filteredComments, setFilteredComments] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [deletingComment, setDeletingComment] = useState(false);
 
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [selectedComment, setSelectedComment] = useState({});
@@ -30,9 +31,11 @@ const PatientComments = () => {
     };
 
     const handleDeleteComment = async () => {
+        setDeletingComment(true)
         const res = await dispatch(deleteCommentAction(selectedComment._id));
 
         handleCloseDeleteModal();
+        setDeletingComment(false)
         if (!res.success) {
             toast.error(res.message, {
                 position: "top-right",
@@ -150,6 +153,7 @@ const PatientComments = () => {
                 closeModal={handleCloseDeleteModal}
                 message="Please confirm you want to remove the comment for this patient?"
                 actionMethod={handleDeleteComment}
+                loading={deletingComment}
             />
             <AddPatientCommentModal
                 isOpen={addCommentModalOpen}

@@ -12,7 +12,7 @@ import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getAppointmentsAction } from "../redux/actions/appointments.action";
 
 const ViewDoctor = () => {
-    const { loading: loading_doc, doctor } = useSelector(
+    const { loadingDoctor: loading_doc, doctor } = useSelector(
         (state) => state.doctorsState
     );
     const { authDetails } = useSelector((state) => state.authState);

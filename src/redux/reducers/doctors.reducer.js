@@ -10,6 +10,7 @@ const initialState = {
   doctors: [],
   doctor: {},
   loading: false,
+  loadingDoctor: false,
   creating: false,
   updating: false,
   deleting: false,
@@ -46,11 +47,11 @@ const doctorsReducer = (state = initialState, action) => {
       return { ...state, creating: false };
 
     case GET_DOCTOR.REQUEST:
-      return { ...state, loading: true, doctor: {}, error: "" };
+      return { ...state, loadingDoctor: true, doctor: {}, error: "" };
     case GET_DOCTOR.SUCCESS:
-      return { ...state, doctor: action.payload, loading: false };
+      return { ...state, doctor: action.payload, loadingDoctor: false };
     case GET_DOCTOR.FAIL:
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loadingDoctor: false, error: action.payload };
 
     case UPDATE_DOCTOR.REQUEST:
       return { ...state, updating: true };
