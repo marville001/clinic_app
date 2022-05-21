@@ -7,8 +7,10 @@ import {
   updatePatientUrl,
   createContactTypesUrl,
   deleteContactTypeUrl,
+  deleteCommentUrl,
   getContactTypesUrl,
   getCommentTypesUrl,
+  getCommentsUrl,
   createContactUrl,
   createCommentUrl,
   addPatientFileUrl,
@@ -23,8 +25,10 @@ import {
   CREATE_COMMENT,
   CREATE_CONTACT_TYPE,
   CREATE_PATIENT,
+  DELETE_COMMENT,
   DELETE_CONTACT_TYPE,
   DELETE_PATIENT,
+  GET_COMMENT,
   GET_COMMENT_TYPE,
   GET_CONTACT_TYPE,
   GET_PATIENT,
@@ -296,6 +300,43 @@ export const createCommentAction = (comment, id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CREATE_COMMENT.FAIL,
+      payload: parseError(error),
+    });
+    return {
+      success: false,
+      message: parseError(error),
+    };
+  }
+};
+export const getCommentsAction = (id) => async (dispatch) => {
+  dispatch({ type: GET_COMMENT.REQUEST });
+  try {
+    const { data } = await getApi(getCommentsUrl(id));
+
+    dispatch({
+      type: GET_COMMENT.SUCCESS,
+      payload: data.comments,
+    });
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: GET_COMMENT.FAIL,
+      payload: parseError(error),
+    });
+  }
+};
+export const deleteCommentAction = (id) => async (dispatch) => {
+  dispatch({ type: DELETE_COMMENT.REQUEST });
+  try {
+    await deleteApi(deleteCommentUrl(id));
+    dispatch({
+      type: DELETE_COMMENT.SUCCESS,
+      payload: id,
+    });
+    return { success: true };
+  } catch (error) {
+    dispatch({
+      type: DELETE_COMMENT.FAIL,
       payload: parseError(error),
     });
     return {

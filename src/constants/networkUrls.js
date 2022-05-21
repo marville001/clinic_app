@@ -56,6 +56,8 @@ export const deleteContactTypeUrl = (id) =>
   `${API_BASE}patients/contact-type/${id}`;
 //comments
 export const createCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
+export const getCommentsUrl = (id) => `${API_BASE}patients/comment/${id}`;
+export const deleteCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
 export const getCommentTypesUrl = `${API_BASE}patients/comment-type`;
 //files
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
@@ -72,7 +74,6 @@ export const sendMessageUrl = `${API_BASE}messages`;
 export const searchChatUserUrl = (key, query) =>
   `${API_BASE}${key}/search?search=${query}`;
 
-
 // Appointment
-export const getAppointmentsUrl = (id)=> `${API_BASE}appointments/${id}`;
+export const getAppointmentsUrl = (id) => `${API_BASE}appointments/${id}`;
 export const createAppointmentUrl = `${API_BASE}appointments`;
