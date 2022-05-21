@@ -18,7 +18,6 @@ export const parseAppointments = (appointments) => {
             description,
         } = appointment;
 
-        console.log(appointment);
         return {
             title,
             start: allDay

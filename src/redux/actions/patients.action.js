@@ -318,7 +318,6 @@ export const getCommentsAction = (id) => async (dispatch) => {
       payload: data.comments,
     });
   } catch (error) {
-    console.log(error);
     dispatch({
       type: GET_COMMENT.FAIL,
       payload: parseError(error),
