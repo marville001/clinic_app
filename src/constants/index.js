@@ -43,6 +43,7 @@ export {
   createContactTypesUrl,
   deleteContactTypeUrl,
   deleteCommentUrl,
+  deleteContactUrl,
   getContactTypesUrl,
   getCommentTypesUrl,
   getCommentsUrl,

@@ -1,20 +1,21 @@
 import {
-    ADD_PATIENT_FILE,
-    ASSIGN_PATIENT_DOCTOR,
-    CREATE_CONTACT,
-    CREATE_COMMENT,
-    CREATE_CONTACT_TYPE,
-    CREATE_PATIENT,
-    DELETE_CONTACT_TYPE,
-    DELETE_COMMENT,
-    DELETE_PATIENT,
-    GET_COMMENT,
-    GET_CONTACT_TYPE,
-    GET_PATIENT,
-    GET_PATIENTS,
-    UN_ASSIGN_PATIENT_DOCTOR,
-    UPDATE_PATIENT,
-    GET_COMMENT_TYPE,
+  ADD_PATIENT_FILE,
+  ASSIGN_PATIENT_DOCTOR,
+  CREATE_CONTACT,
+  CREATE_COMMENT,
+  CREATE_CONTACT_TYPE,
+  CREATE_PATIENT,
+  DELETE_CONTACT_TYPE,
+  DELETE_CONTACT,
+  DELETE_COMMENT,
+  DELETE_PATIENT,
+  GET_COMMENT,
+  GET_CONTACT_TYPE,
+  GET_PATIENT,
+  GET_PATIENTS,
+  UN_ASSIGN_PATIENT_DOCTOR,
+  UPDATE_PATIENT,
+  GET_COMMENT_TYPE,
 } from "../types/patients.types";
 
 const initialState = {
@@ -209,10 +210,23 @@ const patientsReducer = (state = initialState, action) => {
                 ],
             };
         case DELETE_COMMENT.FAIL:
+          return { ...state, deleting: false };
+          case DELETE_CONTACT.REQUEST:
+            return { ...state, deleting: true };
+          case DELETE_CONTACT.SUCCESS:
+            return { ...state, deleting: false ,       patient: {
+              ...state.patient,
+              contact: [
+                ...state.patient.contact.filter(
+                  (contact) => contact._id !== action.payload
+                ),
+              ],
+            }, };
+          case DELETE_CONTACT.FAIL:
             return { ...state, deleting: false };
-        default:
-            return { ...state };
-    }
+    default:
+      return { ...state };
+  }
 };
 
 export default patientsReducer;
