@@ -7,6 +7,7 @@ import {
   updatePatientUrl,
   createContactTypesUrl,
   deleteContactTypeUrl,
+  deleteContactUrl,
   deleteCommentUrl,
   getContactTypesUrl,
   getCommentTypesUrl,
@@ -348,7 +349,7 @@ export const deleteCommentAction = (id) => async (dispatch) => {
 export const deleteContactAction = (id) => async (dispatch) => {
   dispatch({ type: DELETE_CONTACT.REQUEST });
   try {
-    await deleteApi(deleteCommentUrl(id));
+    await deleteApi(deleteContactUrl(id));
     dispatch({
       type: DELETE_CONTACT.SUCCESS,
       payload: id,
