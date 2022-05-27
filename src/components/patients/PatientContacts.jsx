@@ -8,7 +8,7 @@ import { deleteContactAction } from "../../redux/actions/patients.action";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 
 const PatientContacts = () => {
-  const { patient, contactType } = useSelector((state) => state.patientsState);
+  const { patient,deletingContact, contactType } = useSelector((state) => state.patientsState);
   const [selectedContact, setSelectedContact] = useState({});
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -114,6 +114,7 @@ const PatientContacts = () => {
         closeModal={handleCloseDeleteModal}
         message="Please confirm you want to remove the contact for this patient?"
         actionMethod={handleDeleteContact}
+        loading={deletingContact}
       />
       <AddPatientContactModal
         isOpen={addContactModalOpen}

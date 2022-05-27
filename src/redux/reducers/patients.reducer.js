@@ -212,9 +212,9 @@ const patientsReducer = (state = initialState, action) => {
         case DELETE_COMMENT.FAIL:
           return { ...state, deleting: false };
           case DELETE_CONTACT.REQUEST:
-            return { ...state, deleting: true };
+            return { ...state, deletingContact: true };
           case DELETE_CONTACT.SUCCESS:
-            return { ...state, deleting: false ,       patient: {
+            return { ...state, deletingContact: false ,       patient: {
               ...state.patient,
               contact: [
                 ...state.patient.contact.filter(
@@ -223,7 +223,7 @@ const patientsReducer = (state = initialState, action) => {
               ],
             }, };
           case DELETE_CONTACT.FAIL:
-            return { ...state, deleting: false };
+            return { ...state, deletingContact: false };
     default:
       return { ...state };
   }
