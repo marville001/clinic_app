@@ -181,7 +181,7 @@ const patientsReducer = (state = initialState, action) => {
         case GET_COMMENT_TYPE.FAIL:
             return { ...state, loadingCType: false, error: action.payload };
         case CREATE_COMMENT.REQUEST:
-            return { ...state, creatingCType: true };
+            return { ...state, creatingComment: true };
         case CREATE_COMMENT.SUCCESS:
             return {
                 ...state,
@@ -189,7 +189,7 @@ const patientsReducer = (state = initialState, action) => {
                 creatingComment: false,
             };
         case CREATE_COMMENT.FAIL:
-            return { ...state, creatingCType: false };
+            return { ...state, creatingComment: false };
         case GET_COMMENT.REQUEST:
             return { ...state, loading: true, error: "" };
         case GET_COMMENT.SUCCESS:

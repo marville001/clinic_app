@@ -31,11 +31,11 @@ const PatientComments = () => {
     };
 
     const handleDeleteComment = async () => {
-        setDeletingComment(true)
+        setDeletingComment(true);
         const res = await dispatch(deleteCommentAction(selectedComment._id));
 
         handleCloseDeleteModal();
-        setDeletingComment(false)
+        setDeletingComment(false);
         if (!res.success) {
             toast.error(res.message, {
                 position: "top-right",
@@ -119,33 +119,35 @@ const PatientComments = () => {
                     <FaSpinner className="text-3xl animate-spin" />
                 </div>
             ) : (
-                <div className="text-sm my-2">
-                    {filteredComments?.map((comment) => (
-                        <div className="flex justify-between items-center">
-                            <div className="flex items-center space-x-3 p-2">
-                                <div className="p-2 bg-lightgray rounded-full">
-                                    <FaUser className="text-lg text-dimgray" />
+                <div className="p-4 max-h-[280px] overflow-y-auto">
+                    <div className="text-sm my-2">
+                        {filteredComments?.map((comment) => (
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center space-x-3 p-2">
+                                    <div className="p-2 bg-lightgray rounded-full">
+                                        <FaUser className="text-lg text-dimgray" />
+                                    </div>
+                                    <span className=" flex flex-col text-sm">
+                                        <p className="font-bold">
+                                            {comment?.senderId.firstname +
+                                                " " +
+                                                comment?.senderId.lastname}
+                                        </p>
+                                        <p>{comment.comment}</p>
+                                    </span>{" "}
                                 </div>
-                                <span className=" flex flex-col text-sm">
-                                    <p className="font-bold">
-                                        {comment?.senderId.firstname +
-                                            " " +
-                                            comment?.senderId.lastname}
-                                    </p>
-                                    <p>{comment.comment}</p>
-                                </span>{" "}
-                            </div>
-                            <div
-                                className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
+                                <div
+                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
                                             rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
-                                onClick={() => {
-                                    openDeleteModal(comment);
-                                }}
-                            >
-                                <FaTrash />
-                            </div>{" "}
-                        </div>
-                    ))}
+                                    onClick={() => {
+                                        openDeleteModal(comment);
+                                    }}
+                                >
+                                    <FaTrash />
+                                </div>{" "}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
             <ConfirmDeleteModal
