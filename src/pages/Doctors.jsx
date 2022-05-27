@@ -17,7 +17,7 @@ import {
 import { toast } from "react-toastify";
 
 const Doctors = () => {
-    const { departments, loading: loading_dpt } = useSelector(
+    const { departments } = useSelector(
         (state) => state.departmentsState
     );
     const { authDetails } = useSelector((state) => state.authState);
@@ -104,39 +104,6 @@ const Doctors = () => {
         <DashboardWrapper>
             <Header title="Doctors" />
             <div className="p-4 ">
-                <div className="my-6 p-4 bg-white _shadow">
-                    <div className="flex gap-5 items-center">
-                        <h2 className="font-bold text-lg">Departments</h2>
-                        {loading_dpt && (
-                            <FaSpinner className="animate-spin text-slate-900" />
-                        )}
-                        {/* <div
-                            className="flex items-center space-x-2 py-2 cursor-pointer px-6 rounded-md text-seagreen  text-sm hover:opacity-75"
-                        >
-                            <HiPlusCircle />
-                            <span>New Department</span>
-                        </div> */}
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 my-5">
-                        {departments?.map((department) => (
-                            <div
-                                key={department?._id}
-                                className="_shadow px-6 py-2 flex items-center justify-center text-seagreen rounded-md hover:scale-[1.02] 
-                                transition-all duration-150 ease-linear cursor-pointer
-                                hover:opacity-80 hover:bg-slate-50"
-                            >
-                                <span>{department?.name}</span>
-                            </div>
-                        ))}
-                        <div
-                            onClick={() => setAddModalOpen(true)}
-                            className="_shadow bg-seagreen bg-opacity-20 text-seagreen rounded-md px-6 py-2 flex items-center justify-center 
-                                hover:scale-[1.02] transition-all duration-150 ease-linear cursor-pointer hover:bg-opacity-40"
-                        >
-                            <span>Add Department</span>
-                        </div>
-                    </div>
-                </div>
                 <div>
                     <div className="flex justify-between items-center">
                         <SearchInput onSubmit={handleSearch} />

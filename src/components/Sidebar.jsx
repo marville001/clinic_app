@@ -10,6 +10,7 @@ import {
     FaPowerOff,
     FaUserShield,
     FaLayerGroup,
+    FaCogs,
 } from "react-icons/fa";
 import { NavContext } from "../nav.context";
 import { useDispatch, useSelector } from "react-redux";
@@ -59,23 +60,22 @@ const Sidebar = () => {
                     <FaUncharted />
                     <span>Dashboard</span>
                 </NavLink>
-                {
-                    authDetails?.role === "doctor" &&
-                
+                {authDetails?.role === "doctor" && (
                     <NavLink
                         to="/appointments"
                         onClick={closeSidebar}
                         className={({ isActive }) =>
-                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${isActive
-                                ? "bg-white text-slate-900"
-                                : "text-white opacity-70 hover:bg-slate-700 "
+                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                isActive
+                                    ? "bg-white text-slate-900"
+                                    : "text-white opacity-70 hover:bg-slate-700 "
                             }`
                         }
                     >
                         <FaLayerGroup />
                         <span>My Appointments</span>
                     </NavLink>
-                }
+                )}
                 {(authDetails?.role === "admin" ||
                     authDetails?.role === "secretary" ||
                     (authDetails?.role === "doctor" &&
@@ -126,20 +126,37 @@ const Sidebar = () => {
                     </>
                 )}
                 {authDetails?.role === "admin" && (
-                    <NavLink
-                        onClick={closeSidebar}
-                        to="/admins"
-                        className={({ isActive }) =>
-                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                                isActive
-                                    ? "bg-white text-slate-900"
-                                    : "text-white opacity-70 hover:bg-slate-700 "
-                            }`
-                        }
-                    >
-                        <FaUserSecret />
-                        <span>Admins</span>
-                    </NavLink>
+                    <>
+                        <NavLink
+                            onClick={closeSidebar}
+                            to="/admins"
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaUserSecret />
+                            <span>Admins</span>
+                        </NavLink>
+
+                        <NavLink
+                            onClick={closeSidebar}
+                            to="/settings"
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaCogs />
+                            <span>Settings</span>
+                        </NavLink>
+                    </>
                 )}
                 <NavLink
                     onClick={closeSidebar}
