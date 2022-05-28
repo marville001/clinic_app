@@ -17,7 +17,7 @@ import {
   addPatientFileUrl,
   assignPatientDoctorUrl,
 } from "../../constants";
-import { unAssignPatientDoctorUrl } from "../../constants/networkUrls";
+import { createCommentTypesUrl, deleteCommentTypeUrl, unAssignPatientDoctorUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
   ADD_PATIENT_FILE,
@@ -37,6 +37,8 @@ import {
   GET_PATIENTS,
   UN_ASSIGN_PATIENT_DOCTOR,
   UPDATE_PATIENT,
+  CREATE_COMMENT_TYPE,
+  DELETE_COMMENT_TYPE,
 } from "../types/patients.types";
 
 export const createPatientAction = (user) => async (dispatch) => {
@@ -175,10 +177,10 @@ export const addPatientFileAction = (file, id) => async (dispatch) => {
   }
 };
 
-export const createContactTypeAction = (user) => async (dispatch) => {
+export const createContactTypeAction = (type) => async (dispatch) => {
   dispatch({ type: CREATE_CONTACT_TYPE.REQUEST });
   try {
-    const { data } = await postApi(createContactTypesUrl, user);
+    const { data } = await postApi(createContactTypesUrl, type);
     dispatch({
       type: CREATE_CONTACT_TYPE.SUCCESS,
       payload: data.contactType,
@@ -289,6 +291,48 @@ export const getCommentTypesAction = () => async (dispatch) => {
     });
   }
 };
+
+export const createCommentTypeAction = (type) => async (dispatch) => {
+  dispatch({ type: CREATE_COMMENT_TYPE.REQUEST });
+  try {
+    const { data } = await postApi(createCommentTypesUrl, type);
+    dispatch({
+      type: CREATE_COMMENT_TYPE.SUCCESS,
+      payload: data.commentType,
+    });
+    return { success: true };
+  } catch (error) {
+    dispatch({
+      type: CREATE_COMMENT_TYPE.FAIL,
+      payload: parseError(error),
+    });
+    return {
+      success: false,
+      message: parseError(error),
+    };
+  }
+};
+
+export const deleteCommentTypeAction = (id) => async (dispatch) => {
+  dispatch({ type: DELETE_COMMENT_TYPE.REQUEST });
+  try {
+    await deleteApi(deleteCommentTypeUrl(id));
+    dispatch({
+      type: DELETE_COMMENT_TYPE.SUCCESS,
+    });
+    return { success: true };
+  } catch (error) {
+    dispatch({
+      type: DELETE_COMMENT_TYPE.FAIL,
+      payload: parseError(error),
+    });
+    return {
+      success: false,
+      message: parseError(error),
+    };
+  }
+};
+
 
 export const createCommentAction = (comment, id) => async (dispatch) => {
   dispatch({ type: CREATE_COMMENT.REQUEST });
