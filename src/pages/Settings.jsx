@@ -366,7 +366,7 @@ const Settings = () => {
                                                 {type?.description}
                                             </td>
                                             <td className="py-2 capitalize">
-                                                doctors
+                                                {type?.viewBy}
                                             </td>
                                             <td className="py-2 pr-12 text-right flex justify-end items-center space-x-1">
                                                 <div
