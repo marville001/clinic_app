@@ -9,10 +9,11 @@ import { getDepartmentsAction } from "../redux/actions/departments.action";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import AddContactTypeModal from "../components/modals/AddContactTypeModal";
 import AddDiagnosisModal from "../components/modals/AddDiagnosisModal";
-import { deleteContactTypeAction, getContactTypesAction } from "../redux/actions/patients.action";
+import { deleteCommentTypeAction, deleteContactTypeAction, getCommentTypesAction, getContactTypesAction } from "../redux/actions/patients.action";
 import { deleteDiagnosisAction, getDiagnosisAction } from "../redux/actions/diagnosis.action";
 import { HiPlusCircle } from "react-icons/hi";
 import { toast } from "react-toastify";
+import AddCommentTypeModal from "../components/modals/AddCommentTypeModal";
 
 const Settings = () => {
     const { departments, loading: loading_dpt } = useSelector(
@@ -22,20 +23,19 @@ const Settings = () => {
     const { diagnosis, deleting: deleting_diag } = useSelector(
         (state) => state.diagnosisState
     );
-    const { contactType, deletingCType } = useSelector(
+    const { contactType,commentType, deletingCType, deletingCommentType } = useSelector(
         (state) => state.patientsState
     );
 
     const [addModalOpen, setAddModalOpen] = useState(false);
-    const [confirmDeleteCtypeModalOpen, setConfirmDeleteCtypeModalOpen] =
-        useState(false);
-    const [
-        confirmDeleteDiagnosisModalOpen,
-        setConfirmDeleteDiagnosisModalOpen,
-    ] = useState(false);
-    const [addCTypeModalOpen, setAddCTypeModalOpen] = useState(false);
+    const [confirmDeleteCtypeModalOpen, setConfirmDeleteCtypeModalOpen] = useState(false);
+    const [confirmDeleteCommentYypeModalOpen, setConfirmDeleteCommentTypeModalOpen] = useState(false);
+    const [confirmDeleteDiagnosisModalOpen, setConfirmDeleteDiagnosisModalOpen] = useState(false);
+    const [addContactTypeModalOpen, setAddContactTypeModalOpen] = useState(false);
+    const [addCommentTypeModalOpen, setAddCommentTypeModalOpen] = useState(false);
     const [addDiagnosisModalOpen, setAddDiagnosisModalOpen] = useState(false);
     const [selectedCType, setSelectedCType] = useState({});
+    const [selectedCommentType, setSelectedCommentType] = useState({});
     const [selectedDiagnosis, setSelectedDiagnosis] = useState({});
 
     const dispatch = useDispatch();
@@ -43,6 +43,11 @@ const Settings = () => {
     const openDeleteCtypeModal = (type) => {
         setSelectedCType(type);
         setConfirmDeleteCtypeModalOpen(true);
+    };
+
+    const openDeleteCommentTypeModal = (type) => {
+        setSelectedCommentType(type);
+        setConfirmDeleteCommentTypeModalOpen(true);
     };
 
     const openDeleteDiagnosisModal = (diagnosis) => {
@@ -70,6 +75,34 @@ const Settings = () => {
         setSelectedCType({});
 
         toast.success(`Contact Type Deleted Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+    };
+
+    const handleDeleteCommentType = async () => {
+        const res = await dispatch(deleteCommentTypeAction(selectedCommentType?._id));
+
+        setConfirmDeleteCommentTypeModalOpen(false);
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            return;
+        }
+        dispatch(getCommentTypesAction());
+        setSelectedCommentType({});
+
+        toast.success(`Comment Type Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -113,6 +146,7 @@ const Settings = () => {
     useEffect(() => {
         authDetails?._id && dispatch(getDepartmentsAction());
         authDetails?._id && dispatch(getContactTypesAction());
+        authDetails?._id && dispatch(getCommentTypesAction());
         authDetails?._id && dispatch(getDiagnosisAction());
     }, [dispatch, authDetails?._id]);
 
@@ -168,7 +202,7 @@ const Settings = () => {
                                 Contact Types
                             </h3>
                             <button
-                                onClick={() => setAddCTypeModalOpen(true)}
+                                onClick={() => setAddContactTypeModalOpen(true)}
                                 className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
                             >
                                 <HiPlusCircle />
@@ -278,10 +312,97 @@ const Settings = () => {
                     </div>
                 </div>
 
+                <div className="flex gap-5 flex-col lg:flex-row mb-6">
+                    <div className="py-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
+                        <div className="flex justify-between items-center px-4">
+                            <h3 className="text-md mb-4 font-bold">
+                                Comment Types
+                            </h3>
+                            <button
+                                onClick={() => setAddCommentTypeModalOpen(true)}
+                                className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                            >
+                                <HiPlusCircle />
+                                <span>Add Contact Type</span>
+                            </button>
+                        </div>
+
+                        <div className="px-4 h-[250px] overflow-y-auto">
+                            <table className="w-full text-sm text-left px-4">
+                                <thead className="text-md">
+                                    <tr>
+                                        <th className="py-4">#</th>
+                                        <th className="py-4">Type</th>
+                                        <th className="py-4">Description</th>
+                                        <th className="py-4">View By</th>
+                                        <th className="py-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {commentType?.map((type, idx) => (
+                                        <tr
+                                            key={type?._id}
+                                            className="group border-b "
+                                        >
+                                            <td className="py-2 font-bold">
+                                                {idx + 1}
+                                            </td>
+                                            <td className="py-2">
+                                                {type?.name}
+                                            </td>
+                                            <td className="py-2 capitalize">
+                                                {type?.description}
+                                            </td>
+                                            <td className="py-2 capitalize">
+                                                doctors
+                                            </td>
+                                            <td className="py-2 pr-12 text-right flex justify-end items-center space-x-1">
+                                                <div
+                                                    onClick={() =>
+                                                        openDeleteCommentTypeModal(
+                                                            type
+                                                        )
+                                                    }
+                                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                                >
+                                                    <FaTrash />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="p-4 flex-[1] xl:flex-[2]">                       
+                    </div>
+                </div>
+
                 <AddDepartmentModal
                     isOpen={addModalOpen}
                     closeModal={() => {
                         setAddModalOpen(false);
+                    }}
+                />
+
+                <AddContactTypeModal
+                    isOpen={addContactTypeModalOpen}
+                    closeModal={() => {
+                        setAddContactTypeModalOpen(false);
+                    }}
+                />
+
+                <AddCommentTypeModal
+                    isOpen={addCommentTypeModalOpen}
+                    closeModal={() => {
+                        setAddCommentTypeModalOpen(false);
+                    }}
+                />
+
+                <AddDiagnosisModal
+                    isOpen={addDiagnosisModalOpen}
+                    closeModal={() => {
+                        setAddDiagnosisModalOpen(false);
                     }}
                 />
 
@@ -307,19 +428,17 @@ const Settings = () => {
                     actionMethod={handleDeleteDiagnosis}
                 />
 
-                <AddContactTypeModal
-                    isOpen={addCTypeModalOpen}
+                <ConfirmDeleteModal
+                    isOpen={confirmDeleteCommentYypeModalOpen}
                     closeModal={() => {
-                        setAddCTypeModalOpen(false);
+                        setConfirmDeleteCommentTypeModalOpen(false);
+                        selectedCommentType({});
                     }}
+                    loading={deletingCommentType}
+                    message="Are you sure you want to delete the Comment Type?"
+                    actionMethod={handleDeleteCommentType}
                 />
 
-                <AddDiagnosisModal
-                    isOpen={addDiagnosisModalOpen}
-                    closeModal={() => {
-                        setAddDiagnosisModalOpen(false);
-                    }}
-                />
             </div>
         </DashboardWrapper>
     );

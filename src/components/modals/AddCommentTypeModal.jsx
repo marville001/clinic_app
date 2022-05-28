@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { getDepartmentsAction } from "../../redux/actions/departments.action";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
-import { createContactTypeAction, getContactTypesAction } from "../../redux/actions/patients.action";
+import { createCommentTypeAction, getCommentTypesAction } from "../../redux/actions/patients.action";
+import SelectField from "../common/SelectField";
 
-const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
-    const {creatingCType} = useSelector(state=>state.patientsState)
+const AddCommentTypeModal = ({ isOpen, closeModal = () => {} }) => {
+    const { creatingCommentType } = useSelector((state) => state.patientsState);
     const [error, setError] = useState("");
 
     const {
@@ -28,19 +30,19 @@ const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
         clearErrors();
         reset();
         setError();
-        dispatch(getContactTypesAction())
+        dispatch(getCommentTypesAction())
     };
 
-    const handleAddContactType = async (data) => {
-        setError("")
-        const res = await dispatch(createContactTypeAction(data));
+    const handleAddCommentType = async (data) => {
+        setError("");
+        const res = await dispatch(createCommentTypeAction(data));
 
         if (!res.success) {
-            setError(res.message)
+            setError(res.message);
             return;
         }
 
-        toast.success(`Contact Type Added Successfully`, {
+        toast.success(`Comment Type Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -53,17 +55,13 @@ const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
     };
 
     return (
-        <Modal
-            size="xl"
-            isOpen={isOpen}
-            closeModal={handleCloseModal}
-        >
+        <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
             <form
-                onSubmit={handleSubmit(handleAddContactType)}
+                onSubmit={handleSubmit(handleAddCommentType)}
                 className="bg-white p-5 _shadow rounded-md"
             >
                 <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
-                    Add Contact Type
+                    Add Comment Type
                 </h4>
                 {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
@@ -78,6 +76,20 @@ const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
                         register={register}
                         required={true}
                         type="text"
+                    />
+                </div>
+                <div className="flex gap-5 mt-4">
+                    <SelectField
+                        errors={errors}
+                        name="viewBy"
+                        label="View By"
+                        register={register}
+                        required={true}
+                        options={[
+                            { value: "everyone", label: "Everyone" },
+                            { value: "admins", label: "Admins Only" },
+                            { value: "doctors", label: "Doctors Only" },
+                        ]}
                     />
                 </div>
                 <div className="flex gap-5 mt-4">
@@ -99,14 +111,14 @@ const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
                         Cancel
                     </button>
                     <button
-                        disabled={creatingCType}
+                        disabled={creatingCommentType}
                         type="submit"
                         className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                     >
-                        {creatingCType ? (
+                        {creatingCommentType ? (
                             <>
                                 <FaSpinner className="animate-spin mr-4" />{" "}
                                 <span className="capitalize">Loading...</span>
@@ -121,4 +133,4 @@ const AddContactTypeModal = ({ isOpen, closeModal = () => { } }) => {
     );
 };
 
-export default AddContactTypeModal;
+export default AddCommentTypeModal;

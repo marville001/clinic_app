@@ -48,19 +48,28 @@ export const createPatientUrl = `${API_BASE}patients`;
 export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
+
 //contact
 export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const deleteContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 
+// Contact Type
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const getContactTypesUrl = `${API_BASE}patients/contact-type`;
 export const deleteContactTypeUrl = (id) =>
   `${API_BASE}patients/contact-type/${id}`;
+
 //comments
 export const createCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
 export const getCommentsUrl = (id) => `${API_BASE}patients/comment/${id}`;
 export const deleteCommentUrl = (id) => `${API_BASE}patients/comment/${id}`;
+
+// Contact Type
+export const createCommentTypesUrl = `${API_BASE}patients/comment-type`;
 export const getCommentTypesUrl = `${API_BASE}patients/comment-type`;
+export const deleteCommentTypeUrl = (id) =>
+  `${API_BASE}patients/comment-type/${id}`;
+
 //files
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
 export const assignPatientDoctorUrl = (pid, did) =>
