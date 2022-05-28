@@ -20,10 +20,10 @@ const Settings = () => {
         (state) => state.departmentsState
     );
     const { authDetails } = useSelector((state) => state.authState);
-    const { diagnosis, deleting: deleting_diag } = useSelector(
+    const { diagnosis,loading: loading_diag, deleting: deleting_diag } = useSelector(
         (state) => state.diagnosisState
     );
-    const { contactType,commentType, deletingCType, deletingCommentType } = useSelector(
+    const { contactType,commentType, deletingCType, deletingCommentType, loadingCommentType, loadingCType } = useSelector(
         (state) => state.patientsState
     );
 
@@ -198,9 +198,13 @@ const Settings = () => {
                 <div className="flex gap-5 flex-col lg:flex-row mb-6">
                     <div className="py-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
                         <div className="flex justify-between items-center px-4">
-                            <h3 className="text-md mb-4 font-bold">
-                                Contact Types
-                            </h3>
+                            <div className="flex gap-5 items-center">
+                                <h3 className="text-md font-bold"> Contact Types </h3>
+                                {loadingCType && (
+                                    <FaSpinner className="animate-spin text-slate-900" />
+                                )}
+                                
+                            </div>
                             <button
                                 onClick={() => setAddContactTypeModalOpen(true)}
                                 className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
@@ -255,9 +259,13 @@ const Settings = () => {
                     </div>
                     <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
                         <div className="flex justify-between items-center px-4">
-                            <h3 className="text-md mb-4 font-bold">
-                                All Diagnosis
-                            </h3>
+                            <div className="flex gap-5 items-center">
+                                <h3 className="text-md font-bold">All Diagnosis</h3>
+                                {loading_diag && (
+                                    <FaSpinner className="animate-spin text-slate-900" />
+                                )}
+                                
+                            </div>
                             <button
                                 onClick={() => setAddDiagnosisModalOpen(true)}
                                 className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
@@ -315,9 +323,13 @@ const Settings = () => {
                 <div className="flex gap-5 flex-col lg:flex-row mb-6">
                     <div className="py-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
                         <div className="flex justify-between items-center px-4">
-                            <h3 className="text-md mb-4 font-bold">
-                                Comment Types
-                            </h3>
+                            <div className="flex gap-5 items-center">
+                                <h3 className="text-md font-bold"> Comment Types </h3>
+                                {loadingCommentType && (
+                                    <FaSpinner className="animate-spin text-slate-900" />
+                                )}
+                                
+                            </div>
                             <button
                                 onClick={() => setAddCommentTypeModalOpen(true)}
                                 className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
