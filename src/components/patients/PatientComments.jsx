@@ -11,9 +11,12 @@ const PatientComments = () => {
     const { commentType, comments } = useSelector(
         (state) => state.patientsState
     );
+    const { authDetails } = useSelector((state) => state.authState);
+
     const [addCommentModalOpen, setAddCommentModalOpen] = useState(false);
     const [selectedType, setSelectedType] = useState(commentType[0]);
     const [filteredComments, setFilteredComments] = useState([]);
+    const [filteredCommentTypes, setFilteredCommentTypes] = useState([]);
     const [loading, setLoading] = useState(false);
     const [deletingComment, setDeletingComment] = useState(false);
 
@@ -58,16 +61,23 @@ const PatientComments = () => {
     };
 
     useEffect(() => {
-        setLoading(true);
         if (selectedType?._id) {
-            setFilteredComments(
-                comments?.filter(
-                    (comment) => comment?.commenttype === selectedType?._id
-                )
-            );
+            setFilteredComments(comments?.filter((comment) => comment?.commenttype === selectedType?._id));
         }
-        setLoading(false);
-    }, [selectedType?._id, comments, addCommentModalOpen]);
+    }, [selectedType?._id, comments]);
+
+    useEffect(() => {
+        if (authDetails?.role === "admin") {
+            setFilteredCommentTypes(commentType);
+
+        } else if (authDetails?.role === "doctor") {
+            setFilteredCommentTypes(commentType?.filter((type) => type?.viewBy === "everyone" || type?.viewBy === "doctors"));
+        }else if (authDetails?.role === "secretary") {
+            setFilteredCommentTypes(commentType?.filter((type) => type?.viewBy === "everyone"));
+        } else {
+            setFilteredCommentTypes([])
+        }
+    }, [authDetails?.role, commentType]);
 
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
@@ -88,9 +98,9 @@ const PatientComments = () => {
             <div className="my-4">
                 <Tab.Group>
                     <Tab.List className="flex space-x-5">
-                        {commentType.map((category) => (
+                        {filteredCommentTypes.map((category) => (
                             <Tab
-                                key={category.id}
+                                key={category._id}
                                 className={({ selected }) =>
                                     `
                   'w-full py-1.5 text-md px-0 font-medium leading-5 text-blue-700',
@@ -113,6 +123,11 @@ const PatientComments = () => {
                         ))}
                     </Tab.List>
                 </Tab.Group>
+                {filteredCommentTypes?.length === 0 && (
+                    <div className="text-center py-4 text-xl uppercase font-bold opacity-30">
+                        No Comment Type Visible to you
+                    </div>
+                )}
             </div>
             {loading ? (
                 <div className="w-full flex pt-20 justify-center">
@@ -121,8 +136,11 @@ const PatientComments = () => {
             ) : (
                 <div className="p-4 max-h-[280px] overflow-y-auto">
                     <div className="text-sm my-2">
-                        {filteredComments?.map((comment) => (
-                            <div className="flex justify-between items-center">
+                        {filteredComments?.map((comment, i) => (
+                            <div
+                                key={i}
+                                className="flex justify-between items-center"
+                            >
                                 <div className="flex items-center space-x-3 p-2">
                                     <div className="p-2 bg-lightgray rounded-full">
                                         <FaUser className="text-lg text-dimgray" />
@@ -148,6 +166,13 @@ const PatientComments = () => {
                             </div>
                         ))}
                     </div>
+
+                    {filteredCommentTypes?.length > 0 &&
+                        filteredComments?.length === 0 && (
+                            <div className="text-center py-4 text-xl uppercase font-bold opacity-30">
+                                No Comment Yet
+                            </div>
+                        )}
                 </div>
             )}
             <ConfirmDeleteModal
