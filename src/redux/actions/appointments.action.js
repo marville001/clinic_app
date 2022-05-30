@@ -1,7 +1,7 @@
-import {   getApi, postApi, putApi,} from "../../api";
-import { createAppointmentUrl, getAppointmentsUrl, updateAppointmentUrl } from "../../constants/networkUrls";
+import {   deleteApi, getApi, postApi, putApi,} from "../../api";
+import { createAppointmentUrl, deleteAppointmentUrl, getAppointmentsUrl, updateAppointmentUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
-import { CREATE_APPOINTMENT, GET_APPOINTMENTS, UPDATE_APPOINTMENT } from "../types/appointments.types";
+import { CREATE_APPOINTMENT, DELETE_APPOINTMENT, GET_APPOINTMENTS, UPDATE_APPOINTMENT } from "../types/appointments.types";
 
 
 export const createAppointmentAction = (details) => async (dispatch) => {
@@ -51,6 +51,26 @@ export const updateAppointmentAction = (details, id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_APPOINTMENT.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const deleteAppointmentAction = (id) => async (dispatch) => {
+    dispatch({ type: DELETE_APPOINTMENT.REQUEST });
+    try {
+        await deleteApi(deleteAppointmentUrl(id));
+        dispatch({
+            type: DELETE_APPOINTMENT.SUCCESS,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: DELETE_APPOINTMENT.FAIL,
             payload: parseError(error),
         });
         return {

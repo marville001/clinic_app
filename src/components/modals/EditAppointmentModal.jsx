@@ -8,6 +8,7 @@ import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
 import {
+    deleteAppointmentAction,
     getAppointmentsAction,
     updateAppointmentAction,
 } from "../../redux/actions/appointments.action";
@@ -18,11 +19,12 @@ const EditAppointmentModal = ({
     selectedId = "",
     doctorId,
 }) => {
-    const { appointments } = useSelector((state) => state.appointmentsState);
+    const { appointments, updating, deleting } = useSelector(
+        (state) => state.appointmentsState
+    );
 
     const [error, setError] = useState("");
     const [allDay, setAllDay] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -42,13 +44,11 @@ const EditAppointmentModal = ({
         setAllDay(false);
     };
 
-    const handleUpdateDepartment = async (data) => {
+    const handleUpdateAppointment = async (data) => {
         setError("");
-        setLoading(true);
         const res = await dispatch(
             updateAppointmentAction({ ...data, allDay, doctorId }, selectedId)
         );
-        setLoading(false);
 
         if (!res.success) {
             setError(res.message);
@@ -57,6 +57,28 @@ const EditAppointmentModal = ({
 
         dispatch(getAppointmentsAction(doctorId));
         toast.success(`Appointment Updated Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+
+        handleCloseModal();
+    };
+
+    const handleDeleteAppointment = async () => {
+        setError("");
+        const res = await dispatch(deleteAppointmentAction(selectedId));
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+
+        dispatch(getAppointmentsAction(doctorId));
+        toast.success(`Appointment Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -99,9 +121,9 @@ const EditAppointmentModal = ({
     }, [selectedId, appointments, setValue]);
 
     return (
-        <Modal size="3xl" isOpen={isOpen} closeModal={handleCloseModal}>
+        <Modal size="3xl" isOpen={isOpen} closeModal={()=>{}}>
             <form
-                onSubmit={handleSubmit(handleUpdateDepartment)}
+                onSubmit={handleSubmit(handleUpdateAppointment)}
                 className="bg-white p-5 _shadow rounded-md"
             >
                 {error && (
@@ -201,7 +223,8 @@ const EditAppointmentModal = ({
                     <button
                         type="button"
                         onClick={handleCloseModal}
-                        className="bg-salmon  bg-opacity-70 rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+                        disabled={deleting || updating}
+                        className="bg-salmon disabled:cursor-not-allowed  bg-opacity-70 rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
                     >
                         Cancel
                     </button>
@@ -209,20 +232,30 @@ const EditAppointmentModal = ({
                     <div className="flex items-center gap-2">
                         <button
                             type="button"
-                            onClick={handleCloseModal}
-                            className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+                            onClick={handleDeleteAppointment}
+                            disabled={deleting || updating}
+                            className="disabled:opacity-50 disabled:cursor-not-allowed bg-salmon rind-0 flex items-center border-0 outline-none text-white py-2 px-5 rounded-md"
                         >
-                            Delete
+                            {deleting ? (
+                                <>
+                                    <FaSpinner className="animate-spin mr-4" />{" "}
+                                    <span className="capitalize">
+                                        Loading...
+                                    </span>
+                                </>
+                            ) : (
+                                <span>Delete</span>
+                            )}
                         </button>
                         <button
-                            disabled={loading}
+                            disabled={deleting || updating}
                             type="submit"
                             className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-8
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
                         >
-                            {loading ? (
+                            {updating ? (
                                 <>
                                     <FaSpinner className="animate-spin mr-4" />{" "}
                                     <span className="capitalize">
