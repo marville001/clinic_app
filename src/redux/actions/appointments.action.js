@@ -1,7 +1,7 @@
-import {   getApi, postApi,} from "../../api";
-import { createAppointmentUrl, getAppointmentsUrl } from "../../constants/networkUrls";
+import {   getApi, postApi, putApi,} from "../../api";
+import { createAppointmentUrl, getAppointmentsUrl, updateAppointmentUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
-import { CREATE_APPOINTMENT, GET_APPOINTMENTS } from "../types/appointments.types";
+import { CREATE_APPOINTMENT, GET_APPOINTMENTS, UPDATE_APPOINTMENT } from "../types/appointments.types";
 
 
 export const createAppointmentAction = (details) => async (dispatch) => {
@@ -37,5 +37,25 @@ export const getAppointmentsAction = (id) => async (dispatch) => {
             type: GET_APPOINTMENTS.FAIL,
             payload: parseError(error),
         });
+    }
+};
+
+export const updateAppointmentAction = (details, id) => async (dispatch) => {
+    dispatch({ type: UPDATE_APPOINTMENT.REQUEST });
+    try {
+        await putApi(updateAppointmentUrl(id) ,details );
+        dispatch({
+            type: UPDATE_APPOINTMENT.SUCCESS,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: UPDATE_APPOINTMENT.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
     }
 };

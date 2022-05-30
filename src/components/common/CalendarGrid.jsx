@@ -4,6 +4,7 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 import timeGridPlugin from "@fullcalendar/timegrid";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
+import EditAppointmentModal from "../modals/EditAppointmentModal";
 
 // REF: https://github.com/fullcalendar/fullcalendar-example-projects/blob/master/react-redux/src/DemoApp.jsx
 
@@ -11,13 +12,13 @@ export default class CalendarGrid extends React.Component {
     constructor() {
         super();
         this.state = {
-            events: [],
             addAppointmentModalOpen: false,
+            editAppointmentModalOpen: false,
             startDate: "",
             endDate: "",
             startTime: "",
             endTime: "",
-            selectedAppointment: {},
+            selectedAppointment: "",
         };
     }
 
@@ -71,6 +72,18 @@ export default class CalendarGrid extends React.Component {
                     startTime={this.state.startTime}
                     endTime={this.state.endTime}
                 />
+
+                <EditAppointmentModal
+                    isOpen={this.state.editAppointmentModalOpen}
+                    closeModal={() => {
+                        this.setState((prev) => ({
+                            ...prev,
+                            editAppointmentModalOpen: false,
+                        }));
+                    }}
+                    doctorId={this.props.doctorId}
+                    selectedId={this.state.selectedAppointment}
+                />
             </>
         );
     }
@@ -86,14 +99,6 @@ export default class CalendarGrid extends React.Component {
             ? endDateSplit[1].split("+")[0].substring(0, 5)
             : "";
 
-        console.log(
-            startDateSplit[0],
-            startTime,
-            ":::",
-            endDateSplit[0],
-            endTime
-        );
-
         this.setState((prev) => ({
             ...prev,
             startDate: startDateSplit[0],
@@ -103,36 +108,27 @@ export default class CalendarGrid extends React.Component {
         }));
 
         this.setState((prev) => ({
+            ...prev,
             addAppointmentModalOpen: true,
         }));
         // let calendarApi = selectInfo.view.calendar;
-        // let title = prompt("Please enter a new title for your event");
-
-        // calendarApi.unselect(); // clear date selection
-
-        // if (title) {
-        //     calendarApi.addEvent(
-        //         {
-        //             // will render immediately. will call handleEventAdd
-        //             title,
-        //             start: selectInfo.startStr,
-        //             end: selectInfo.endStr,
-        //             allDay: selectInfo.allDay,
-        //         },
-        //         true
-        //     ); // temporary=true, will get overwritten when reducer gives new events
-        // }
+        // calendarApi.unselect();
     };
 
     handleEventClick = (clickInfo) => {
-        console.log(clickInfo);
-        // if (
-        //     window.confirm(
-        //         `Are you sure you want to delete the event '${clickInfo.event.title}'`
-        //     )
-        // ) {
-        //     clickInfo.event.remove(); // will render immediately. will call handleEventRemove
-        // }
+        const { id } = clickInfo.event;
+
+        console.log(id);
+
+        this.setState((prev) => ({
+            ...prev,
+            selectedAppointment: id,
+        }));
+
+        this.setState((prev) => ({
+            ...prev,
+            editAppointmentModalOpen: true,
+        }));
     };
 
     handleEventAdd = (addInfo) => {

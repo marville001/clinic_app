@@ -1,4 +1,4 @@
-import { GET_APPOINTMENTS } from "../types/appointments.types";
+import { GET_APPOINTMENTS, UPDATE_APPOINTMENT } from "../types/appointments.types";
 
 
 const initialState = {
@@ -26,6 +26,13 @@ const appointmentsReducer = (state = initialState, action) => {
                 loading: false,
                 error: action.payload,
             };
+        
+        case UPDATE_APPOINTMENT.REQUEST:
+            return { ...state, updating: true };
+        case UPDATE_APPOINTMENT.SUCCESS:
+            return { ...state, updating: false };
+        case UPDATE_APPOINTMENT.FAIL:
+            return { ...state, updating: false };
 
         default:
             return { ...state };
