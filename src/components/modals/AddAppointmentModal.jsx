@@ -13,7 +13,7 @@ import {
     getAppointmentsAction,
 } from "../../redux/actions/appointments.action";
 
-const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
+const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
     const [error, setError] = useState("");
 
     const [allDay, setAllDay] = useState(false);
@@ -29,7 +29,6 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
     } = useForm();
 
     const dispatch = useDispatch();
-    const { id } = useParams();
 
     const handleCloseModal = () => {
         closeModal();
@@ -41,7 +40,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
         setError("");
         setLoading(true);
         const res = await dispatch(
-            createAppointmentAction({ ...data, allDay, doctorId: id })
+            createAppointmentAction({ ...data, allDay, doctorId })
         );
         setLoading(false);
 
@@ -50,7 +49,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
             return;
         }
 
-        dispatch(getAppointmentsAction(id));
+        dispatch(getAppointmentsAction(doctorId));
         toast.success(`Appointment Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
@@ -112,6 +111,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
                         required={true}
                         type="date"
                         shortError
+                        min={new Date().toISOString().toString().slice(0,10)}
                     />
 
                     {allDay ? (
@@ -124,6 +124,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {} }) => {
                                 required={true}
                                 type="date"
                                 shortError
+                                min={new Date().toISOString().toString().slice(0,10)}
                             />
                         </>
                     ) : (
