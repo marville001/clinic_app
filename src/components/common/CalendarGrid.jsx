@@ -133,16 +133,6 @@ class CalendarGrid extends React.Component {
         }));
     };
 
-    handleEventAdd = (addInfo) => {
-        try {
-            console.log("=====ADD==========");
-            console.log(addInfo.event.toPlainObject());
-            console.log("======================");
-        } catch (error) {
-            addInfo.revert();
-        }
-    };
-
     handleEventChange = async (changeInfo) => {
         try {
             const obj = changeInfo.event.toPlainObject();
@@ -185,6 +175,16 @@ class CalendarGrid extends React.Component {
             }
         } catch (error) {
             changeInfo.revert();
+        }
+    };
+
+    handleEventAdd = (addInfo) => {
+        try {
+            console.log("=====ADD==========");
+            console.log(addInfo.event.toPlainObject());
+            console.log("======================");
+        } catch (error) {
+            addInfo.revert();
         }
     };
 

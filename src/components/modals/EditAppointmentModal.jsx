@@ -145,7 +145,6 @@ const EditAppointmentModal = ({
                         required={true}
                         shortError
                         type="date"
-                        min={new Date().toISOString().toString().slice(0, 10)}
                         inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                     />
 
@@ -159,10 +158,6 @@ const EditAppointmentModal = ({
                                 required={true}
                                 type="date"
                                 shortError
-                                min={new Date()
-                                    .toISOString()
-                                    .toString()
-                                    .slice(0, 10)}
                                 inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                             />
                         </>
