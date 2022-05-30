@@ -4,11 +4,12 @@ import {
     FaChevronDown,
     FaRegBell,
     FaRegUserCircle,
+    FaUser,
     FaUserAlt,
 } from "react-icons/fa";
 import { Menu, Transition } from "@headlessui/react";
 
-import { NavContext } from "../nav.context";
+import { NavContext } from "../contexts/nav.context";
 
 const Header = ({ title }) => {
     const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
@@ -41,19 +42,32 @@ const Header = ({ title }) => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                     >
-                        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div className="px-1 py-1 flex flex-col gap-2">
-                                <Menu.Item>
-                                        <button
-                                            className={`group flex w-full items-center rounded-md px-2 py-1 text-sm`}
+                        <Menu.Items className="absolute right-0 mt-2 w-[300px] origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div
+                                className={`w-full h-[4000px] max-h-[400px] rounded-md overflow-auto  px-2 text-sm`}
+                            >
+                                <h2 className="text-center text-xl my-2 border-b-2 pb-1 select-none">
+                                    Notifications
+                                </h2>
+
+                                <div className="flex flex-col divide-y-[1px]">
+                                    {[1, 2, 3, 4].map((notification, i) => (
+                                        <div
+                                            key={i}
+                                            className="py-2 w-full flex gap-2 items-center"
                                         >
-                                            <span className="text-lg">
-                                                Notification
-                                            </span>
-                                        </button>
-                                </Menu.Item>
+                                            <div className="p-2 bg-lightgray opacity-40 rounded-full">
+                                                <FaUser className="text-lg text-dimgray" />
+                                            </div>
+
+                                            <div className="text-sm">
+                                                <span className="font-bold opacity-70">New Comment</span>
+                                                <p className="text-xs mt-2">Lorem, ipsum dolor. Lorem ipsum dolor sit amet.</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                            
                         </Menu.Items>
                     </Transition>
                 </Menu>

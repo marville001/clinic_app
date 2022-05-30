@@ -12,7 +12,7 @@ import {
     FaLayerGroup,
     FaCogs,
 } from "react-icons/fa";
-import { NavContext } from "../nav.context";
+import { NavContext } from "../contexts/nav.context";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUserAction } from "../redux/actions/auth.action";
 

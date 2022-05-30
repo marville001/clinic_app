@@ -13,12 +13,10 @@ import {
     resetMessagesAction,
 } from "../redux/actions/messages.action";
 import io from "socket.io-client";
+import { useNotifications } from "../contexts/notification.context";
+import { useSocket } from "../contexts/socket.context";
 
-let socket, selectedChatCompare;
-const END_POINT =
-    process.env.NODE_ENV === "production"
-        ? "https://my-clinic-api.herokuapp.com"
-        : "http://localhost:9003";
+let selectedChatCompare;
 
 const Messages = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -26,20 +24,21 @@ const Messages = () => {
 
     const [selectedChat, setSelectedChat] = useState({});
     const [chatInfoOpen, setChatInfoOpen] = useState(false);
-    const [socketConnected, setSocketConnected] = useState(false);
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
-        const [text, setText] = useState("");
+    const [text, setText] = useState("");
 
     const scrollRef = useRef();
     const dispatch = useDispatch();
 
+    const { socket, socketConnected } = useSocket();
+
     useEffect(() => {
-        if (authDetails._id) {
-            socket = io(END_POINT);
-            socket.emit("setup", authDetails);
-            socket.on("connected", () => setSocketConnected(true));
-            socket.on("typing", (room) => room === selectedChat?.id && setIsTyping(true));
+        if (socket) {
+            socket.on(
+                "typing",
+                (room) => room === selectedChat?.id && setIsTyping(true)
+            );
             socket.on("stop typing", () => setIsTyping(false));
 
             socket?.on("message received", (newMessageReceived) => {
@@ -53,7 +52,7 @@ const Messages = () => {
                 }
             });
         }
-    }, [authDetails]);
+    }, [socket]);
 
     useEffect(() => {
         authDetails?._id && dispatch(getChatsAction());

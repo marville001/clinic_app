@@ -2,6 +2,7 @@ import React from "react";
 import { FaHouseUser, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useSocket } from "../../contexts/socket.context";
 import { updateDoctorAdminStatusAction } from "../../redux/actions/doctors.action";
 
 const PatientPersonalDetails = () => {
@@ -11,10 +12,35 @@ const PatientPersonalDetails = () => {
 
     const dispatch = useDispatch();
 
+    const { socket } = useSocket();
+
     const handleDoctorAdminStatus = async (status) => {
         const res = await dispatch(
             updateDoctorAdminStatusAction(status, doctor?._id)
         );
+
+        let notif_data;
+
+        if (status) {
+            notif_data = {
+                title: "You are an Admin",
+                description: "You have been updated to an admin.",
+                link: "",
+                read: false,
+            };
+        } else {
+            notif_data = {
+                title: "Admin Status Revoked",
+                description: "Your admin status has been revoked.",
+                link: "",
+                read: false,
+            };
+        }
+
+        socket?.emit("new notification", {
+            room: doctor?._id,
+            notification: notif_data,
+        });
 
         toast.success(`Admin Status Updates Successfully`, {
             position: "top-right",
