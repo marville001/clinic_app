@@ -24,8 +24,8 @@ const SocketProvider = ({ children }) => {
             socket.emit("setup", authDetails);
             socket.on("connected", () => setSocketConnected(true));
             socket.on("new notification", (data) => {
-                setNotifications(prev => ({ data, ...prev }))
-                setNewNotification(true)
+                setNotifications((prev) => [data, ...prev]);
+                setNewNotification(true);
             });
         }
     }, [authDetails, setNewNotification, setNotifications]);

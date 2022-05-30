@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const NotificationsContext = createContext();
 
 const NotificationsProvider = ({ children }) => {
-    const [notifications, setNotifications] = useState([1,2,3]);
+    const [notifications, setNotifications] = useState([]);
     const [newNotification, setNewNotification] = useState(false);
 
     return (

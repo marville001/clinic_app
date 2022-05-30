@@ -10,9 +10,14 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 
 import { NavContext } from "../contexts/nav.context";
+import { useNotifications } from "../contexts/notification.context";
 
 const Header = ({ title }) => {
     const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
+
+    const { notifications, newNotification, setNewNotification } =
+        useNotifications();
+
     return (
         <div
             className={`flex justify-between items-center ${
@@ -29,9 +34,21 @@ const Header = ({ title }) => {
 
             <div className="flex items-center gap-4 z-[88]">
                 <Menu as="div" className="relative inline-block text-left">
-                    <Menu.Button className="p-2 py-2 relative hover:bg-lightgray group rounded-md cursor-pointer flex items-center gap-2">
-                        <FaRegBell className="text-xl" />
-                        <div className="h-2 w-2 bg-steelblue rounded-full absolute right-2 top-2"></div>
+                    <Menu.Button
+                        as="div"
+                        className="p-2 py-2 relative hover:bg-lightgray group rounded-md cursor-pointer flex items-center gap-2"
+                    >
+                        <FaRegBell
+                            onClick={(e) => {
+                                if (newNotification) {
+                                    setNewNotification(false);
+                                }
+                            }}
+                            className="text-xl"
+                        />
+                        {newNotification && (
+                            <div className="h-2 w-2 bg-steelblue rounded-full absolute right-2 top-2"></div>
+                        )}
                     </Menu.Button>
                     <Transition
                         as={Fragment}
@@ -44,28 +61,37 @@ const Header = ({ title }) => {
                     >
                         <Menu.Items className="absolute right-0 mt-2 w-[300px] origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <div
-                                className={`w-full h-[4000px] max-h-[400px] rounded-md overflow-auto  px-2 text-sm`}
+                                className={`w-full min-h-[300px] max-h-[400px] rounded-md overflow-auto text-sm`}
                             >
                                 <h2 className="text-center text-xl my-2 border-b-2 pb-1 select-none">
                                     Notifications
                                 </h2>
 
                                 <div className="flex flex-col divide-y-[1px]">
-                                    {[1, 2, 3, 4].map((notification, i) => (
+                                    {notifications?.map((notification, i) => (
                                         <div
                                             key={i}
-                                            className="py-2 w-full flex gap-2 items-center"
+                                            className="py-2 w-full flex gap-2  px-2 items-center cursor-pointer hover:bg-gray-100"
                                         >
                                             <div className="p-2 bg-lightgray opacity-40 rounded-full">
                                                 <FaUser className="text-lg text-dimgray" />
                                             </div>
 
                                             <div className="text-sm">
-                                                <span className="font-bold opacity-70">New Comment</span>
-                                                <p className="text-xs mt-2">Lorem, ipsum dolor. Lorem ipsum dolor sit amet.</p>
+                                                <span className="font-bold opacity-70">
+                                                    {notification?.title}
+                                                </span>
+                                                <p className="text-xs mt-2">
+                                                    {notification?.description}
+                                                </p>
                                             </div>
                                         </div>
                                     ))}
+                                    {notifications?.length === 0 && (
+                                        <div className="py-4 opacity-40 uppercase text-lg font-bold text-center">
+                                            No Notification Yet
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </Menu.Items>
