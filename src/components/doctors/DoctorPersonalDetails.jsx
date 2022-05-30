@@ -75,29 +75,40 @@ const PatientPersonalDetails = () => {
                     </h4>
                 </div>
 
-                {!doctor?.isAdmin ? (
-                    <div
-                        onClick={() => handleDoctorAdminStatus(true)}
-                        className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                <div className="flex flex-col gap-2">
+                    <span
+                        className={`bg-slate-200 text-center text-sm py-1 rounded-md ${
+                            doctor?.isAdmin ? "text-seagreen" : "text-red-400"
+                        }`}
                     >
-                        {updatingIsAdmin ? (
-                            <FaSpinner className="animate-spin text-xl opacity-80" />
-                        ) : (
-                            <span>Make Admin</span>
-                        )}
-                    </div>
-                ) : (
-                    <div
-                        onClick={() => handleDoctorAdminStatus(false)}
-                        className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
-                    >
-                        {updatingIsAdmin ? (
-                            <FaSpinner className="animate-spin text-xl opacity-80" />
-                        ) : (
-                            <span>Revoke Admin</span>
-                        )}
-                    </div>
-                )}
+                        {" "}
+                        {doctor?.isAdmin ? "Admin" : "Not Admin"}{" "}
+                    </span>
+
+                    {!doctor?.isAdmin ? (
+                        <div
+                            onClick={() => handleDoctorAdminStatus(true)}
+                            className="flex cursor-pointer items-center space-x-2 bg-seagreen py-1 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                        >
+                            {updatingIsAdmin ? (
+                                <FaSpinner className="animate-spin text-xl opacity-80" />
+                            ) : (
+                                <span>Make Admin</span>
+                            )}
+                        </div>
+                    ) : (
+                        <div
+                            onClick={() => handleDoctorAdminStatus(false)}
+                            className="flex cursor-pointer items-center space-x-2 bg-seagreen py-1 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                        >
+                            {updatingIsAdmin ? (
+                                <FaSpinner className="animate-spin text-xl opacity-80" />
+                            ) : (
+                                <span>Revoke Admin</span>
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
