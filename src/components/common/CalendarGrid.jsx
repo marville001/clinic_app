@@ -17,6 +17,7 @@ export default class CalendarGrid extends React.Component {
             endDate: "",
             startTime: "",
             endTime: "",
+            selectedAppointment: {},
         };
     }
 
