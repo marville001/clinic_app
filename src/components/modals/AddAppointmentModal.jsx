@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -13,7 +13,15 @@ import {
     getAppointmentsAction,
 } from "../../redux/actions/appointments.action";
 
-const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
+const AddAppointmentModal = ({
+    isOpen,
+    closeModal = () => {},
+    doctorId = "",
+    startDate = "",
+    endDate = "",
+    startTime = "",
+    endTime = "",
+}) => {
     const [error, setError] = useState("");
 
     const [allDay, setAllDay] = useState(false);
@@ -34,6 +42,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
         closeModal();
         clearErrors();
         reset();
+        setAllDay(false);
     };
 
     const handleAddDepartment = async (data) => {
@@ -62,8 +71,26 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
         handleCloseModal();
     };
 
+    useEffect(() => {
+        setValue("timeFrom", startTime ? startTime : "08:00");
+        setValue("timeTo", endTime ? endTime : "08:45");
+    }, [setValue, startTime, endTime]);
+
+    useEffect(() => {
+        setValue(
+            "startDate",
+            startDate
+                ? startDate
+                : new Date().toISOString().toString().slice(0, 10)
+        );
+        setValue(
+            "endDate",
+            endDate ? endDate : new Date().toISOString().toString().slice(0, 10)
+        );
+    }, [setValue, startDate, endDate]);
+
     return (
-        <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
+        <Modal size="3xl" isOpen={isOpen} closeModal={handleCloseModal}>
             <form
                 onSubmit={handleSubmit(handleAddDepartment)}
                 className="bg-white p-5 _shadow rounded-md"
@@ -85,6 +112,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                         register={register}
                         required={true}
                         type="text"
+                        inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                     />
                 </div>
 
@@ -99,7 +127,7 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                                     setValue("endDate", "");
                                 }
                             }}
-                            className="ring-0 focus:ring-0 active:ring-0"
+                            className="ring-0 focus:ring-0 active:ring-0 "
                         />{" "}
                         All Day
                     </div>
@@ -109,14 +137,15 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                         label="Appointment Date"
                         register={register}
                         required={true}
-                        type="date"
                         shortError
-                        min={new Date().toISOString().toString().slice(0,10)}
+                        type="date"
+                        min={new Date().toISOString().toString().slice(0, 10)}
+                        inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                     />
 
                     {allDay ? (
                         <>
-                            <p>to</p>
+                            <p>{"->"}</p>
                             <InputField
                                 errors={errors}
                                 name="endDate"
@@ -124,7 +153,11 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                                 required={true}
                                 type="date"
                                 shortError
-                                min={new Date().toISOString().toString().slice(0,10)}
+                                min={new Date()
+                                    .toISOString()
+                                    .toString()
+                                    .slice(0, 10)}
+                                inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                             />
                         </>
                     ) : (
@@ -136,6 +169,8 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                                 required={true}
                                 type="time"
                                 shortError
+                                defaultValue="08:00"
+                                inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                             />
                             <p>to</p>
                             <InputField
@@ -144,7 +179,9 @@ const AddAppointmentModal = ({ isOpen, closeModal = () => {},doctorId="" }) => {
                                 register={register}
                                 required={true}
                                 type="time"
+                                defaultValue="08:45"
                                 shortError
+                                inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                             />
                         </div>
                     )}

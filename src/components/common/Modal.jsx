@@ -64,7 +64,7 @@ export default function Modal({
                         : size === "3xl"
                         ? "max-w-3xl"
                         : size === "4xl"
-                        ? "max-w-4xl"
+                        ? "max-w-7xl"
                         : "max-w-2xl"
                 }
                 my-8 overflow-hidden 

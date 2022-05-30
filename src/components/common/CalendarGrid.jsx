@@ -13,6 +13,10 @@ export default class CalendarGrid extends React.Component {
         this.state = {
             events: [],
             addAppointmentModalOpen: false,
+            startDate: "",
+            endDate: "",
+            startTime: "",
+            endTime: "",
         };
     }
 
@@ -60,16 +64,44 @@ export default class CalendarGrid extends React.Component {
                             addAppointmentModalOpen: false,
                         }));
                     }}
-                    doctorId={this.props.id}
+                    doctorId={this.props.doctorId}
+                    startDate={this.state.startDate}
+                    endDate={this.state.endDate}
+                    startTime={this.state.startTime}
+                    endTime={this.state.endTime}
                 />
             </>
         );
     }
 
     handleDateSelect = (selectInfo) => {
-        console.log(selectInfo);
+        const startDateSplit = selectInfo.startStr.split("T");
+        const endDateSplit = selectInfo.endStr.split("T");
+
+        const startTime = endDateSplit[1]
+            ? startDateSplit[1].split("+")[0].substring(0, 5)
+            : "";
+        const endTime = endDateSplit[1]
+            ? endDateSplit[1].split("+")[0].substring(0, 5)
+            : "";
+
+        console.log(
+            startDateSplit[0],
+            startTime,
+            ":::",
+            endDateSplit[0],
+            endTime
+        );
+
         this.setState((prev) => ({
             ...prev,
+            startDate: startDateSplit[0],
+            endDate: endDateSplit[0],
+            startTime,
+            endTime,
+        }));
+
+        this.setState((prev) => ({
             addAppointmentModalOpen: true,
         }));
         // let calendarApi = selectInfo.view.calendar;
