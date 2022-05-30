@@ -3,6 +3,8 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import {
     FaChevronDown,
     FaRegBell,
+    FaRegEnvelope,
+    FaRegEnvelopeOpen,
     FaRegUserCircle,
     FaUser,
     FaUserAlt,
@@ -15,8 +17,12 @@ import { useNotifications } from "../contexts/notification.context";
 const Header = ({ title }) => {
     const { sidebarOpen, setSidebarOpen } = useContext(NavContext);
 
-    const { notifications, newNotification, setNewNotification } =
-        useNotifications();
+    const {
+        notifications,
+        newNotification,
+        setNewNotification,
+        toggleNotificationStatus,
+    } = useNotifications();
 
     return (
         <div
@@ -70,14 +76,24 @@ const Header = ({ title }) => {
                                 <div className="flex flex-col divide-y-[1px]">
                                     {notifications?.map((notification, i) => (
                                         <div
-                                            key={i}
-                                            className={`py-2 w-full flex gap-2  px-2 items-center cursor-pointer hover:bg-gray-100 ${!notification?.read && "bg-blue-50"}`}
+                                            key={notification?._id}
+                                            onClick={() => {
+                                                if (!notification?.read)
+                                                    toggleNotificationStatus(
+                                                        notification?._id,
+                                                        true
+                                                    );
+                                            }}
+                                            className={`py-2 w-full flex gap-2  px-2 items-center cursor-pointer hover:bg-gray-100 ${
+                                                !notification?.read &&
+                                                "bg-blue-50"
+                                            }`}
                                         >
                                             <div className="p-2 bg-lightgray opacity-40 rounded-full">
                                                 <FaUser className="text-lg text-dimgray" />
                                             </div>
 
-                                            <div className="text-sm">
+                                            <div className="text-sm flex-1">
                                                 <span className="font-bold opacity-70">
                                                     {notification?.title}
                                                 </span>
@@ -85,6 +101,28 @@ const Header = ({ title }) => {
                                                     {notification?.description}
                                                 </p>
                                             </div>
+
+                                            {notification?.read ? (
+                                                <FaRegEnvelopeOpen
+                                                    onClick={() =>
+                                                        toggleNotificationStatus(
+                                                            notification?._id,
+                                                            false
+                                                        )
+                                                    }
+                                                    className="text-lg mr-2 text-dimgray"
+                                                />
+                                            ) : (
+                                                <FaRegEnvelope
+                                                    onClick={() =>
+                                                        toggleNotificationStatus(
+                                                            notification?._id,
+                                                            true
+                                                        )
+                                                    }
+                                                    className="text-lg mr-2 text-dimgray"
+                                                />
+                                            )}
                                         </div>
                                     ))}
                                     {notifications?.length === 0 && (
