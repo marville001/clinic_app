@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
-import { useParams } from "react-router-dom";
 
 import { toast } from "react-toastify";
 import {
