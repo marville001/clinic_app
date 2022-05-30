@@ -160,7 +160,7 @@ const AdminHome = () => {
                 {authDetails?.role === "doctor" && (
                     <div className="w-full my-8 bg-white p-5 _shadow">
                         <h2 className="text-xl font-bold mb-6">My Calendar</h2>
-                        <CalendarGrid appointments={appoints} />
+                        <CalendarGrid appointments={appoints} doctorId={authDetails?._id} />
                     </div>
                 )}
             </div>
