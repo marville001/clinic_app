@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiLockClosed } from "react-icons/hi";
 import { FaSpinner, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUserAction } from "../redux/actions/auth.action";
 
 const Login = () => {
+    const { authDetails } = useSelector((state) => state.authState);
+
     const [showPassword, setShowPassword] = useState(false);
     const [state, setState] = useState({
         error: "",
@@ -36,6 +38,12 @@ const Login = () => {
         setState({ error: "", loading: false });
         navigate("/home");
     };
+
+    useEffect(() => {
+        if (authDetails?._id) {
+            navigate("/home");
+        }
+    }, [authDetails?._id, navigate]);
 
     return (
         <div className="flex  p-4">
