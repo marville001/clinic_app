@@ -11,6 +11,7 @@ import {
     createAppointmentAction,
     getAppointmentsAction,
 } from "../../redux/actions/appointments.action";
+import { useSocket } from "../../contexts/socket.context";
 
 const AddAppointmentModal = ({
     isOpen,
@@ -37,6 +38,8 @@ const AddAppointmentModal = ({
 
     const dispatch = useDispatch();
 
+    const { socket } = useSocket();
+
     const handleCloseModal = () => {
         closeModal();
         clearErrors();
@@ -56,6 +59,18 @@ const AddAppointmentModal = ({
             setError(res.message);
             return;
         }
+
+        let notif_data = {
+            title: "New Appointment",
+            description: `You have a new appointment at ${data.startDate}.`,
+            link: "",
+            read: false,
+        };
+
+        socket?.emit("new notification", {
+            room: doctorId,
+            notification: notif_data,
+        });
 
         dispatch(getAppointmentsAction(doctorId));
         toast.success(`Appointment Added Successfully`, {

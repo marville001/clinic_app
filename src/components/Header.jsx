@@ -71,7 +71,7 @@ const Header = ({ title }) => {
                                     {notifications?.map((notification, i) => (
                                         <div
                                             key={i}
-                                            className="py-2 w-full flex gap-2  px-2 items-center cursor-pointer hover:bg-gray-100"
+                                            className={`py-2 w-full flex gap-2  px-2 items-center cursor-pointer hover:bg-gray-100 ${!notification?.read && "bg-blue-50"}`}
                                         >
                                             <div className="p-2 bg-lightgray opacity-40 rounded-full">
                                                 <FaUser className="text-lg text-dimgray" />
