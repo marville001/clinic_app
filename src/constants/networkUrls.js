@@ -31,6 +31,8 @@ export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
+export const makeDoctorAdminUrl = (id) => `${API_BASE}doctors/${id}/make-admin`;
+export const revokeDoctorAdminUrl = (id) => `${API_BASE}doctors/${id}/revoke-admin`;
 
 // Departments
 export const getDepartmentsUrl = `${API_BASE}departments`;
