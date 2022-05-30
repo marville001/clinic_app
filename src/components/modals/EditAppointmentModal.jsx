@@ -8,7 +8,6 @@ import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
 import {
-    createAppointmentAction,
     getAppointmentsAction,
     updateAppointmentAction,
 } from "../../redux/actions/appointments.action";
@@ -105,9 +104,6 @@ const EditAppointmentModal = ({
                 onSubmit={handleSubmit(handleUpdateDepartment)}
                 className="bg-white p-5 _shadow rounded-md"
             >
-                <h4 className="text-2xl text-slate-900 capitalize mb-2">
-                    title
-                </h4>
                 {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
                         {error}
@@ -210,27 +206,39 @@ const EditAppointmentModal = ({
                     <button
                         type="button"
                         onClick={handleCloseModal}
-                        className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+                        className="bg-salmon  bg-opacity-70 rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
                     >
                         Cancel
                     </button>
-                    <button
-                        disabled={loading}
-                        type="submit"
-                        className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
+
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={handleCloseModal}
+                            className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+                        >
+                            Delete
+                        </button>
+                        <button
+                            disabled={loading}
+                            type="submit"
+                            className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-8
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
-                    >
-                        {loading ? (
-                            <>
-                                <FaSpinner className="animate-spin mr-4" />{" "}
-                                <span className="capitalize">Loading...</span>
-                            </>
-                        ) : (
-                            <span>Update</span>
-                        )}
-                    </button>
+                        >
+                            {loading ? (
+                                <>
+                                    <FaSpinner className="animate-spin mr-4" />{" "}
+                                    <span className="capitalize">
+                                        Loading...
+                                    </span>
+                                </>
+                            ) : (
+                                <span>Update</span>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </form>
         </Modal>

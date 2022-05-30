@@ -5,10 +5,12 @@ import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClic
 import timeGridPlugin from "@fullcalendar/timegrid";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
 import EditAppointmentModal from "../modals/EditAppointmentModal";
+import { connect } from "react-redux";
+import { updateAppointmentAction } from "../../redux/actions/appointments.action";
 
 // REF: https://github.com/fullcalendar/fullcalendar-example-projects/blob/master/react-redux/src/DemoApp.jsx
 
-export default class CalendarGrid extends React.Component {
+class CalendarGrid extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -79,6 +81,7 @@ export default class CalendarGrid extends React.Component {
                         this.setState((prev) => ({
                             ...prev,
                             editAppointmentModalOpen: false,
+                            selectedAppointment: "",
                         }));
                     }}
                     doctorId={this.props.doctorId}
@@ -92,9 +95,10 @@ export default class CalendarGrid extends React.Component {
         const startDateSplit = selectInfo.startStr.split("T");
         const endDateSplit = selectInfo.endStr.split("T");
 
-        const startTime = endDateSplit[1]
+        const startTime = startDateSplit[1]
             ? startDateSplit[1].split("+")[0].substring(0, 5)
             : "";
+
         const endTime = endDateSplit[1]
             ? endDateSplit[1].split("+")[0].substring(0, 5)
             : "";
@@ -118,8 +122,6 @@ export default class CalendarGrid extends React.Component {
     handleEventClick = (clickInfo) => {
         const { id } = clickInfo.event;
 
-        console.log(id);
-
         this.setState((prev) => ({
             ...prev,
             selectedAppointment: id,
@@ -141,11 +143,46 @@ export default class CalendarGrid extends React.Component {
         }
     };
 
-    handleEventChange = (changeInfo) => {
+    handleEventChange = async (changeInfo) => {
         try {
-            console.log("=====UPDATE==========");
-            console.log(changeInfo.event.toPlainObject());
-            console.log("======================");
+            const obj = changeInfo.event.toPlainObject();
+
+            const details = {};
+
+            const startDateSplit = obj.start.split("T");
+            details.startDate = startDateSplit[0];
+
+            if (startDateSplit[1]) {
+                const startTime = startDateSplit[1]
+                    ? startDateSplit[1].split("+")[0].substring(0, 5)
+                    : "";
+
+                details.timeFrom = startTime;
+            }
+
+            if (obj.end) {
+                const endDateSplit = obj.end.split("T");
+
+                details.endDate = endDateSplit[0];
+
+                if (endDateSplit[1]) {
+                    const endTime = endDateSplit[1]
+                        ? endDateSplit[1].split("+")[0].substring(0, 5)
+                        : "";
+
+                    details.timeTo = endTime;
+                }
+            }
+
+            const res = await this.props.updateAppointmentDates(
+                details,
+                obj.id
+            );
+            console.log(res, details);
+
+            if (res.success === false) {
+                changeInfo.revert();
+            }
         } catch (error) {
             changeInfo.revert();
         }
@@ -170,3 +207,12 @@ function renderEventContent(eventInfo) {
         </>
     );
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateAppointmentDates: (data, id) =>
+            dispatch(updateAppointmentAction(data, id)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(CalendarGrid);
