@@ -52,7 +52,7 @@ const PatientPersonalDetails = () => {
                         <tr className="border-b">
                             <td className="py-2 text-sm font-bold">Email</td>
                             <td className="py-2  text-sm">
-                                {doctor?.firstname || "-"}
+                                {doctor?.email || "-"}
                             </td>
                         </tr>
 

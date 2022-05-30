@@ -125,7 +125,8 @@ const Sidebar = () => {
                         </NavLink>
                     </>
                 )}
-                {authDetails?.role === "admin" && (
+                {(authDetails?.role === "admin" || (authDetails?.role === "doctor" &&
+                        authDetails?.isAdmin)) && (
                     <>
                         <NavLink
                             onClick={closeSidebar}
