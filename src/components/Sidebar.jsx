@@ -41,9 +41,11 @@ const Sidebar = () => {
                 sidebarOpen ? "translate-x-0" : "-translate-x-[100%]"
             }`}
         >
+            {/* <NavLink to="profile"> */}
             <h4 className="text-lg text-seagreen text-center font-bold">
                 {authDetails?.firstname} {authDetails?.lastname}
             </h4>
+            {/* </NavLink> */}
             <div className="w-full h-[2px] bg-white my-4 opacity-30" />
             <div className="links my-6 flex flex-col space-y-4">
                 <NavLink

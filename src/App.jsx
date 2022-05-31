@@ -23,6 +23,7 @@ import { getUserProfileAction } from "./redux/actions/auth.action";
 import ResetPassword from "./pages/ResetPassword";
 import MyAppointments from "./pages/MyAppointments";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -50,6 +51,8 @@ const App = () => {
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/appointments" element={<MyAppointments />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/profile" element={<Profile />} />
+
             </Routes>
 
             <ToastContainer />

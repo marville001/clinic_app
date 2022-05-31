@@ -12,21 +12,24 @@ export const resetPasswordUrl = (token) =>
   `${API_BASE}auth/reset-password/${token}`;
 
 // Secretaries
-export const getSecretariesUrl = ({search=""})=> `${API_BASE}secretaries?search=${search}`;
+export const getSecretariesUrl = ({ search = "" }) =>
+  `${API_BASE}secretaries?search=${search}`;
 export const createSecretaryUrl = `${API_BASE}secretaries`;
 export const getSecretaryUrl = (id) => `${API_BASE}secretaries/${id}`;
 export const updateSecretaryUrl = (id) => `${API_BASE}secretaries/${id}`;
 export const deleteSecretaryUrl = (id) => `${API_BASE}secretaries/${id}`;
 
 // Admins
-export const getAdminsUrl = ({search=""})=> `${API_BASE}admins?search=${search}`;
+export const getAdminsUrl = ({ search = "" }) =>
+  `${API_BASE}admins?search=${search}`;
 export const createAdminUrl = `${API_BASE}admins`;
 export const getAdminUrl = (id) => `${API_BASE}admins/${id}`;
 export const updateAdminUrl = (id) => `${API_BASE}admins/${id}`;
 export const deleteAdminUrl = (id) => `${API_BASE}admins/${id}`;
 
 // Doctors
-export const getDoctorsUrl =({search=""})=> `${API_BASE}doctors?search=${search}`;
+export const getDoctorsUrl = ({ search = "" }) =>
+  `${API_BASE}doctors?search=${search}`;
 export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
@@ -43,7 +46,8 @@ export const createDiagnosisUrl = `${API_BASE}diagnosis`;
 export const deleteDiagnosisUrl = (id) => `${API_BASE}diagnosis/${id}`;
 
 // Patients
-export const getPatientsUrl = ({search=""})=> `${API_BASE}patients?search=${search}`;
+export const getPatientsUrl = ({ search = "" }) =>
+  `${API_BASE}patients?search=${search}`;
 export const createPatientUrl = `${API_BASE}patients`;
 export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;

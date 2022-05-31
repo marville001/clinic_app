@@ -1,6 +1,14 @@
-import { getUserProfileApi, loginUserApi } from "../../api";
-import { LOGOUT_USER, USER_LOGIN } from "../types/auth.types";
+import { getUserProfileApi, loginUserApi, putApi } from "../../api";
+import {
+  updateAdminUrl,
+  updateDoctorUrl,
+  updateSecretaryUrl,
+  updatePatientUrl,
+} from "../../constants";
+import { LOGOUT_USER, UPDATE_USER, USER_LOGIN } from "../types/auth.types";
 import parseError from "../../utils/parseError";
+import { UPDATE_PATIENT } from "../types/patients.types";
+import { updateUserApi } from "../../api/auth";
 
 export const loginUserAction = (user) => async (dispatch) => {
   dispatch({ type: USER_LOGIN.REQUEST });
@@ -48,5 +56,41 @@ export const getUserProfileAction = () => async (dispatch) => {
       localStorage.clear();
       window.location.href = "/";
     }
+  }
+};
+
+export const updateUserProfileAction = (user, role, id) => async (dispatch) => {
+  dispatch({ type: UPDATE_USER.REQUEST });
+  console.log(role);
+  try {
+    if (role === "admin") {
+      const { data } = await putApi(updateAdminUrl(id), user);
+      console.log(data);
+      dispatch({
+        type: UPDATE_USER.SUCCESS,
+        payload: data.admin,
+      });
+    } else if (role === "secretary") {
+      const { data } = await putApi(updateSecretaryUrl(id), user);
+      dispatch({
+        type: UPDATE_USER.SUCCESS,
+        payload: data.secretary,
+      });
+    } else {
+      const { data } = await putApi(updateDoctorUrl(id), user);
+      dispatch({
+        type: UPDATE_USER.SUCCESS,
+        payload: data.doctor,
+      });
+    }
+
+    return { success: true };
+  } catch (error) {
+    dispatch({ type: UPDATE_USER.FAIL, payload: parseError(error) });
+
+    return {
+      success: false,
+      message: parseError(error),
+    };
   }
 };

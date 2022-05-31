@@ -7,7 +7,7 @@ import {
     FaUserAlt,
 } from "react-icons/fa";
 import { Menu, Transition } from "@headlessui/react";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import { NavContext } from "../nav.context";
 
 const Header = ({ title }) => {
@@ -76,6 +76,8 @@ const Header = ({ title }) => {
                             <div className="px-1 py-1 flex flex-col gap-2 min-h-[100px]">
                                 <Menu.Item>
                                     {({ active }) => (
+                                    <NavLink
+                                        to="/profile">
                                         <button
                                             className={`${
                                                 active
@@ -90,7 +92,7 @@ const Header = ({ title }) => {
                                             <span className="text-lg">
                                                 Profile
                                             </span>
-                                        </button>
+                                        </button></NavLink>
                                     )}
                                 </Menu.Item>
                             </div>
