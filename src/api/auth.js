@@ -1,14 +1,10 @@
 import {
   getProfileUrl,
   loginUrl,
-  updateAdminUrl,
-  updateDoctorUrl,
-  updateSecretaryUrl,
-  updateUser,
 } from "../constants";
 import http from "../utils/https";
 
-const { post, get, put } = http;
+const { post, get } = http;
 export const loginUserApi = async (user) => {
   return await post(loginUrl, user);
 };

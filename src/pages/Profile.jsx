@@ -16,9 +16,6 @@ const Profile = () => {
   const openEditModal = () => {
     setNameModalOpen(!nameModalOpen);
   };
-  const openPasswordModal = () => {
-    setPasswordModalOpen(!passwordModalOpen);
-  };
 
   const handleEditName = async (newname) => {
     const res = await dispatch(

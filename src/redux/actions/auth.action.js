@@ -3,12 +3,9 @@ import {
   updateAdminUrl,
   updateDoctorUrl,
   updateSecretaryUrl,
-  updatePatientUrl,
 } from "../../constants";
 import { LOGOUT_USER, UPDATE_USER, USER_LOGIN } from "../types/auth.types";
 import parseError from "../../utils/parseError";
-import { UPDATE_PATIENT } from "../types/patients.types";
-import { updateUserApi } from "../../api/auth";
 
 export const loginUserAction = (user) => async (dispatch) => {
   dispatch({ type: USER_LOGIN.REQUEST });

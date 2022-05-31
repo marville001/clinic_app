@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { HiUserAdd } from "react-icons/hi";
+import React, {  useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { useDispatch, useSelector } from "react-redux";
 import { FaSpinner } from "react-icons/fa";
-import Modal from "../common/Modal";
 import { toast } from "react-toastify";
 
 const EditPassword = ({
@@ -18,7 +15,6 @@ const EditPassword = ({
   const [npassword, setNpassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
-  const { authDetails } = useSelector((state) => state.authState);
   const editPassword = () => {
     if (npassword !== confirm) {
       setError("Passwords do not match");
@@ -27,12 +23,8 @@ const EditPassword = ({
     }
   };
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
     clearErrors,
     reset,
-    setValue,
   } = useForm();
   const handleCloseModal = () => {
     closeModal();
