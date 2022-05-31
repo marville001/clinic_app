@@ -79,67 +79,11 @@ const Profile = () => {
           <span>Change profile picture</span>
         </div>
       </div>
-      <div
-        className={
-          +nameModalOpen
-            ? "mr-80 w-full flex justify-around"
-            : "w-full flex justify-around mt-10"
-        }
-      >
-        <p className="">Username</p>
-        <div
-        // className/={
-        // +nameModalOpen ? "hidden" : "visible w-5/12 flex justify-between"
-        // }
-        >
-          {nameModalOpen ? (
-            <EditName
-              message="Edit Name"
-              isOpen={nameModalOpen}
-              closeModal={() => {
-                setNameModalOpen(false);
-              }}
-              actionMethod={handleEditName}
-              loading={loading}
-            />
-          ) : (
-            <div className="flex justify-between w-[700px]">
-              <p>{authDetails.username}</p>
-              <div
-                onClick={() => {
-                  openEditModal();
-                }}
-                className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 
-						  hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
-              >
-                <HiUserAdd />
-                <span>Edit</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="flex w-full justify-around mt-10">
-        <p>Email</p>
-
-        <div className=" w-5/12 flex justify-between">
-          <p>{authDetails.email}</p>
-
-          <div
-            className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 
-						  hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
-          >
-            <HiUserAdd />
-            <span>Edit</span>
-          </div>
-        </div>
-      </div>
 
       {/* START */}
       <div className="flex w-full mx-auto justify-around mt-10">
-        <div className="flex-1">
-          <p>Email</p>
+        <div className="flex-1 ml-44">
+          <p>Username</p>
         </div>
         <div className="flex-1">
           {nameModalOpen ? (
@@ -153,7 +97,7 @@ const Profile = () => {
               loading={loading}
             />
           ) : (
-            <p>{authDetails.email}</p>
+            <p>{authDetails.username}</p>
           )}
         </div>
         <div className="flex-1">
@@ -172,35 +116,56 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      {/* END */}
-      <div className="flex w-full justify-around mt-10 ">
-        <p>Password</p>
 
-        <div className=" w-5/12 flex justify-between">
-          <p>********</p>
-          <div
-            onClick={() => {
-              openPasswordModal();
-            }}
-            className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 
-          hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
-          >
-            <HiUserAdd />
-            <span>Change</span>
-          </div>{" "}
+      {/* END */}
+
+      {/* START */}
+      <div className="flex w-full mx-auto justify-around mt-10">
+        <div className="flex-1 ml-44">
+          <p>Email</p>
+        </div>
+        <div className="flex-1 mr-[500px]">
+          <p>{authDetails.email}</p>
         </div>
       </div>
-      <div className={+passwordModalOpen ? "block" : "hidden"}>
-        <EditPassword
-          isOpen={passwordModalOpen}
-          closeModal={() => {
-            setPasswordModalOpen(false);
-          }}
-          message="Change Password"
-          // actionMethod={handleEditName}
-          //   loading={editing}
-        />
+
+      {/* END */}
+
+      {/* START */}
+      <div className="flex w-full mx-auto justify-around mt-10">
+        <div className="flex-1 ml-44">
+          <p>Username</p>
+        </div>
+        <div className="flex-1">
+          {passwordModalOpen ? (
+            <EditPassword
+              isOpen={passwordModalOpen}
+              closeModal={() => {
+                setPasswordModalOpen(false);
+              }}
+              message="Change Password"
+            />
+          ) : (
+            <p>********</p>
+          )}
+        </div>
+        <div className="flex-1">
+          <div
+            onClick={() => {
+              setPasswordModalOpen(!passwordModalOpen);
+            }}
+            className={
+              passwordModalOpen
+                ? "hidden"
+                : "flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
+            }
+          >
+            <HiUserAdd />
+            <span>Edit</span>
+          </div>
+        </div>
       </div>
+      {/* END */}
     </DashboardWrapper>
   );
 };
