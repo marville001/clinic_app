@@ -38,7 +38,7 @@ const Profile = () => {
             </div> */}
 
                 {/* START */}
-                <div className={`flex w-full flex-col gap-10 sm:flex-row mx-auto ${!editingName && "items-center"}`}>
+                <div className={`flex w-full flex-col gap-10 sm:flex-row mx-auto ${!editingName && "sm:items-center"}`}>
                     <div className="font-bold text-xl opacity-70">
                         <p>Name</p>
                     </div>
