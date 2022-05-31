@@ -1,9 +1,10 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "react-toastify";
-
+import Moment from "react-moment";
 const EditPassword = ({
   isOpen,
   actionMethod = () => {},
@@ -22,10 +23,7 @@ const EditPassword = ({
       handleEditPassword(cpassword, confirm);
     }
   };
-  const {
-    clearErrors,
-    reset,
-  } = useForm();
+  const { clearErrors, reset } = useForm();
   const handleCloseModal = () => {
     closeModal();
     clearErrors();
@@ -61,9 +59,6 @@ const EditPassword = ({
 
   return (
     <div className="bg-white p-5 _shadow rounded-md">
-      <h4 className="text-center text-2xl text-slate-900 mb-6">
-        Please Confirm Delete
-      </h4>
       <div className="my-5">
         <p>{message}</p>
       </div>
@@ -108,6 +103,25 @@ const EditPassword = ({
         >
           {loading ? <FaSpinner className="animate-spin mr-4" /> : "Yes"}
         </button>
+      </div>
+      <div className="flex text-center align-middle mt-10 justify-between">
+        <p>Can't remember password?</p>
+        <Link
+          to="/forgot-password"
+          className="mt-6 text-sm flex items-center space-x-2 justify-center"
+        >
+          <div
+            // onClick={() => {
+            //   setPasswordModalOpen(!passwordModalOpen);
+            // }}
+            className={
+              "flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
+            }
+          >
+            <HiUserAdd />
+            <span>Reset via email</span>
+          </div>
+        </Link>
       </div>
     </div>
   );

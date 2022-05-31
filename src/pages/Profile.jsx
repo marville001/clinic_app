@@ -66,7 +66,9 @@ const Profile = () => {
           <h4 className="text-lg  text-seagreen text-center font-bold m-10">
             {authDetails?.firstname} {authDetails?.lastname}
           </h4>
-          <p className="">Member since {}</p>
+          <p className="">
+            Member since {moment(authDetails.createdAt).format("MM/DD/YYYY")}
+          </p>
         </div>
         <div
           className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md text-white bg-seagreen 
@@ -131,7 +133,7 @@ const Profile = () => {
       {/* START */}
       <div className="flex w-full mx-auto justify-around mt-10">
         <div className="flex-1 ml-44">
-          <p>Username</p>
+          <p>Password</p>
         </div>
         <div className="flex-1">
           {passwordModalOpen ? (
