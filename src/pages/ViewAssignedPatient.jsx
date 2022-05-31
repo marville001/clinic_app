@@ -49,7 +49,7 @@ const ViewAssignedPatient = () => {
 
                             <div className="flex gap-5 my-5 flex-col lg:flex-row">
                                 <PatientComments assigned />
-                                <PatientAttachedFiles />
+                                <PatientAttachedFiles assigned />
                             </div>
                         </>
                     ) : (

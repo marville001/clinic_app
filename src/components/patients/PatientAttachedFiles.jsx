@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { STATIC_FILE_BASE } from "../../constants";
 import AddPatientFileModal from "../modals/AddPatientFileModal";
 
-const PatientAttachedFiles = () => {
+const PatientAttachedFiles = ({ assigned }) => {
     const { patient } = useSelector((state) => state.patientsState);
 
     const [addFileModalOpen, setAddFileModalOpen] = useState(false);
@@ -12,16 +12,18 @@ const PatientAttachedFiles = () => {
         <div className="p-4 flex-[1] rounded bg-white _shadow">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-md font-bold">Attached Files</h3>
-                <div
-                    onClick={() => {
-                        setAddFileModalOpen(true);
-                    }}
-                    className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md text-white bg-seagreen 
+                {!assigned && (
+                    <div
+                        onClick={() => {
+                            setAddFileModalOpen(true);
+                        }}
+                        className="flex items-center space-x-2 py-2 text-xs px-6 rounded-md text-white bg-seagreen 
 						  hover:opacity-75 cursor-pointer"
-                >
-                    <FaFileUpload />
-                    <span>Add File</span>
-                </div>
+                    >
+                        <FaFileUpload />
+                        <span>Add File</span>
+                    </div>
+                )}
             </div>
 
             <div className="p-4 max-h-[280px] overflow-y-auto">
