@@ -7,7 +7,7 @@ import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
 import { toast } from "react-toastify";
 
-const PatientComments = () => {
+const PatientComments = ({ assigned }) => {
     const { commentType, comments } = useSelector(
         (state) => state.patientsState
     );
@@ -31,6 +31,7 @@ const PatientComments = () => {
     const handleCloseDeleteModal = () => {
         setConfirmDeleteModalOpen(false);
         setSelectedComment({});
+        setLoading(false)
     };
 
     const handleDeleteComment = async () => {
@@ -62,20 +63,31 @@ const PatientComments = () => {
 
     useEffect(() => {
         if (selectedType?._id) {
-            setFilteredComments(comments?.filter((comment) => comment?.commenttype === selectedType?._id));
+            setFilteredComments(
+                comments?.filter(
+                    (comment) => comment?.commenttype === selectedType?._id
+                )
+            );
         }
     }, [selectedType?._id, comments]);
 
     useEffect(() => {
         if (authDetails?.role === "admin") {
             setFilteredCommentTypes(commentType);
-
         } else if (authDetails?.role === "doctor") {
-            setFilteredCommentTypes(commentType?.filter((type) => type?.viewBy === "everyone" || type?.viewBy === "doctors"));
-        }else if (authDetails?.role === "secretary") {
-            setFilteredCommentTypes(commentType?.filter((type) => type?.viewBy === "everyone"));
+            setFilteredCommentTypes(
+                commentType?.filter(
+                    (type) =>
+                        type?.viewBy === "everyone" ||
+                        type?.viewBy === "doctors"
+                )
+            );
+        } else if (authDetails?.role === "secretary") {
+            setFilteredCommentTypes(
+                commentType?.filter((type) => type?.viewBy === "everyone")
+            );
         } else {
-            setFilteredCommentTypes([])
+            setFilteredCommentTypes([]);
         }
     }, [authDetails?.role, commentType]);
 
@@ -154,15 +166,17 @@ const PatientComments = () => {
                                         <p>{comment.comment}</p>
                                     </span>{" "}
                                 </div>
-                                <div
-                                    className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
+                                {!assigned && (
+                                    <div
+                                        className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
                                             rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
-                                    onClick={() => {
-                                        openDeleteModal(comment);
-                                    }}
-                                >
-                                    <FaTrash />
-                                </div>{" "}
+                                        onClick={() => {
+                                            openDeleteModal(comment);
+                                        }}
+                                    >
+                                        <FaTrash />
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
