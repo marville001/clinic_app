@@ -7,6 +7,7 @@ import EditName from "../components/modals/EditName";
 import { toast } from "react-toastify";
 import EditPassword from "../components/modals/EditPassword";
 import { updateUserProfileAction } from "../redux/actions/auth.action";
+import Moment from "react-moment";
 
 const Profile = () => {
   const { authDetails, loading } = useSelector((state) => state.authState);
@@ -67,7 +68,8 @@ const Profile = () => {
             {authDetails?.firstname} {authDetails?.lastname}
           </h4>
           <p className="">
-            Member since {moment(authDetails.createdAt).format("MM/DD/YYYY")}
+            <Moment format="YYYY/MM/DD">{authDetails.createdAt} </Moment>
+            {/* Member since {moment(authDetails.createdAt).format("MM/DD/YYYY")} */}
           </p>
         </div>
         <div
@@ -123,9 +125,10 @@ const Profile = () => {
         <div className="flex-1 ml-44">
           <p>Email</p>
         </div>
-        <div className="flex-1 mr-[500px]">
+        <div className="flex-1">
           <p>{authDetails.email}</p>
         </div>
+        <div className="flex-1"></div>
       </div>
 
       {/* END */}

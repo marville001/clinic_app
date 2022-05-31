@@ -1,51 +1,47 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaSpinner } from "react-icons/fa";
 import { toast } from "react-toastify";
-import Moment from "react-moment";
-const EditPassword = ({
-  isOpen,
-  actionMethod = () => {},
-  message = "",
-  closeModal = () => {},
-  loading,
-}) => {
+import { HiUserAdd } from "react-icons/hi";
+import { changeUserPassword } from "../../redux/actions/auth.action";
+const EditPassword = ({ message = "", closeModal = () => {} }) => {
+  const { authDetails, loading } = useSelector((state) => state.authState);
   const [cpassword, setCpassword] = useState("");
   const [npassword, setNpassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
   const editPassword = () => {
-    if (npassword !== confirm) {
+    if (npassword === "" || confirm === "" || cpassword === "") {
+      setError("Enter all fields");
+    } else if (npassword !== confirm) {
       setError("Passwords do not match");
     } else {
-      handleEditPassword(cpassword, confirm);
+      handleEditPassword({
+        current: cpassword,
+        previous: confirm,
+        email: authDetails?.email,
+      });
     }
-  };
-  const { clearErrors, reset } = useForm();
-  const handleCloseModal = () => {
-    closeModal();
-    clearErrors();
-    setError();
-    reset();
   };
 
   const handleEditPassword = async (password) => {
-    console.log(password);
-    // const res = await dispatch(deleteDoctorAction(deleteDoctor?._id));
-    // if (!res.success) {
-    //   toast.error(res.message, {
-    //     position: "top-right",
-    //     autoClose: 5000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //   });
-    //   setNameModalOpen(false);
-    //   return;
+    const res = await dispatch(
+      changeUserPassword(password, authDetails?.email)
+    );
+    if (!res.success) {
+      toast.error(res.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
 
+      return;
+    }
     toast.success(`Password Updated Successfully`, {
       position: "top-right",
       autoClose: 5000,
@@ -54,7 +50,7 @@ const EditPassword = ({
       pauseOnHover: true,
       draggable: true,
     });
-    handleCloseModal();
+    closeModal();
   };
 
   return (
@@ -66,26 +62,28 @@ const EditPassword = ({
         <label htmlFor="">Enter current password</label>
         <input
           type="password"
-          required
           onChange={(e) => setCpassword(e.target.value)}
+          required
         />
       </div>
-      <div className="flex flex-col">
-        <label htmlFor="newpassword">Enter new password</label>
-        <input
-          type="password"
-          required
-          onChange={(e) => setNpassword(e.target.value)}
-        />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="confirmpassword">Confirm new password</label>{" "}
-        <input
-          type="password"
-          required
-          onChange={(e) => setConfirm(e.target.value)}
-        />{" "}
-        <p className="text-red-500 text-xs">{error}</p>
+      <div className="flex mt-2">
+        <div className="flex flex-col mr-2">
+          <label htmlFor="newpassword">Enter new password</label>
+          <input
+            type="password"
+            required
+            onChange={(e) => setNpassword(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col ml-2">
+          <label htmlFor="confirmpassword">Confirm new password</label>{" "}
+          <input
+            type="password"
+            required
+            onChange={(e) => setConfirm(e.target.value)}
+          />{" "}
+          <p className="text-red-500 text-xs">{error}</p>
+        </div>
       </div>
       <div className="flex justify-between items-center mt-8">
         <button
@@ -96,7 +94,7 @@ const EditPassword = ({
         </button>
         <button
           onClick={() => editPassword()}
-          className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
+          className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-5
                             tracking-wider py-2 text-white text-lg rounded-md flex items-center
                             bg-seagreen
                         "
@@ -104,18 +102,15 @@ const EditPassword = ({
           {loading ? <FaSpinner className="animate-spin mr-4" /> : "Yes"}
         </button>
       </div>
-      <div className="flex text-center align-middle mt-10 justify-between">
+      <div className="flex mt-10 justify-between flex-row">
         <p>Can't remember password?</p>
         <Link
           to="/forgot-password"
-          className="mt-6 text-sm flex items-center space-x-2 justify-center"
+          className="text-sm flex items-center space-x-2 justify-center"
         >
           <div
-            // onClick={() => {
-            //   setPasswordModalOpen(!passwordModalOpen);
-            // }}
             className={
-              "flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen  bottom-4 hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
+              "flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
             }
           >
             <HiUserAdd />

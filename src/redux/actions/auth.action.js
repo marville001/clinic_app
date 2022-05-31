@@ -91,3 +91,23 @@ export const updateUserProfileAction = (user, role, id) => async (dispatch) => {
     };
   }
 };
+
+export const changeUserPassword = (passwords, id) => async (dispatch) => {
+  dispatch({ type: UPDATE_USER.REQUEST });
+  try {
+    const { data } = await putApi(updateSecretaryUrl(id), passwords);
+    dispatch({
+      type: UPDATE_USER.SUCCESS,
+      payload: data.secretary,
+    });
+
+    return { success: true };
+  } catch (error) {
+    dispatch({ type: UPDATE_USER.FAIL, payload: parseError(error) });
+
+    return {
+      success: false,
+      message: parseError(error),
+    };
+  }
+};
