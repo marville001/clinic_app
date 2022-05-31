@@ -141,7 +141,7 @@ const ChatMessages = React.forwardRef(
                     autoComplete="off"
                     className="flex items-center gap-3 mt-5"
                 >
-                    <div className="h-12 w-full p-1 ring-1 relative rounded-full">
+                    <div className="h-8 w-full p-1 ring-1 relative rounded-lg">
                         {error && (
                             <div className="bg-gray-200 p-3 py-1 text-xs absolute top-0 -translate-y-full left-5 rounded-t-lg right-5 ">
                                 {error}
@@ -161,11 +161,11 @@ const ChatMessages = React.forwardRef(
                             value={text}
                             onChange={typingHandler}
                             placeholder="Type message here."
-                            className="w-full h-full disabled:cursor-not-allowed bg-transparent rounded-full outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 border-0"
+                            className="w-full h-full text-sm disabled:cursor-not-allowed bg-transparent rounded-full outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 border-0"
                         />
                     </div>
-                    <button className="p-2 bg-opacity-30 rounded-full h-14 bg-flowerblue  w-14 flex justify-center items-center cursor-pointer">
-                        <FaPaperPlane className="text-2xl text-steelblue" />
+                    <button className="p-2 bg-opacity-30 rounded-full bg-flowerblue flex justify-center items-center cursor-pointer">
+                        <FaPaperPlane className="text-xl text-steelblue" />
                     </button>
                 </form>
             </div>

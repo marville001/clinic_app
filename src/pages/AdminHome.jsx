@@ -132,10 +132,10 @@ const AdminHome = () => {
     useEffect(() => {
         const deps = [...new Set(patients.map((p) => p.department))];
         const values = deps.map((dep) => {
-            const value = patients.filter((p) => p.department === dep).length;
+            const value = patients.filter((p) => p.department === dep)?.length;
             return Math.round((value / patients.length)*100);
         });
-        const labels = deps.map(dep => departments.find(d => d._id === dep || "").name)
+        const labels = deps.map(dep => departments.find(d => d._id === dep || "")?.name)
         setPatientsByDeptValues(values)
         setPatientsByDeptLabels(labels)
         
