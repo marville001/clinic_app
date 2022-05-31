@@ -1,6 +1,7 @@
 import {
   CREATE_DOCTOR,
   DELETE_DOCTOR,
+  GET_ASSIGNED_PATIENTS,
   GET_DOCTOR,
   GET_DOCTORS,
   UPDATE_DOCTOR,
@@ -9,6 +10,7 @@ import {
 
 const initialState = {
   doctors: [],
+  assignedPatients: [],
   doctor: {},
   loading: false,
   loadingDoctor: false,
@@ -53,6 +55,13 @@ const doctorsReducer = (state = initialState, action) => {
       return { ...state, doctor: action.payload, loadingDoctor: false };
     case GET_DOCTOR.FAIL:
       return { ...state, loadingDoctor: false, error: action.payload };
+    
+    case GET_ASSIGNED_PATIENTS.REQUEST:
+      return { ...state, loadingAssignedPatients: true, error: "" };
+    case GET_ASSIGNED_PATIENTS.SUCCESS:
+      return { ...state, assignedPatients: action.payload, loadingAssignedPatients: false };
+    case GET_ASSIGNED_PATIENTS.FAIL:
+      return { ...state, loadingAssignedPatients: false, error: action.payload };
 
     case UPDATE_DOCTOR.REQUEST:
       return { ...state, updating: true };

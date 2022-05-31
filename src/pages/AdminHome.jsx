@@ -7,7 +7,6 @@ import {
     FaUserShield,
 } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import PatientsByDepartmentChart from "../components/charts/PatientsByDepartmentChart";
 import PatientsVisitByGenderChart from "../components/charts/PatientsVisitByGenderChart";
 import CalendarGrid from "../components/common/CalendarGrid";
@@ -219,7 +218,7 @@ const AdminHome = () => {
                 </div>
 
                 {/* Samples */}
-                <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
+                {/* <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
                     <div className="p-4 py-6 bg-white rounded-lg _shadow">
                         <div className="flex items-center justify-between w-full mb-5">
                             <p className="font-bold">Latest Appointments</p>
@@ -248,7 +247,7 @@ const AdminHome = () => {
                             </select>
                         </div>
                     </div>
-                </div>
+                </div> */}
 
                 {/* Calendar */}
                 {authDetails?.role === "doctor" && (

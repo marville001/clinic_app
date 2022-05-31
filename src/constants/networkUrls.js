@@ -33,6 +33,7 @@ export const getDoctorsUrl = ({ search = "" }) =>
   `${API_BASE}doctors?search=${search}`;
 export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
+export const getDoctorAssignedPatientUrl = (id) => `${API_BASE}doctors/${id}/assigned-patients`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const makeDoctorAdminUrl = (id) => `${API_BASE}doctors/${id}/make-admin`;

@@ -8,10 +8,12 @@ import {
     revokeDoctorAdminUrl,
     updateDoctorUrl,
 } from "../../constants";
+import { getDoctorAssignedPatientUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
     CREATE_DOCTOR,
     DELETE_DOCTOR,
+    GET_ASSIGNED_PATIENTS,
     GET_DOCTOR,
     GET_DOCTORS,
     UPDATE_DOCTOR,
@@ -114,19 +116,40 @@ export const deleteDoctorAction = (id) => async (dispatch) => {
     }
 };
 
-export const updateDoctorAdminStatusAction = (isAdmin, id) => async (dispatch) => {
+export const updateDoctorAdminStatusAction = (isAdminAction, id) => async (dispatch) => {
     dispatch({ type: UPDATE_DOCTOR_ADMIN_STATUS.REQUEST });
     try {
-        const url = isAdmin ? revokeDoctorAdminUrl(id) : makeDoctorAdminUrl(id)
-        const { data } = await putApi(url);
+        const url = !isAdminAction ? revokeDoctorAdminUrl(id) : makeDoctorAdminUrl(id)
+        await putApi(url);
         dispatch({
             type: UPDATE_DOCTOR_ADMIN_STATUS.SUCCESS,
-            payload: isAdmin,
+            payload: isAdminAction,
         });
         return { success: true };
     } catch (error) {
         dispatch({
             type: UPDATE_DOCTOR_ADMIN_STATUS.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const getDoctorAssignedPatientsAction = ( id) => async (dispatch) => {
+    dispatch({ type: GET_ASSIGNED_PATIENTS.REQUEST });
+    try {
+        const { data } = await getApi(getDoctorAssignedPatientUrl(id));
+        dispatch({
+            type: GET_ASSIGNED_PATIENTS.SUCCESS,
+            payload: data.patients,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: GET_ASSIGNED_PATIENTS.FAIL,
             payload: parseError(error),
         });
         return {

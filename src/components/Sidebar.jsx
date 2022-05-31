@@ -63,20 +63,37 @@ const Sidebar = () => {
                     <span>Dashboard</span>
                 </NavLink>
                 {authDetails?.role === "doctor" && (
-                    <NavLink
-                        to="/appointments"
-                        onClick={closeSidebar}
-                        className={({ isActive }) =>
-                            `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
-                                isActive
-                                    ? "bg-white text-slate-900"
-                                    : "text-white opacity-70 hover:bg-slate-700 "
-                            }`
-                        }
-                    >
-                        <FaLayerGroup />
-                        <span>My Appointments</span>
-                    </NavLink>
+                    <>
+                        <NavLink
+                            to="/appointments"
+                            onClick={closeSidebar}
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaLayerGroup />
+                            <span>My Appointments</span>
+                        </NavLink>
+
+                        <NavLink
+                            to="/assigned-patients"
+                            onClick={closeSidebar}
+                            className={({ isActive }) =>
+                                `py-2 px-3 rounded-md  w-full flex items-center space-x-4 ${
+                                    isActive
+                                        ? "bg-white text-slate-900"
+                                        : "text-white opacity-70 hover:bg-slate-700 "
+                                }`
+                            }
+                        >
+                            <FaLayerGroup />
+                            <span>Assigned Patients</span>
+                        </NavLink>
+                    </>
                 )}
                 {(authDetails?.role === "admin" ||
                     authDetails?.role === "secretary" ||
@@ -127,7 +144,8 @@ const Sidebar = () => {
                         </NavLink>
                     </>
                 )}
-                {(authDetails?.role === "admin" || (authDetails?.role === "doctor" &&
+                {(authDetails?.role === "admin" ||
+                    (authDetails?.role === "doctor" &&
                         authDetails?.isAdmin)) && (
                     <>
                         <NavLink
