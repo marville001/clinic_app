@@ -1,11 +1,9 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-const PatientsByDepartmentChart = () => {
-    const series = [44, 77, 87, 83];
+const PatientsByDepartmentChart = ({labels, values}) => {
     const options = {
         chart: {
-            height: 350,
             type: "radialBar",
         },
         plotOptions: {
@@ -27,13 +25,12 @@ const PatientsByDepartmentChart = () => {
                     },
                 },
             },
-        },
-        labels: ["Apples", "Oranges", "Bananas", "Berries"],
+        }
     };
 
     return (
         <div className="flex-1" id="chart">
-            <Chart options={options} series={series} type="radialBar" height={350} />
+            <Chart options={{...options, labels}} series={values} type="radialBar" height={300} />
         </div>
     );
 };

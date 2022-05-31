@@ -16,6 +16,7 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import { getAdminsAction } from "../redux/actions/admins.action";
 import { getAppointmentsAction } from "../redux/actions/appointments.action";
+import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getPatientsAction } from "../redux/actions/patients.action";
 import { getSecretariesAction } from "../redux/actions/secretaries.action";
@@ -24,6 +25,7 @@ import { parseAppointments } from "../utils/calendar";
 const AdminHome = () => {
     const { authDetails } = useSelector((state) => state.authState);
     const { patients } = useSelector((state) => state.patientsState);
+    const { departments } = useSelector((state) => state.departmentsState);
     const { doctors } = useSelector((state) => state.doctorsState);
     const { secretaries } = useSelector((state) => state.secretariesState);
     const { admins } = useSelector((state) => state.adminsState);
@@ -32,10 +34,13 @@ const AdminHome = () => {
     const [appoints, setAppoints] = useState([]);
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
+    const [patientsByDeptValues, setPatientsByDeptValues] = useState([]);
+    const [patientsByDeptLabels, setPatientsByDeptLabels] = useState([]);
+
     const [patientsByGender, setPatientsByGender] = useState([
-        { name: "Male", data: [0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: "Male", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
         { name: "Female", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-        { name: "Children", data: [0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0] },
+        { name: "Children", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
     ]);
 
     const dispatch = useDispatch();
@@ -46,6 +51,7 @@ const AdminHome = () => {
             dispatch(getPatientsAction());
             dispatch(getSecretariesAction());
             dispatch(getAdminsAction());
+            dispatch(getDepartmentsAction());
         }
     }, [dispatch, authDetails?._id]);
 
@@ -120,8 +126,20 @@ const AdminHome = () => {
             { name: "Children", data: filtered_children_patients },
         ];
 
-        setPatientsByGender(filters)
+        setPatientsByGender(filters);
     }, [patients, selectedYear]);
+
+    useEffect(() => {
+        const deps = [...new Set(patients.map((p) => p.department))];
+        const values = deps.map((dep) => {
+            const value = patients.filter((p) => p.department === dep).length;
+            return Math.round((value / patients.length)*100);
+        });
+        const labels = deps.map(dep => departments.find(d => d._id === dep || "").name)
+        setPatientsByDeptValues(values)
+        setPatientsByDeptLabels(labels)
+        
+    }, [departments, patients]);
 
     return (
         <DashboardWrapper>
@@ -156,6 +174,12 @@ const AdminHome = () => {
                         count={admins?.length}
                         text="Admins"
                     />
+
+                    <DashCountCard
+                        icon={FaUserShield}
+                        count={departments?.length}
+                        text="Departments"
+                    />
                 </div>
 
                 {/* Charts */}
@@ -186,17 +210,11 @@ const AdminHome = () => {
                     <div className="p-4 bg-white rounded-lg _shadow">
                         <div className="flex items-center justify-between w-full mb-5">
                             <p className="font-bold">Patients by Department</p>
-                            <select
-                                id=""
-                                className="rounded-md border-[1px] border-lightgray"
-                            >
-                                <option value="2022">2022</option>
-                                <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
-                            </select>
                         </div>
-                        <PatientsByDepartmentChart />
+                        <PatientsByDepartmentChart
+                            labels={patientsByDeptLabels}
+                            values={patientsByDeptValues}
+                        />
                     </div>
                 </div>
 

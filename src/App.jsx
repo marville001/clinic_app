@@ -32,7 +32,7 @@ const App = () => {
     }, [dispatch]);
 
     return (
-        <div className="min-h-screen ">
+        <div className="min-h-screen max-w-[1240px] mx-auto">
             <Routes>
                 <Route exact path="/" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
