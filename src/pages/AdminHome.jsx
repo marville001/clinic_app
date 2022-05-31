@@ -19,7 +19,7 @@ import { getAppointmentsAction } from "../redux/actions/appointments.action";
 import { getDoctorsAction } from "../redux/actions/doctors.action";
 import { getPatientsAction } from "../redux/actions/patients.action";
 import { getSecretariesAction } from "../redux/actions/secretaries.action";
-import {  parseAppointments } from "../utils/calendar";
+import { parseAppointments } from "../utils/calendar";
 
 const AdminHome = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -30,6 +30,13 @@ const AdminHome = () => {
     const { appointments } = useSelector((state) => state.appointmentsState);
 
     const [appoints, setAppoints] = useState([]);
+    const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+
+    const [patientsByGender, setPatientsByGender] = useState([
+        { name: "Male", data: [0, 0, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: "Female", data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: "Children", data: [0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0] },
+    ]);
 
     const dispatch = useDispatch();
 
@@ -51,6 +58,70 @@ const AdminHome = () => {
     useEffect(() => {
         setAppoints(parseAppointments(appointments));
     }, [appointments]);
+
+    useEffect(() => {
+        const monthNames = [
+            "Jan",
+            "Feby",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ];
+
+        const filtered_patients = patients
+            .map((patient) => {
+                let dob = new Date(patient.dob).getFullYear();
+                let date = new Date(parseInt(patient.createdAt));
+                let year = date.getFullYear();
+                let month = date.getMonth() + 1;
+                return {
+                    gender: patient.gender,
+                    year,
+                    month: monthNames[month],
+                    age: new Date().getFullYear() - dob,
+                };
+            })
+            .filter((p) => p.year === parseInt(selectedYear));
+
+        const filtered_male_patients = monthNames.map((month) => {
+            const males_for_month = filtered_patients.filter(
+                (p) => p.month === month && p.gender === "male"
+            );
+
+            return males_for_month.length;
+        });
+
+        const filtered_female_patients = monthNames.map((month) => {
+            const females_for_month = filtered_patients.filter(
+                (p) => p.month === month && p.gender === "female"
+            );
+
+            return females_for_month.length;
+        });
+
+        const filtered_children_patients = monthNames.map((month) => {
+            const childrens_for_month = filtered_patients.filter(
+                (p) => p.month === month && p.age < 18
+            );
+
+            return childrens_for_month.length;
+        });
+
+        const filters = [
+            { name: "Male", data: filtered_male_patients },
+            { name: "Female", data: filtered_female_patients },
+            { name: "Children", data: filtered_children_patients },
+        ];
+
+        setPatientsByGender(filters)
+    }, [patients, selectedYear]);
 
     return (
         <DashboardWrapper>
@@ -96,15 +167,20 @@ const AdminHome = () => {
                             </p>
                             <select
                                 id=""
+                                value={selectedYear}
+                                onChange={(e) =>
+                                    setSelectedYear(e.target.value)
+                                }
                                 className="rounded-md border-[1px] border-lightgray"
                             >
+                                <option value="2023">2023</option>
                                 <option value="2022">2022</option>
                                 <option value="2021">2021</option>
-                                <option value="2020">2020</option>
-                                <option value="2019">2019</option>
                             </select>
                         </div>
-                        <PatientsVisitByGenderChart patients={patients} />
+                        <PatientsVisitByGenderChart
+                            patients={patientsByGender}
+                        />
                     </div>
 
                     <div className="p-4 bg-white rounded-lg _shadow">
@@ -160,7 +236,10 @@ const AdminHome = () => {
                 {authDetails?.role === "doctor" && (
                     <div className="w-full my-8 bg-white p-5 _shadow">
                         <h2 className="text-xl font-bold mb-6">My Calendar</h2>
-                        <CalendarGrid appointments={appoints} doctorId={authDetails?._id} />
+                        <CalendarGrid
+                            appointments={appoints}
+                            doctorId={authDetails?._id}
+                        />
                     </div>
                 )}
             </div>

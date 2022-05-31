@@ -3,20 +3,20 @@ import React from "react";
 import Chart from 'react-apexcharts'
 
 const PatientsVisitByGenderChart = ({patients}) => {
-    const series = [
-        {
-            name: "Male",
-            data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-        },
-        {
-            name: "Female",
-            data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-        },
-        {
-            name: "Children",
-            data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-        },
-    ];
+    // const series = [
+    //     {
+    //         name: "Male",
+    //         data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+    //     },
+    //     {
+    //         name: "Female",
+    //         data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+    //     },
+    //     {
+    //         name: "Children",
+    //         data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
+    //     },
+    // ];
     const options = {
         chart: {
             type: "bar",
@@ -39,6 +39,7 @@ const PatientsVisitByGenderChart = ({patients}) => {
         },
         xaxis: {
             categories: [
+                "Jan",
                 "Feb",
                 "Mar",
                 "Apr",
@@ -48,6 +49,8 @@ const PatientsVisitByGenderChart = ({patients}) => {
                 "Aug",
                 "Sep",
                 "Oct",
+                "Nov",
+                "Dec",
             ],
         },
         yaxis: {
@@ -69,7 +72,7 @@ const PatientsVisitByGenderChart = ({patients}) => {
 
     return (
         <div className="flex-1" id="chart">
-			<Chart options={options} series={series} type="bar" height={350} />
+			<Chart options={options} series={patients} type="bar" height={350} />
         </div>
     );
 };
