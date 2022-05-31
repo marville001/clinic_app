@@ -1,4 +1,9 @@
-import { LOGOUT_USER, USER_LOGIN, UPDATE_USER } from "../types/auth.types";
+import {
+  LOGOUT_USER,
+  USER_LOGIN,
+  UPDATE_USER,
+  CHANGE_PASSWORD,
+} from "../types/auth.types";
 
 const initialState = {
   authDetails: {},
@@ -35,6 +40,15 @@ const authReducer = (state = initialState, action) => {
         loading: false,
       };
     case UPDATE_USER.FAIL:
+      return { ...state, loading: false };
+    case CHANGE_PASSWORD.REQUEST:
+      return { ...state, loading: true };
+    case CHANGE_PASSWORD.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case CHANGE_PASSWORD.FAIL:
       return { ...state, loading: false };
 
     default:
