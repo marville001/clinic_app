@@ -8,6 +8,7 @@ export const API_BASE =
 export const loginUrl = `${API_BASE}auth/login`;
 export const getProfileUrl = `${API_BASE}auth/me`;
 export const forgotPasswordUrl = `${API_BASE}auth/forgot-password`;
+export const updatePasswordUrl = `${API_BASE}auth/update-password`;
 export const resetPasswordUrl = (token) =>
   `${API_BASE}auth/reset-password/${token}`;
 

@@ -19,7 +19,7 @@ const SocketProvider = ({ children }) => {
     const { setNotifications, setNewNotification } = useNotifications();
 
     useEffect(() => {
-        if (authDetails._id) {
+        if (authDetails?._id) {
             socket = io(END_POINT);
             socket.emit("setup", authDetails);
             socket.on("connected", () => setSocketConnected(true));

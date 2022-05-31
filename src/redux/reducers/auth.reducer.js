@@ -32,24 +32,25 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT_USER:
       return { ...state, authDetails: {}, loading: false, error: "" };
     case UPDATE_USER.REQUEST:
-      return { ...state, loading: true };
+      return { ...state, updatingProfile: true };
     case UPDATE_USER.SUCCESS:
       return {
         ...state,
         authDetails: action.payload,
-        loading: false,
+        updatingProfile: false,
       };
     case UPDATE_USER.FAIL:
-      return { ...state, loading: false };
+      return { ...state, updatingProfile: false };
+    
     case CHANGE_PASSWORD.REQUEST:
-      return { ...state, loading: true };
+      return { ...state, updatingPassword: true };
     case CHANGE_PASSWORD.SUCCESS:
       return {
         ...state,
-        loading: false,
+        updatingPassword: false,
       };
     case CHANGE_PASSWORD.FAIL:
-      return { ...state, loading: false };
+      return { ...state, updatingPassword: false };
 
     default:
       return { ...state };

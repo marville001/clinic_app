@@ -1,11 +1,12 @@
-import { getUserProfileApi, loginUserApi, putApi } from "../../api";
+import { getUserProfileApi, loginUserApi, postApi, putApi } from "../../api";
 import {
   updateAdminUrl,
   updateDoctorUrl,
   updateSecretaryUrl,
 } from "../../constants";
-import { LOGOUT_USER, UPDATE_USER, USER_LOGIN } from "../types/auth.types";
+import { CHANGE_PASSWORD, LOGOUT_USER, UPDATE_USER, USER_LOGIN } from "../types/auth.types";
 import parseError from "../../utils/parseError";
+import { updatePasswordUrl } from "../../constants/networkUrls";
 
 export const loginUserAction = (user) => async (dispatch) => {
   dispatch({ type: USER_LOGIN.REQUEST });
@@ -92,18 +93,17 @@ export const updateUserProfileAction = (user, role, id) => async (dispatch) => {
   }
 };
 
-export const changeUserPassword = (passwords, id) => async (dispatch) => {
-  dispatch({ type: UPDATE_USER.REQUEST });
+export const changeUserPasswordAction = (details) => async (dispatch) => {
+  dispatch({ type: CHANGE_PASSWORD.REQUEST });
   try {
-    const { data } = await putApi(updateSecretaryUrl(id), passwords);
+    await postApi(updatePasswordUrl, details);
     dispatch({
-      type: UPDATE_USER.SUCCESS,
-      payload: data.secretary,
+      type: CHANGE_PASSWORD.SUCCESS,
     });
 
     return { success: true };
   } catch (error) {
-    dispatch({ type: UPDATE_USER.FAIL, payload: parseError(error) });
+    dispatch({ type: CHANGE_PASSWORD.FAIL, payload: parseError(error) });
 
     return {
       success: false,
