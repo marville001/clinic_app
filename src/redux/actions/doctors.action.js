@@ -4,6 +4,8 @@ import {
     deleteDoctorUrl,
     getDoctorsUrl,
     getDoctorUrl,
+    makeDoctorAdminUrl,
+    revokeDoctorAdminUrl,
     updateDoctorUrl,
 } from "../../constants";
 import parseError from "../../utils/parseError";
@@ -13,6 +15,7 @@ import {
     GET_DOCTOR,
     GET_DOCTORS,
     UPDATE_DOCTOR,
+    UPDATE_DOCTOR_ADMIN_STATUS,
 } from "../types/doctors.types";
 
 export const createDoctorAction = (user) => async (dispatch) => {
@@ -102,6 +105,28 @@ export const deleteDoctorAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_DOCTOR.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const updateDoctorAdminStatusAction = (isAdmin, id) => async (dispatch) => {
+    dispatch({ type: UPDATE_DOCTOR_ADMIN_STATUS.REQUEST });
+    try {
+        const url = isAdmin ? revokeDoctorAdminUrl(id) : makeDoctorAdminUrl(id)
+        const { data } = await putApi(url);
+        dispatch({
+            type: UPDATE_DOCTOR_ADMIN_STATUS.SUCCESS,
+            payload: isAdmin,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: UPDATE_DOCTOR_ADMIN_STATUS.FAIL,
             payload: parseError(error),
         });
         return {

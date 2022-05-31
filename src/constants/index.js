@@ -26,6 +26,8 @@ export {
   createDoctorUrl,
   deleteDoctorUrl,
   updateDoctorUrl,
+  makeDoctorAdminUrl,
+  revokeDoctorAdminUrl,
   // Department
   getDepartmentsUrl,
   createDepartmentUrl,

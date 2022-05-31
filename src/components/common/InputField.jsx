@@ -11,6 +11,7 @@ const InputField = ({
     optional = false,
     subLabel = "",
     shortError,
+    inputClasses="",
     ...props
 }) => {
     return (
@@ -27,7 +28,7 @@ const InputField = ({
                 placeholder={label + " :"}
                 className={`text-sm w-full rounded-md mt-1 ${
                     errors[name] && "border-red-400 border"
-                }`}
+                } ${inputClasses}`}
                 {...register(name, {
                     required: {
                         value: required,

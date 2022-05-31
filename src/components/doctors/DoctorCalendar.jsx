@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HiPlusCircle } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { parseAppointments } from "../../utils/calendar";
 import CalendarGrid from "../common/CalendarGrid";
 import AddAppointmentModal from "../modals/AddAppointmentModal";
@@ -15,6 +16,8 @@ const DoctorCalendar = () => {
     useEffect(() => {
         setAppoints(parseAppointments(appointments));
     }, [appointments]);
+
+    const { id } = useParams();
 
     return (
         <div className="w-full bg-white p-4 my-5 _shadow">
@@ -32,7 +35,7 @@ const DoctorCalendar = () => {
             </div>
 
             <div className="w-full mt-6">
-                <CalendarGrid appointments={appoints} />
+                <CalendarGrid appointments={appoints} doctorId={id} />
             </div>
 
             <AddAppointmentModal
@@ -40,6 +43,7 @@ const DoctorCalendar = () => {
                 closeModal={() => {
                     setAddAppointmentModalOpen(false);
                 }}
+                doctorId={id}
             />
         </div>
     );

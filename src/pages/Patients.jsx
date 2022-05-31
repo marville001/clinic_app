@@ -95,7 +95,7 @@ const Patients = () => {
     if (
         authDetails?._id &&
         authDetails?.role !== "admin" &&
-        authDetails?.role !== "secretary"
+        authDetails?.role !== "secretary" && (authDetails?.role === "doctor" && !authDetails?.isAdmin)
     ) {
         navigate("/home");
         return null;

@@ -34,6 +34,8 @@ export const createDoctorUrl = `${API_BASE}doctors`;
 export const getDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const updateDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
 export const deleteDoctorUrl = (id) => `${API_BASE}doctors/${id}`;
+export const makeDoctorAdminUrl = (id) => `${API_BASE}doctors/${id}/make-admin`;
+export const revokeDoctorAdminUrl = (id) => `${API_BASE}doctors/${id}/revoke-admin`;
 
 // Departments
 export const getDepartmentsUrl = `${API_BASE}departments`;
@@ -90,5 +92,7 @@ export const searchChatUserUrl = (key, query) =>
   `${API_BASE}${key}/search?search=${query}`;
 
 // Appointment
-export const getAppointmentsUrl = (id) => `${API_BASE}appointments/${id}`;
 export const createAppointmentUrl = `${API_BASE}appointments`;
+export const getAppointmentsUrl = (id) => `${API_BASE}appointments/${id}`;
+export const updateAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;
+export const deleteAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;

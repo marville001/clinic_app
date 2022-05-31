@@ -89,7 +89,7 @@ const Admins = () => {
         authDetails?._id && dispatch(getAdminsAction());
     }, [dispatch, authDetails?._id]);
 
-    if (authDetails?._id && authDetails?.role !== "admin") {
+    if (authDetails?._id && authDetails?.role !== "admin" && (authDetails?.role === "doctor" && !authDetails?.isAdmin)) {
         navigate("/home");
         return null;
     }

@@ -4,6 +4,7 @@ import {
   GET_DOCTOR,
   GET_DOCTORS,
   UPDATE_DOCTOR,
+  UPDATE_DOCTOR_ADMIN_STATUS,
 } from "../types/doctors.types";
 
 const initialState = {
@@ -66,6 +67,13 @@ const doctorsReducer = (state = initialState, action) => {
       return { ...state, deleting: false };
     case DELETE_DOCTOR.FAIL:
       return { ...state, deleting: false };
+    
+    case UPDATE_DOCTOR_ADMIN_STATUS.REQUEST:
+      return { ...state, updatingIsAdmin: true };
+    case UPDATE_DOCTOR_ADMIN_STATUS.SUCCESS:
+      return { ...state, updatingIsAdmin: false, doctor:{...state.doctor, isAdmin: action.payload} };
+    case UPDATE_DOCTOR_ADMIN_STATUS.FAIL:
+      return { ...state, updatingIsAdmin: false };
 
     default:
       return { ...state };

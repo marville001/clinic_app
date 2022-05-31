@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
 
 import { toast } from "react-toastify";
 import {
-    createAppointmentAction,
+    deleteAppointmentAction,
     getAppointmentsAction,
+    updateAppointmentAction,
 } from "../../redux/actions/appointments.action";
-import { useSocket } from "../../contexts/socket.context";
 
-const AddAppointmentModal = ({
+const EditAppointmentModal = ({
     isOpen,
     closeModal = () => {},
-    doctorId = "",
-    startDate = "",
-    endDate = "",
-    startTime = "",
-    endTime = "",
+    selectedId = "",
+    doctorId,
 }) => {
-    const [error, setError] = useState("");
+    const { appointments, updating, deleting } = useSelector(
+        (state) => state.appointmentsState
+    );
 
+    const [error, setError] = useState("");
     const [allDay, setAllDay] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const {
         register,
@@ -38,8 +37,6 @@ const AddAppointmentModal = ({
 
     const dispatch = useDispatch();
 
-    const { socket } = useSocket();
-
     const handleCloseModal = () => {
         closeModal();
         clearErrors();
@@ -47,33 +44,41 @@ const AddAppointmentModal = ({
         setAllDay(false);
     };
 
-    const handleAddDepartment = async (data) => {
+    const handleUpdateAppointment = async (data) => {
         setError("");
-        setLoading(true);
         const res = await dispatch(
-            createAppointmentAction({ ...data, allDay, doctorId })
+            updateAppointmentAction({ ...data, allDay, doctorId }, selectedId)
         );
-        setLoading(false);
 
         if (!res.success) {
             setError(res.message);
             return;
         }
 
-        let notif_data = {
-            title: "New Appointment",
-            description: `You have a new appointment at ${data.startDate}.`,
-            link: "",
-            read: false,
-        };
-
-        socket?.emit("new notification", {
-            room: doctorId,
-            notification: notif_data,
+        dispatch(getAppointmentsAction(doctorId));
+        toast.success(`Appointment Updated Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
         });
 
+        handleCloseModal();
+    };
+
+    const handleDeleteAppointment = async () => {
+        setError("");
+        const res = await dispatch(deleteAppointmentAction(selectedId));
+
+        if (!res.success) {
+            setError(res.message);
+            return;
+        }
+
         dispatch(getAppointmentsAction(doctorId));
-        toast.success(`Appointment Added Successfully`, {
+        toast.success(`Appointment Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -86,32 +91,41 @@ const AddAppointmentModal = ({
     };
 
     useEffect(() => {
-        setValue("timeFrom", startTime ? startTime : "08:00");
-        setValue("timeTo", endTime ? endTime : "08:45");
-    }, [setValue, startTime, endTime]);
+        console.log(selectedId, appointments);
 
-    useEffect(() => {
-        setValue(
-            "startDate",
-            startDate
-                ? startDate
-                : new Date().toISOString().toString().slice(0, 10)
+        const appointment = appointments.find(
+            (appointment) => appointment._id === selectedId
         );
-        setValue(
-            "endDate",
-            endDate ? endDate : new Date().toISOString().toString().slice(0, 10)
-        );
-    }, [setValue, startDate, endDate]);
+
+        if (appointment) {
+            setValue("title", appointment.title);
+            setValue("description", appointment.description);
+            setValue(
+                "startDate",
+                new Date(appointment.startDate)
+                    .toISOString()
+                    .toString()
+                    .slice(0, 10)
+            );
+            setValue(
+                "endDate",
+                new Date(appointment.endDate)
+                    .toISOString()
+                    .toString()
+                    .slice(0, 10)
+            );
+            setValue("timeFrom", appointment.timeFrom);
+            setValue("timeTo", appointment.timeTo);
+            setAllDay(appointment.allDay);
+        }
+    }, [selectedId, appointments, setValue]);
 
     return (
-        <Modal size="3xl" isOpen={isOpen} closeModal={handleCloseModal}>
+        <Modal size="3xl" isOpen={isOpen} closeModal={()=>{}}>
             <form
-                onSubmit={handleSubmit(handleAddDepartment)}
+                onSubmit={handleSubmit(handleUpdateAppointment)}
                 className="bg-white p-5 _shadow rounded-md"
             >
-                <h4 className="text-center text-2xl text-slate-900 uppercase mb-6">
-                    Add Appointment
-                </h4>
                 {error && (
                     <div className="text-center bg-red-200 rounded-md text-red-500 my-4 text-sm p-1">
                         {error}
@@ -153,7 +167,6 @@ const AddAppointmentModal = ({
                         required={true}
                         shortError
                         type="date"
-                        min={new Date().toISOString().toString().slice(0, 10)}
                         inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                     />
 
@@ -167,10 +180,6 @@ const AddAppointmentModal = ({
                                 required={true}
                                 type="date"
                                 shortError
-                                min={new Date()
-                                    .toISOString()
-                                    .toString()
-                                    .slice(0, 10)}
                                 inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
                             />
                         </>
@@ -214,31 +223,54 @@ const AddAppointmentModal = ({
                     <button
                         type="button"
                         onClick={handleCloseModal}
-                        className="bg-salmon rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
+                        disabled={deleting || updating}
+                        className="bg-salmon disabled:cursor-not-allowed  bg-opacity-70 rind-0 border-0 outline-none text-white py-2 px-5 rounded-md"
                     >
                         Cancel
                     </button>
-                    <button
-                        disabled={loading}
-                        type="submit"
-                        className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-16
+
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={handleDeleteAppointment}
+                            disabled={deleting || updating}
+                            className="disabled:opacity-50 disabled:cursor-not-allowed bg-salmon rind-0 flex items-center border-0 outline-none text-white py-2 px-5 rounded-md"
+                        >
+                            {deleting ? (
+                                <>
+                                    <FaSpinner className="animate-spin mr-4" />{" "}
+                                    <span className="capitalize">
+                                        Loading...
+                                    </span>
+                                </>
+                            ) : (
+                                <span>Delete</span>
+                            )}
+                        </button>
+                        <button
+                            disabled={deleting || updating}
+                            type="submit"
+                            className="disabled:opacity-50 disabled:cursor-not-allowed uppercase px-8
 						 tracking-wider py-2 text-white text-lg rounded-md flex items-center
 						 bg-seagreen
                      "
-                    >
-                        {loading ? (
-                            <>
-                                <FaSpinner className="animate-spin mr-4" />{" "}
-                                <span className="capitalize">Loading...</span>
-                            </>
-                        ) : (
-                            <span>Create</span>
-                        )}
-                    </button>
+                        >
+                            {updating ? (
+                                <>
+                                    <FaSpinner className="animate-spin mr-4" />{" "}
+                                    <span className="capitalize">
+                                        Loading...
+                                    </span>
+                                </>
+                            ) : (
+                                <span>Update</span>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </form>
         </Modal>
     );
 };
 
-export default AddAppointmentModal;
+export default EditAppointmentModal;

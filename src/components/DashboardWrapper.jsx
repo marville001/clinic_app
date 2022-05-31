@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { NavContext } from "../nav.context";
+import { NavContext } from "../contexts/nav.context";
 import Sidebar from "./Sidebar";
 import Loading from "./Loading";
 

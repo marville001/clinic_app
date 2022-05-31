@@ -152,7 +152,7 @@ const Settings = () => {
 
     const navigate = useNavigate();
 
-    if (authDetails?._id && authDetails?.role !== "admin") {
+    if (authDetails?._id && authDetails?.role !== "admin" && (authDetails?.role === "doctor" && !authDetails?.isAdmin)) {
         navigate("/home");
         return null;
     }
