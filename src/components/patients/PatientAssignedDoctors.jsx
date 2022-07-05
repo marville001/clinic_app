@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaTrash, FaUser } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 import { HiUserAdd } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";

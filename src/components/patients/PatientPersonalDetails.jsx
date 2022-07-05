@@ -56,15 +56,6 @@ const PatientPersonalDetails = () => {
                     </div>
                     <h4 className="text-md opacity-80">08 Sept, 2019</h4>
                 </div> */}
-                <div className="flex flex-col text-sm space-y-2">
-                    <div className="flex items-center space-x-2 text-sm">
-                        <FaHouseUser className="text-flowerblue" />
-                        <span>Department</span>
-                    </div>
-                    <h4 className="text-md opacity-80">
-                        {patient?.department?.name}
-                    </h4>
-                </div>
 
                 <div className="flex flex-col text-sm space-y-2 pl-5">
                     <div className="flex items-center space-x-2 text-sm">
