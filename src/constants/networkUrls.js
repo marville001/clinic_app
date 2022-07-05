@@ -98,3 +98,5 @@ export const createAppointmentUrl = `${API_BASE}appointments`;
 export const getAppointmentsUrl = (id) => `${API_BASE}appointments/${id}`;
 export const updateAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;
 export const deleteAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;
+
+export const uploadAvatarUrl = (id) => `${API_BASE}avatar/${id}`;
