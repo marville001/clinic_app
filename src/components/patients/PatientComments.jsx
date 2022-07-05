@@ -6,6 +6,7 @@ import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
 import { toast } from "react-toastify";
+import { STATIC_FILE_BASE } from "../../constants";
 
 const PatientComments = ({ assigned }) => {
     const { commentType, comments } = useSelector(
@@ -31,7 +32,7 @@ const PatientComments = ({ assigned }) => {
     const handleCloseDeleteModal = () => {
         setConfirmDeleteModalOpen(false);
         setSelectedComment({});
-        setLoading(false)
+        setLoading(false);
     };
 
     const handleDeleteComment = async () => {
@@ -91,6 +92,8 @@ const PatientComments = ({ assigned }) => {
         }
     }, [authDetails?.role, commentType]);
 
+    console.log(comments);
+
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
             <div className="flex justify-between items-center mb-4">
@@ -147,16 +150,25 @@ const PatientComments = ({ assigned }) => {
                 </div>
             ) : (
                 <div className="p-4 max-h-[280px] overflow-y-auto">
-                    <div className="text-sm my-2">
+                    <div className="text-sm my-2 divide-y-[1px] divide-gray-200">
                         {filteredComments?.map((comment, i) => (
                             <div
                                 key={i}
-                                className="flex justify-between items-center"
+                                className="flex justify-between items-start p-2"
                             >
-                                <div className="flex items-center space-x-3 p-2">
-                                    <div className="p-2 bg-lightgray rounded-full">
-                                        <FaUser className="text-lg text-dimgray" />
-                                    </div>
+                                <div className="flex items-start space-x-3 p-2">
+                                        {/* <FaUser className="text-lg text-dimgray" /> */}
+                                        <img
+                                            src={
+                                                comment?.senderId.avatar?.startsWith(
+                                                    "http"
+                                                )
+                                                    ? comment?.senderId.avatar
+                                                    : `${STATIC_FILE_BASE}${comment?.senderId.avatar}`
+                                            }
+                                            alt=""
+                                            className="h-8 w-8 rounded-full object-cover"
+                                        />
                                     <span className=" flex flex-col text-sm">
                                         <p className="font-bold">
                                             {comment?.senderId.firstname +
