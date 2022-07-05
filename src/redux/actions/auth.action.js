@@ -59,11 +59,9 @@ export const getUserProfileAction = () => async (dispatch) => {
 
 export const updateUserProfileAction = (user, role, id) => async (dispatch) => {
   dispatch({ type: UPDATE_USER.REQUEST });
-  console.log(role);
   try {
     if (role === "admin") {
       const { data } = await putApi(updateAdminUrl(id), user);
-      console.log(data);
       dispatch({
         type: UPDATE_USER.SUCCESS,
         payload: data.admin,

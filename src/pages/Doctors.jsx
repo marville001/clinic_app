@@ -99,8 +99,6 @@ const Doctors = () => {
         return null;
     }
 
-    // console.log(authDetails);
-
     return (
         <DashboardWrapper>
             <Header title="Doctors" />

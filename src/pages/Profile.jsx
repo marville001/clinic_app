@@ -55,31 +55,35 @@ const Profile = () => {
         <DashboardWrapper>
             <Header title="Profile" />
             <div className="mx-8 py-28">
-                <label
-                    htmlFor="avatar-input"
-                    className="w-24 group relative h-24 cursor-pointer block bg-gray-500 rounded-full mb-5"
-                >
-                    <img
-                        src={`${avatar}`}
-                        className="w-full h-full object-cover rounded-full"
-                        alt=""
-                    />
-                    <FaEdit className="absolute bottom-2 right-2 opacity-70 text-seagreen" />
-                    {uploadingAvatar && (
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                            <FaSpinner className=" animate-spin" />
-                        </div>
-                    )}
-                    <input
-                        disabled={uploadingAvatar}
-                        type="file"
-                        id="avatar-input"
-                        className="hidden"
-                        accept="image/png, image/jpeg, image/jpg"
-                        onChange={handleAvatarChange}
-                    />
-                </label>
-
+                <div className="flex w-full flex-col gap-10 items-center sm:flex-row mx-auto">
+                    <div className="font-bold text-xl opacity-70">
+                        <p>Avatar</p>
+                    </div>
+                    <label
+                        htmlFor="avatar-input"
+                        className="w-24 group relative h-24 cursor-pointer block bg-gray-500 rounded-full mb-5"
+                    >
+                        <img
+                            src={`${avatar}`}
+                            className="w-full h-full object-cover rounded-full"
+                            alt=""
+                        />
+                        <FaEdit className="absolute bottom-2 right-2 opacity-70 text-seagreen" />
+                        {uploadingAvatar && (
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                <FaSpinner className=" animate-spin" />
+                            </div>
+                        )}
+                        <input
+                            disabled={uploadingAvatar}
+                            type="file"
+                            id="avatar-input"
+                            className="hidden"
+                            accept="image/png, image/jpeg, image/jpg"
+                            onChange={handleAvatarChange}
+                        />
+                    </label>
+                </div>
                 {/* START */}
                 <div
                     className={`flex w-full flex-col gap-10 sm:flex-row mx-auto ${

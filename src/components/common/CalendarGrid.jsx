@@ -168,7 +168,6 @@ class CalendarGrid extends React.Component {
                 details,
                 obj.id
             );
-            console.log(res, details);
 
             if (res.success === false) {
                 changeInfo.revert();

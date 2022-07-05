@@ -91,8 +91,6 @@ const EditAppointmentModal = ({
     };
 
     useEffect(() => {
-        console.log(selectedId, appointments);
-
         const appointment = appointments.find(
             (appointment) => appointment._id === selectedId
         );
