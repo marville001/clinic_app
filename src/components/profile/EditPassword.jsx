@@ -171,18 +171,19 @@ const EditPassword = () => {
             </div>
             <div className="flex mt-10 justify-between flex-col gap-2 sm:flex-row">
                 <p>Can't remember password?</p>
-                <div
+                <button
                     onClick={handleReset}
                     className={
-                        "flex items-center space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
+                        "flex items-center disabled:cursor-not-allowed space-x-2 py-2 text-xs px-6 rounded-md bg-white text-seagreen hover:opacity-75 cursor-pointer h-fit w-fit border-2 border-seagreen"
                     }
+                    disabled={loading.reset}
                 >
                     {loading.reset ? (
                         <FaSpinner className="animate-spin" />
                     ) : (
                         <span>Reset via email</span>
                     )}
-                </div>
+                </button>
             </div>
         </div>
     );
