@@ -15,27 +15,9 @@ const Profile = () => {
         <DashboardWrapper>
             <Header title="Profile" />
             <div className="mx-8 py-28">
-                {/* <div className="ml-8 mt-14 flex items-center gap-8">
-                <div className="relative h-40 w-40">
-                    <img
-                        src="/assets/JOAN.png"
-                        className="h-full w-full rounded-full hover:opacity-5"
-                        alt=""
-                    />
+                <div className="w-24 h-24 bg-gray-500 rounded-full mb-5">
+                    <img src={`${authDetails?.avatar}`} className="w-full h-full object-cover" alt="" />
                 </div>
-                <div className="flex flex-col">
-                    <h4 className="text-lg  text-seagreen font-bold">
-                        {authDetails?.firstname} {authDetails?.lastname}
-                    </h4>
-                    <p className="">
-                        {new Date(parseInt(authDetails?.createdAt))
-                            .toISOString()
-                            .toString()
-                            .substring(0, 10)
-                            .replaceAll("-", "/")}
-                    </p>
-                </div>
-            </div> */}
 
                 {/* START */}
                 <div className={`flex w-full flex-col gap-10 sm:flex-row mx-auto ${!editingName && "sm:items-center"}`}>
