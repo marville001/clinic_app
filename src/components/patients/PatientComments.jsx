@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { FaComment, FaSpinner, FaTrash } from "react-icons/fa";
+import { FaComment, FaSpinner } from "react-icons/fa";
 import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
 import { toast } from "react-toastify";
-import { STATIC_FILE_BASE } from "../../constants";
 import CommendCard from "./CommendCard";
 
 const PatientComments = ({ assigned }) => {
