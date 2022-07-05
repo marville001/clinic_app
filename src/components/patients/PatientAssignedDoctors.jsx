@@ -3,6 +3,7 @@ import { FaTrash, FaUser } from "react-icons/fa";
 import { HiUserAdd } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { STATIC_FILE_BASE } from "../../constants";
 import { unAssignPatientDoctorAction } from "../../redux/actions/patients.action";
 import AssignDoctorModal from "../modals/AssignDoctorModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
@@ -34,7 +35,7 @@ const PatientAssignedDoctors = () => {
             unAssignPatientDoctorAction(patient?._id, selectedDoctor._id)
         );
 
-        handleCloseDeleteModal()
+        handleCloseDeleteModal();
         if (!res.success) {
             toast.error(res.message, {
                 position: "top-right",
@@ -78,9 +79,15 @@ const PatientAssignedDoctors = () => {
                             className="flex justify-between items-center py-2"
                         >
                             <div className="flex items-center space-x-3">
-                                <div className="p-2 bg-lightgray rounded-full">
-                                    <FaUser className="text-lg text-dimgray" />
-                                </div>
+                                <img
+                                    src={
+                                        doc?.avatar?.startsWith("http")
+                                            ? doc?.avatar
+                                            : `${STATIC_FILE_BASE}${doc?.avatar}`
+                                    }
+                                    alt=""
+                                    className="h-8 w-8 rounded-full object-cover"
+                                />
                                 <span className="text-sm">
                                     {doc?.firstname} {doc?.lastname}
                                 </span>
