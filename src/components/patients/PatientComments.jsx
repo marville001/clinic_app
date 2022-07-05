@@ -69,7 +69,9 @@ const PatientComments = ({ assigned }) => {
         if (selectedType?._id) {
             setFilteredComments(
                 comments?.filter(
-                    (comment) => comment?.commenttype === selectedType?._id
+                    (comment) =>
+                        comment?.commenttype === selectedType?._id &&
+                        comment?.isReply === false
                 )
             );
         }
