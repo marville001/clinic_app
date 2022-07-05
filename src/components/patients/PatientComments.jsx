@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { FaComment, FaUser, FaSpinner, FaTrash } from "react-icons/fa";
+import { FaComment,  FaSpinner, FaTrash } from "react-icons/fa";
 import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
@@ -91,8 +91,6 @@ const PatientComments = ({ assigned }) => {
             setFilteredCommentTypes([]);
         }
     }, [authDetails?.role, commentType]);
-
-    console.log(comments);
 
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
