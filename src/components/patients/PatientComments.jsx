@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Tab } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { FaComment,  FaSpinner, FaTrash } from "react-icons/fa";
+import { FaComment, FaSpinner, FaTrash } from "react-icons/fa";
 import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
 import { toast } from "react-toastify";
 import { STATIC_FILE_BASE } from "../../constants";
+import CommendCard from "./CommendCard";
 
 const PatientComments = ({ assigned }) => {
     const { commentType, comments } = useSelector(
@@ -23,6 +24,8 @@ const PatientComments = ({ assigned }) => {
 
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [selectedComment, setSelectedComment] = useState({});
+    const [replyTo, setReplyTo] = useState("");
+
     const dispatch = useDispatch();
     const openDeleteModal = (comment) => {
         setSelectedComment(comment);
@@ -150,44 +153,14 @@ const PatientComments = ({ assigned }) => {
                 <div className="p-4 max-h-[280px] overflow-y-auto">
                     <div className="text-sm my-2 divide-y-[1px] divide-gray-200">
                         {filteredComments?.map((comment, i) => (
-                            <div
+                            <CommendCard
                                 key={i}
-                                className="flex justify-between items-start p-2"
-                            >
-                                <div className="flex items-start space-x-3 p-2">
-                                        {/* <FaUser className="text-lg text-dimgray" /> */}
-                                        <img
-                                            src={
-                                                comment?.senderId.avatar?.startsWith(
-                                                    "http"
-                                                )
-                                                    ? comment?.senderId.avatar
-                                                    : `${STATIC_FILE_BASE}${comment?.senderId.avatar}`
-                                            }
-                                            alt=""
-                                            className="h-8 w-8 rounded-full object-cover"
-                                        />
-                                    <span className=" flex flex-col text-sm">
-                                        <p className="font-bold">
-                                            {comment?.senderId.firstname +
-                                                " " +
-                                                comment?.senderId.lastname}
-                                        </p>
-                                        <p>{comment.comment}</p>
-                                    </span>{" "}
-                                </div>
-                                {!assigned && (
-                                    <div
-                                        className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
-                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
-                                        onClick={() => {
-                                            openDeleteModal(comment);
-                                        }}
-                                    >
-                                        <FaTrash />
-                                    </div>
-                                )}
-                            </div>
+                                comment={comment}
+                                assigned={assigned}
+                                openDeleteModal={openDeleteModal}
+                                setReplyTo={setReplyTo}
+                                replyTo={replyTo}
+                            />
                         ))}
                     </div>
 
