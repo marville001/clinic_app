@@ -9,9 +9,7 @@ const PatientPersonalDetails = () => {
     return (
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
             <h3 className="text-md mb-4 font-bold">Personal Information</h3>
-            <p className="text-sm my-2">
-                {patient?.bio}
-            </p>
+            <p className="text-sm my-2">{patient?.bio}</p>
 
             <div className="flex w-full sm:w-3/4 my-5">
                 <table className="w-full">
@@ -71,6 +69,9 @@ const PatientPersonalDetails = () => {
                                 )}
                             </React.Fragment>
                         ))}
+                        {patient?.diagnosis?.length === 0 && (
+                            <div>No Disgnosis For this patient</div>
+                        )}
                     </h4>
                 </div>
             </div>

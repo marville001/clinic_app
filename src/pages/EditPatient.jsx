@@ -12,18 +12,19 @@ import {
     getPatientAction,
     updatePatientAction,
 } from "../redux/actions/patients.action";
-
+import { getDiagnosisAction } from "../redux/actions/diagnosis.action";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 const EditPatient = () => {
-    const {
-        loadingPatient,
-        updating,
-        patient,
-    } = useSelector((state) => state.patientsState);
+    const { loadingPatient, updating, patient } = useSelector(
+        (state) => state.patientsState
+    );
     const { authDetails } = useSelector((state) => state.authState);
+    const { diagnosis } = useSelector((state) => state.diagnosisState);
 
     const [error, setError] = useState("");
+    const [selectedDiagnosis, setSelectedDiagnosis] = useState([]);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -39,7 +40,12 @@ const EditPatient = () => {
 
     const handleEditPatient = async (data) => {
         setError("");
-        const res = await dispatch(updatePatientAction(data, patient?._id));
+
+        const diagnosis_ = selectedDiagnosis.map((d) => d.value);
+
+        const res = await dispatch(
+            updatePatientAction({ ...data, diagnosis: diagnosis_ }, patient?._id)
+        );
 
         if (!res.success) {
             setError(res.message);
@@ -68,16 +74,28 @@ const EditPatient = () => {
 
             const temp_dob = patient?.dob.slice(0, 10);
             setValue("dob", temp_dob);
+            setSelectedDiagnosis(
+                patient.diagnosis?.map((diag) => {
+                    return {
+                        value: diag._id,
+                        label: diag.name,
+                    };
+                }) ?? []
+            );
         }
     }, [patient, setValue]);
 
     useEffect(() => {
         authDetails?._id && dispatch(getPatientAction(id));
+        authDetails?._id && dispatch(getDiagnosisAction());
     }, [dispatch, authDetails?._id, id]);
 
     if (
         authDetails?._id &&
-        (authDetails?.role !== "admin" && authDetails?.role !== "secretary" && (authDetails?.role === "doctor" && !authDetails?.isAdmin))
+        authDetails?.role !== "admin" &&
+        authDetails?.role !== "secretary" &&
+        authDetails?.role === "doctor" &&
+        !authDetails?.isAdmin
     ) {
         navigate("/home");
         return null;
@@ -191,6 +209,29 @@ const EditPatient = () => {
                                         register={register}
                                         required={true}
                                         type="text"
+                                    />
+                                </div>
+
+                                <div className="flex-1 mt-4">
+                                    <label
+                                        htmlFor="firstname"
+                                        className="text-md mb-2 block"
+                                    >
+                                        Select Diagnosis
+                                    </label>
+                                    <Select
+                                        placeholder="Select Diagnosis"
+                                        isMulti
+                                        value={selectedDiagnosis}
+                                        onChange={(value) =>
+                                            setSelectedDiagnosis(value)
+                                        }
+                                        options={diagnosis?.map((diag) => {
+                                            return {
+                                                value: diag._id,
+                                                label: diag.name,
+                                            };
+                                        })}
                                     />
                                 </div>
 
