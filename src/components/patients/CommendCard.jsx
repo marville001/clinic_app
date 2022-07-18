@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { STATIC_FILE_BASE } from "../../constants";
-import { createCommentAction, getCommentsAction } from "../../redux/actions/patients.action";
+import {
+    createCommentAction,
+    getCommentsAction,
+} from "../../redux/actions/patients.action";
 
 const CommendCard = ({
     comment,
@@ -32,7 +35,7 @@ const CommendCard = ({
                     comment: reply,
                     commenttype: comment?.commenttype,
                     senderRole: authDetails.role,
-                    senderName: `${authDetails.firstname} ${ authDetails.lastname}`,
+                    senderName: `${authDetails.firstname} ${authDetails.lastname}`,
                     senderId: authDetails._id,
                     isReply: true,
                     replyTo: comment?._id,
@@ -85,16 +88,18 @@ const CommendCard = ({
                     {/* <FaUser className="text-lg text-dimgray" /> */}
                     <img
                         src={
-                            comment?.senderId.avatar?.startsWith("http")
-                                ? comment?.senderId.avatar
-                                : `${STATIC_FILE_BASE}${comment?.senderId.avatar}`
+                            comment.senderId.id
+                                ? comment?.senderId.avatar?.startsWith("http")
+                                    ? comment?.senderId.avatar
+                                    : `${STATIC_FILE_BASE}${comment?.senderId.avatar}`
+                                : "https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png"
                         }
                         alt=""
                         className="h-8 w-8 rounded-full object-cover"
                     />
                     <span className=" flex flex-col text-sm">
                         <p className="font-bold">
-                            {comment?.senderName  ?? "Name"}
+                            {comment?.senderName ?? "Name"}
                         </p>
                         <p>{comment.comment}</p>
                     </span>{" "}
@@ -121,9 +126,13 @@ const CommendCard = ({
                             {/* <FaUser className="text-lg text-dimgray" /> */}
                             <img
                                 src={
-                                    reply?.senderId.avatar?.startsWith("http")
-                                        ? reply?.senderId.avatar
-                                        : `${STATIC_FILE_BASE}${reply?.senderId.avatar}`
+                                    reply?.senderId?.id
+                                        ? reply?.senderId?.avatar?.startsWith(
+                                              "http"
+                                          )
+                                            ? reply?.senderId.avatar
+                                            : `${STATIC_FILE_BASE}${reply?.senderId.avatar}`
+                                        : "https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png"
                                 }
                                 alt=""
                                 className="h-6 w-6 rounded-full object-cover"
