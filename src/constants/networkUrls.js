@@ -50,8 +50,8 @@ export const createDiagnosisUrl = `${API_BASE}diagnosis`;
 export const deleteDiagnosisUrl = (id) => `${API_BASE}diagnosis/${id}`;
 
 // Patients
-export const getPatientsUrl = ({ search = "" }) =>
-  `${API_BASE}patients?search=${search}`;
+export const getPatientsUrl = ({ search = "", type="" }) =>
+  `${API_BASE}patients?search=${search}&type=${type}`;
 export const createPatientUrl = `${API_BASE}patients`;
 export const getPatientUrl = (id) => `${API_BASE}patients/${id}`;
 export const updatePatientUrl = (id) => `${API_BASE}patients/${id}`;

@@ -7,7 +7,6 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
 import SearchInput from "../components/SearchInput";
-import { getDepartmentsAction } from "../redux/actions/departments.action";
 import {
     deletePatientAction,
     getPatientsAction,
@@ -22,10 +21,10 @@ const Patients = () => {
         deleting,
     } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
-    const { departments } = useSelector((state) => state.departmentsState);
 
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState({});
+    const [type, setType] = useState("");
 
     // const [page, setPage] = useState(0)
     // const [pageSize, setPageSize] = useState(0)
@@ -82,20 +81,25 @@ const Patients = () => {
             return;
         }
 
-        dispatch(getPatientsAction({ search }));
+        dispatch(getPatientsAction({ search, type }));
     };
 
     useEffect(() => {
         authDetails?._id && dispatch(getPatientsAction());
-        authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id]);
+
+    useEffect(() => {
+        dispatch(getPatientsAction({ type }));
+    }, [type, dispatch]);
 
     const navigate = useNavigate();
 
     if (
         authDetails?._id &&
         authDetails?.role !== "admin" &&
-        authDetails?.role !== "secretary" && (authDetails?.role === "doctor" && !authDetails?.isAdmin)
+        authDetails?.role !== "secretary" &&
+        authDetails?.role === "doctor" &&
+        !authDetails?.isAdmin
     ) {
         navigate("/home");
         return null;
@@ -106,7 +110,21 @@ const Patients = () => {
             <Header title="Patients" />
             <div className="p-4">
                 <div className="flex justify-between items-center">
-                    <SearchInput onSubmit={handleSearch} />
+                    <div className="flex items-center gap-4">
+                        <SearchInput onSubmit={handleSearch} />
+                        <select
+                            name="status"
+                            label="Status"
+                            className="border-0 focus:outline-none focus:ring-0"
+                            value={type}
+                            onChange={e=>setType(e.target.value)}
+                        >
+                            <option value="">Select Type</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">In Active</option>
+                            <option value="not-subscribed">Not Subscribed</option>
+                        </select>
+                    </div>
                     <Link
                         to="/patients/new"
                         className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
@@ -122,13 +140,11 @@ const Patients = () => {
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>
                                     <th className="px-6 py-4">#</th>
-                                    <th className="px-6 py-4">First Name</th>
-                                    <th className="px-6 py-4">Last Name</th>
+                                    <th className="px-6 py-4">Name</th>
                                     <th className="px-6 py-4">Gender</th>
-                                    <th className="px-6 py-4">DOB</th>
-                                    <th className="px-6 py-4">Address</th>
+                                    <th className="px-6 py-4 hidden lg:table-cell">DOB</th>
+                                    <th className="px-6 py-4 hidden lg:table-cell">Address</th>
                                     <th className="px-6 py-4">Phone Number</th>
-                                    <th className="px-6 py-4">Department</th>
                                     <th className="px-6 py-4">Type</th>
                                     <th className="px-6 py-4">
                                         <span className="sr-only">Action</span>
@@ -145,31 +161,22 @@ const Patients = () => {
                                             {idx + 1}
                                         </td>
                                         <td className="px-6 py-4">
-                                            {patient?.firstname}
-                                        </td>
-                                        <td className="px-6 py-4">
+                                            {patient?.firstname} {" "}
                                             {patient?.lastname}
                                         </td>
                                         <td className="px-6 py-4 capitalize">
                                             {patient?.gender}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 hidden lg:table-cell">
                                             {new Date(
                                                 patient?.dob
                                             ).toDateString()}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 hidden lg:table-cell">
                                             {patient?.address}
                                         </td>
                                         <td className="px-6 py-4">
                                             {patient?.phone}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            {departments?.find(
-                                                (dep) =>
-                                                    dep?._id ===
-                                                    patient?.department
-                                            )?.name || "-"}
                                         </td>
                                         <td className="px-6 py-4">
                                             {showType(patient?.type)}
