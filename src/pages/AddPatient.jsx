@@ -175,22 +175,6 @@ const AddPatient = () => {
                                 required={true}
                                 options={gender}
                             />
-                            <SelectField
-                                errors={errors}
-                                name="department"
-                                label="Department"
-                                register={register}
-                                required={true}
-                                options={departments.map((dep) => {
-                                    return {
-                                        value: dep._id,
-                                        label: dep.name,
-                                    };
-                                })}
-                            />
-                        </div>
-
-                        <div className="flex gap-5 mt-4">
                             <InputField
                                 errors={errors}
                                 name="address"
@@ -199,7 +183,6 @@ const AddPatient = () => {
                                 required={true}
                                 type="text"
                             />
-                            <div className="flex-1 p-2"></div>
                         </div>
 
                         <div className="flex gap-4 mt-4">
