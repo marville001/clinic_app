@@ -63,6 +63,7 @@ const EditAdminModal = ({ isOpen, closeModal = () => {}, admin = {} }) => {
             setValue("gender", admin?.gender);
             setValue("phone", admin?.phone);
             setValue("address", admin?.address);
+            setValue("status", admin?.status);
 
             const temp_dob = admin?.dob ? admin?.dob.slice(0, 10) : "";
             setValue("dob", temp_dob);
@@ -137,6 +138,17 @@ const EditAdminModal = ({ isOpen, closeModal = () => {}, admin = {} }) => {
                         required={true}
                         type="text"
                     />
+                </div>
+                <div className="flex gap-5 mt-4">
+                    <SelectField
+                        errors={errors}
+                        name="status"
+                        label="Status"
+                        register={register}
+                        required={true}
+                        options={[{label:"Active", value:"active"}, {label:"In Active", value:"inactive"}]}
+                    />
+                    <div className="flex-1"></div>
                 </div>
 
                 <div className="flex justify-between items-center mt-8">
