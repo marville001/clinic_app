@@ -2,6 +2,7 @@ import React from "react";
 import { FaHouseUser, FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { STATIC_FILE_BASE } from "../../constants";
 import { useSocket } from "../../contexts/socket.context";
 import { updateDoctorAdminStatusAction } from "../../redux/actions/doctors.action";
 
@@ -52,9 +53,20 @@ const PatientPersonalDetails = () => {
         });
     };
 
+    console.log(doctor);
+
     return (
-        <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart">
+        <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart relative">
             <h3 className="text-md mb-4 font-bold">Personal Information</h3>
+            <img
+                src={
+                    doctor?.avatar?.startsWith("http")
+                        ? doctor?.avatar
+                        : `${STATIC_FILE_BASE}${doctor?.avatar}`
+                }
+                className="w-24 h-24 rounded-full object-cover absolute top-6 right-10"
+                alt=""
+            />
             <p className="text-sm my-2">{doctor?.bio}</p>
 
             <div className="flex w-3/4 my-5">
