@@ -32,6 +32,7 @@ const CommendCard = ({
                     comment: reply,
                     commenttype: comment?.commenttype,
                     senderRole: authDetails.role,
+                    senderName: `${authDetails.firstname} ${ authDetails.lastname}`,
                     senderId: authDetails._id,
                     isReply: true,
                     replyTo: comment?._id,
@@ -93,9 +94,7 @@ const CommendCard = ({
                     />
                     <span className=" flex flex-col text-sm">
                         <p className="font-bold">
-                            {comment?.senderId.firstname +
-                                " " +
-                                comment?.senderId.lastname}
+                            {comment?.senderName  ?? "Name"}
                         </p>
                         <p>{comment.comment}</p>
                     </span>{" "}

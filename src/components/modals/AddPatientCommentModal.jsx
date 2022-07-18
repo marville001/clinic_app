@@ -54,6 +54,7 @@ const AddPatientCommentModal = ({
                     comment,
                     commenttype: type,
                     senderRole: authDetails.role,
+                    senderName: `${authDetails.firstname} ${ authDetails.lastname}`,
                     senderId: authDetails._id,
                     isReply: false,
                 },
