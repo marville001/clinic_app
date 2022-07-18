@@ -134,6 +134,7 @@ const Secretaries = () => {
                                     <th className="px-6 py-4">DOB</th>
                                     <th className="px-6 py-4">Address</th>
                                     <th className="px-6 py-4">Phone Number</th>
+                                    <th className="px-6 py-4">Status</th>
                                     <th className="px-6 py-4">
                                         <span className="sr-only">Action</span>
                                     </th>
@@ -165,6 +166,9 @@ const Secretaries = () => {
                                         </td>
                                         <td className="px-6 py-4">
                                             {secretary?.phone}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {secretary?.status}
                                         </td>
                                         <td className="px-6  py-4 text-right flex justify-end items-center space-x-1">
                                             <div

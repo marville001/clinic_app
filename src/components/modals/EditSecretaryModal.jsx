@@ -70,6 +70,7 @@ const EditSecretaryModal = ({
             setValue("gender", secretary?.gender);
             setValue("phone", secretary?.phone);
             setValue("address", secretary?.address);
+            setValue("status", secretary?.status);
 
             const temp_dob = secretary?.dob.slice(0, 10);
             setValue("dob", temp_dob);
@@ -148,6 +149,18 @@ const EditSecretaryModal = ({
                         required={true}
                         type="text"
                     />
+                </div>
+
+                <div className="flex gap-5 mt-4">
+                    <SelectField
+                        errors={errors}
+                        name="status"
+                        label="Status"
+                        register={register}
+                        required={true}
+                        options={[{label:"Active", value:"active"}, {label:"In Active", value:"inactive"}]}
+                    />
+                    <div className="flex-1"></div>
                 </div>
 
                 <div className="flex justify-between items-center mt-8">
