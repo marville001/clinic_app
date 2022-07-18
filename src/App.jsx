@@ -21,7 +21,6 @@ import ViewDoctor from "./pages/ViewDoctor";
 import { useDispatch } from "react-redux";
 import { getUserProfileAction } from "./redux/actions/auth.action";
 import ResetPassword from "./pages/ResetPassword";
-import MyAppointments from "./pages/MyAppointments";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import MyPatients from "./pages/MyPatients";
@@ -51,7 +50,6 @@ const App = () => {
                 <Route path="/patients/:id/edit" element={<EditPatient />} />
                 <Route path="/secretaries" element={<Secretaries />} />
                 <Route path="/messages" element={<Messages />} />
-                <Route path="/appointments" element={<MyAppointments />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/assigned-patients" element={<MyPatients />} />
                 <Route path="/assigned-patients/:id" element={<ViewAssignedPatient />} />
