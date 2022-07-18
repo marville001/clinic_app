@@ -1,13 +1,61 @@
 import React, { useState } from "react";
-import { FaDownload, FaFileCsv, FaFileUpload } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { FaDownload, FaFileCsv, FaFileUpload, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { STATIC_FILE_BASE } from "../../constants";
+import { deletePatientFileAction } from "../../redux/actions/patients.action";
 import AddPatientFileModal from "../modals/AddPatientFileModal";
+import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 
 const PatientAttachedFiles = ({ assigned }) => {
-    const { patient } = useSelector((state) => state.patientsState);
+    const { patient, deletingPatientFile } = useSelector((state) => state.patientsState);
 
     const [addFileModalOpen, setAddFileModalOpen] = useState(false);
+
+    const [selectedDeleteFile, setSelectedDeleteFile] = useState({});
+    const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
+
+    const dispatch = useDispatch();
+    const {id} = useParams()
+
+    const openDeleteModal = (file) => {
+        setSelectedDeleteFile(file);
+        setConfirmDeleteModalOpen(true);
+    };
+
+     const handleCloseDeleteModal = () => {
+        setConfirmDeleteModalOpen(false);
+        setSelectedDeleteFile({});
+    };
+
+     const handleDeleteContact = async () => {
+        const res = await dispatch(
+            deletePatientFileAction(id, selectedDeleteFile?._id)
+        );
+
+        handleCloseDeleteModal();
+        if (!res.success) {
+            toast.error(res.message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            return;
+        }
+        toast.success(`Patient File deleted Successfully`, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+        });
+    };
+
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow">
             <div className="flex justify-between items-center mb-4">
@@ -53,6 +101,15 @@ const PatientAttachedFiles = ({ assigned }) => {
                             >
                                 <FaDownload className="text-xl opacity-80" />
                             </a>
+                            <div
+                                className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 w-fit
+                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                onClick={() => {
+                                    openDeleteModal(file);
+                                }}
+                            >
+                                <FaTrash />
+                            </div>
                         </div>
                     ))}
 
@@ -73,6 +130,14 @@ const PatientAttachedFiles = ({ assigned }) => {
                 </div> */}
                 </div>
             </div>
+
+            <ConfirmDeleteModal
+                isOpen={confirmDeleteModalOpen}
+                closeModal={handleCloseDeleteModal}
+                message="Please confirm you want to remove the file for this patient?"
+                actionMethod={handleDeleteContact}
+                loading={deletingPatientFile}
+            />
 
             <AddPatientFileModal
                 isOpen={addFileModalOpen}

@@ -19,6 +19,7 @@ import {
     CREATE_COMMENT_TYPE,
     DELETE_COMMENT_TYPE,
     UPDATE_CONTACT,
+    DELETE_PATIENT_FILE,
 } from "../types/patients.types";
 
 const initialState = {
@@ -119,6 +120,13 @@ const patientsReducer = (state = initialState, action) => {
             };
         case ADD_PATIENT_FILE.FAIL:
             return { ...state, creatingFile: false };
+        
+        case DELETE_PATIENT_FILE.REQUEST:
+            return { ...state, deletingPatientFile: true };
+        case DELETE_PATIENT_FILE.SUCCESS:
+            return { ...state, deletingPatientFile: false, patient: action.payload };
+        case DELETE_PATIENT_FILE.FAIL:
+            return { ...state, deletingPatientFile: false };
 
         case ASSIGN_PATIENT_DOCTOR.REQUEST:
             return { ...state, assigning: true };

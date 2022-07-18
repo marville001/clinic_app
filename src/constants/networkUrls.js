@@ -81,6 +81,7 @@ export const deleteCommentTypeUrl = (id) =>
 
 //files
 export const addPatientFileUrl = (id) => `${API_BASE}patients/files/${id}`;
+export const deletePatientFileUrl = (pid, fid) => `${API_BASE}patients/files/${pid}/${fid}`;
 export const assignPatientDoctorUrl = (pid, did) =>
   `${API_BASE}patients/assign-doctor/${pid}/${did}`;
 export const unAssignPatientDoctorUrl = (pid, did) =>

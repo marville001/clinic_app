@@ -20,6 +20,7 @@ import {
 import {
     createCommentTypesUrl,
     deleteCommentTypeUrl,
+    deletePatientFileUrl,
     unAssignPatientDoctorUrl,
     updateContactUrl,
 } from "../../constants/networkUrls";
@@ -45,6 +46,7 @@ import {
     CREATE_COMMENT_TYPE,
     DELETE_COMMENT_TYPE,
     UPDATE_CONTACT,
+    DELETE_PATIENT_FILE,
 } from "../types/patients.types";
 
 export const createPatientAction = (user) => async (dispatch) => {
@@ -200,6 +202,27 @@ export const addPatientFileAction = (file, id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ADD_PATIENT_FILE.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const deletePatientFileAction = (pid, fid) => async (dispatch) => {
+    dispatch({ type: DELETE_PATIENT_FILE.REQUEST });
+    try {
+        const { data } = await deleteApi(deletePatientFileUrl(pid, fid));
+        dispatch({
+            type: DELETE_PATIENT_FILE.SUCCESS,
+            payload: data.patient,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: DELETE_PATIENT_FILE.FAIL,
             payload: parseError(error),
         });
         return {
