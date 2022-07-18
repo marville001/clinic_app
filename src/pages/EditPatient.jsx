@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 
 const EditPatient = () => {
     const {
-        loading: loading_pat,
+        loadingPatient,
         updating,
         patient,
     } = useSelector((state) => state.patientsState);
@@ -97,7 +97,7 @@ const EditPatient = () => {
                     </div>
                 )}
 
-                {loading_pat ? (
+                {loadingPatient ? (
                     <div className="w-full flex pt-20 justify-center">
                         <FaSpinner className="text-3xl animate-spin" />
                     </div>
@@ -207,7 +207,7 @@ const EditPatient = () => {
                                             </span>
                                         </>
                                     ) : (
-                                        <span>Submit</span>
+                                        <span>Update</span>
                                     )}
                                 </button>
                             </form>
