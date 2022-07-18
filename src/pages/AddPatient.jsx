@@ -9,14 +9,12 @@ import { gender } from "../constants";
 import Select from "react-select";
 import AddDiagnosisModal from "../components/modals/AddDiagnosisModal";
 import { useDispatch, useSelector } from "react-redux";
-import { getDepartmentsAction } from "../redux/actions/departments.action";
 import { getDiagnosisAction } from "../redux/actions/diagnosis.action";
 import { createPatientAction } from "../redux/actions/patients.action";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const AddPatient = () => {
-    const { departments } = useSelector((state) => state.departmentsState);
     const { authDetails } = useSelector((state) => state.authState);
     const { creating } = useSelector((state) => state.patientsState);
     const { diagnosis } = useSelector((state) => state.diagnosisState);
@@ -68,10 +66,6 @@ const AddPatient = () => {
         setError("");
         navigate("/patients");
     };
-
-    useEffect(() => {
-        authDetails?._id && dispatch(getDepartmentsAction());
-    }, [dispatch, authDetails?._id]);
 
     useEffect(() => {
         authDetails?._id && dispatch(getDiagnosisAction());

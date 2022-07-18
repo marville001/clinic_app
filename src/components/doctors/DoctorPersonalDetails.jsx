@@ -16,7 +16,7 @@ const PatientPersonalDetails = () => {
     const { socket } = useSocket();
 
     const handleDoctorAdminStatus = async (status) => {
-        const res = await dispatch(
+        await dispatch(
             updateDoctorAdminStatusAction(status, doctor?._id)
         );
 
@@ -52,8 +52,6 @@ const PatientPersonalDetails = () => {
             draggable: true,
         });
     };
-
-    console.log(doctor);
 
     return (
         <div className="p-4 flex-[1] xl:flex-[2] rounded bg-white _shadow self-stfart relative">
