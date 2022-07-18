@@ -3,7 +3,7 @@ import { Fragment } from "react";
 
 export default function Modal({
     isOpen,
-    closeModal,
+    closeModal = () => {},
     size,
     children,
     center = true,

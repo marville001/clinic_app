@@ -21,6 +21,7 @@ import {
     createCommentTypesUrl,
     deleteCommentTypeUrl,
     unAssignPatientDoctorUrl,
+    updateContactUrl,
 } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import {
@@ -43,6 +44,7 @@ import {
     UPDATE_PATIENT,
     CREATE_COMMENT_TYPE,
     DELETE_COMMENT_TYPE,
+    UPDATE_CONTACT,
 } from "../types/patients.types";
 
 export const createPatientAction = (user) => async (dispatch) => {
@@ -156,6 +158,27 @@ export const createContactAction = (contact, id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: CREATE_CONTACT.FAIL,
+            payload: parseError(error),
+        });
+        return {
+            success: false,
+            message: parseError(error),
+        };
+    }
+};
+
+export const updateContactAction = (details, pid, cid) => async (dispatch) => {
+    dispatch({ type: UPDATE_CONTACT.REQUEST });
+    try {
+        const { data } = await putApi(updateContactUrl(pid, cid), details);
+        dispatch({
+            type: UPDATE_CONTACT.SUCCESS,
+            payload: data.patient,
+        });
+        return { success: true };
+    } catch (error) {
+        dispatch({
+            type: UPDATE_CONTACT.FAIL,
             payload: parseError(error),
         });
         return {

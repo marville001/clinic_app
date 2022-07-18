@@ -60,6 +60,7 @@ export const deletePatientUrl = (id) => `${API_BASE}patients/${id}`;
 //contact
 export const createContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
 export const deleteContactUrl = (id) => `${API_BASE}patients/contact/${id}`;
+export const updateContactUrl = (pid, cid) => `${API_BASE}patients/contact/${pid}/${cid}`;
 
 // Contact Type
 export const createContactTypesUrl = `${API_BASE}patients/contact-type`;
