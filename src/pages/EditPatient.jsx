@@ -12,7 +12,6 @@ import {
     getPatientAction,
     updatePatientAction,
 } from "../redux/actions/patients.action";
-import { getDepartmentsAction } from "../redux/actions/departments.action";
 
 import { toast } from "react-toastify";
 
@@ -23,9 +22,6 @@ const EditPatient = () => {
         patient,
     } = useSelector((state) => state.patientsState);
     const { authDetails } = useSelector((state) => state.authState);
-    const { departments, loading: loading_dpt } = useSelector(
-        (state) => state.departmentsState
-    );
 
     const [error, setError] = useState("");
 
@@ -72,13 +68,11 @@ const EditPatient = () => {
 
             const temp_dob = patient?.dob.slice(0, 10);
             setValue("dob", temp_dob);
-            setValue("department", patient?.department?._id);
         }
-    }, [patient, setValue, departments]);
+    }, [patient, setValue]);
 
     useEffect(() => {
         authDetails?._id && dispatch(getPatientAction(id));
-        authDetails?._id && dispatch(getDepartmentsAction());
     }, [dispatch, authDetails?._id, id]);
 
     if (
@@ -103,7 +97,7 @@ const EditPatient = () => {
                     </div>
                 )}
 
-                {loading_pat || loading_dpt ? (
+                {loading_pat ? (
                     <div className="w-full flex pt-20 justify-center">
                         <FaSpinner className="text-3xl animate-spin" />
                     </div>
@@ -190,22 +184,6 @@ const EditPatient = () => {
                                         required={true}
                                         options={gender}
                                     />
-                                    <SelectField
-                                        errors={errors}
-                                        name="department"
-                                        label="Department"
-                                        register={register}
-                                        required={true}
-                                        options={departments.map((dep) => {
-                                            return {
-                                                value: dep._id,
-                                                label: dep.name,
-                                            };
-                                        })}
-                                    />
-                                </div>
-
-                                <div className="flex gap-5 mt-4">
                                     <InputField
                                         errors={errors}
                                         name="address"
@@ -214,7 +192,6 @@ const EditPatient = () => {
                                         required={true}
                                         type="text"
                                     />
-                                    <div className="flex-1"></div>
                                 </div>
 
                                 <button
