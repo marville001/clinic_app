@@ -6,7 +6,6 @@ import DashboardWrapper from "../components/DashboardWrapper";
 import Header from "../components/Header";
 import AddSecretaryModal from "../components/modals/AddSecretaryModal";
 import ConfirmDeleteModal from "../components/modals/ConfirmDeleteModal";
-import EditSecretaryModal from "../components/modals/EditSecretaryModal";
 import SearchInput from "../components/SearchInput";
 import {
     deleteSecretaryAction,
@@ -15,7 +14,7 @@ import {
 
 import { toast } from "react-toastify";
 import ViewSecretaryModal from "../components/modals/ViewSecretaryModal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Secretaries = () => {
     const { authDetails } = useSelector((state) => state.authState);
@@ -26,7 +25,6 @@ const Secretaries = () => {
     } = useSelector((state) => state.secretariesState);
 
     const [addModalOpen, setAddModalOpen] = useState(false);
-    const [editModalOpen, setEditModalOpen] = useState(false);
     const [viewModalOpen, setViewModalOpen] = useState(false);
     const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
 
@@ -36,11 +34,6 @@ const Secretaries = () => {
     // const [pageSize, setPageSize] = useState(0)
 
     const dispatch = useDispatch();
-
-    const openEditModal = (secretary) => {
-        setSelectedSecretary(secretary);
-        setEditModalOpen(true);
-    };
 
     const openViewModal = (secretary) => {
         setSelectedSecretary(secretary);
@@ -181,15 +174,13 @@ const Secretaries = () => {
                                                 <FaEye />
                                             </div>
 
-                                            <div
-                                                className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
-                                                rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
-                                                onClick={() =>
-                                                    openEditModal(secretary)
-                                                }
-                                            >
-                                                <FaUserEdit />
-                                            </div>
+                                            <Link
+                                                    className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
+                                                rounded-full hover:opacity-90 hover:scale-[1.02]"
+                                                    to={`/secretaries/${secretary?._id}/edit`}
+                                                >
+                                                    <FaUserEdit className="" />
+                                                </Link>
 
                                             <div
                                                 className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 
@@ -229,14 +220,6 @@ const Secretaries = () => {
                     }}
                 />
 
-                <EditSecretaryModal
-                    isOpen={editModalOpen}
-                    closeModal={() => {
-                        setEditModalOpen(false);
-                        setSelectedSecretary({});
-                    }}
-                    secretary={selectedSecretary}
-                />
                 <ViewSecretaryModal
                     isOpen={viewModalOpen}
                     closeModal={() => {

@@ -25,6 +25,7 @@ import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
 import MyPatients from "./pages/MyPatients";
 import ViewAssignedPatient from "./pages/ViewAssignedPatient";
+import EditSecretary from "./pages/EditSecretary";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -49,6 +50,7 @@ const App = () => {
                 <Route path="/patients/:id" element={<ViewPatient />} />
                 <Route path="/patients/:id/edit" element={<EditPatient />} />
                 <Route path="/secretaries" element={<Secretaries />} />
+                <Route path="/secretaries/:id/edit" element={<EditSecretary />} />
                 <Route path="/messages" element={<Messages />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/assigned-patients" element={<MyPatients />} />
