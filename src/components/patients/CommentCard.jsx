@@ -10,7 +10,7 @@ import {
     getCommentsAction,
 } from "../../redux/actions/patients.action";
 
-const CommendCard = ({
+const CommentCard = ({
     comment,
     assigned,
     openDeleteModal,
@@ -22,6 +22,7 @@ const CommendCard = ({
     const { comments } = useSelector((state) => state.patientsState);
 
     const [replying, setReplying] = useState(false);
+    // const [edittingComment, setEdittingComment] = useState(false);
     const [reply, setReply] = useState("");
     const [replies, setReplies] = useState([]);
 
@@ -197,4 +198,4 @@ const CommendCard = ({
     );
 };
 
-export default CommendCard;
+export default CommentCard;

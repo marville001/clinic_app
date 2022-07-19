@@ -6,7 +6,7 @@ import AddPatientCommentModal from "../modals/AddPatientCommentModal";
 import ConfirmDeleteModal from "../modals/ConfirmDeleteModal";
 import { deleteCommentAction } from "../../redux/actions/patients.action";
 import { toast } from "react-toastify";
-import CommendCard from "./CommendCard";
+import CommentCard from "./CommentCard";
 
 const PatientComments = ({ assigned }) => {
     const { commentType, comments } = useSelector(
@@ -154,7 +154,7 @@ const PatientComments = ({ assigned }) => {
                 <div className="p-4 max-h-[280px] overflow-y-auto">
                     <div className="text-sm my-2 divide-y-[1px] divide-gray-200">
                         {filteredComments?.map((comment, i) => (
-                            <CommendCard
+                            <CommentCard
                                 key={i}
                                 comment={comment}
                                 assigned={assigned}
