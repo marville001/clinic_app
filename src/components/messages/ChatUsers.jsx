@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useRef } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
-import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import parseInitials from "../../utils/parseInitials";
 import NewChatModal from "../modals/NewChatModal";

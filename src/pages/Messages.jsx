@@ -12,8 +12,6 @@ import {
     getChatsAction,
     resetMessagesAction,
 } from "../redux/actions/messages.action";
-import io from "socket.io-client";
-import { useNotifications } from "../contexts/notification.context";
 import { useSocket } from "../contexts/socket.context";
 
 let selectedChatCompare;
