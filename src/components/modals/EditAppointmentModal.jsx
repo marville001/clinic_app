@@ -55,7 +55,8 @@ const EditAppointmentModal = ({
             return;
         }
 
-        dispatch(getAppointmentsAction(doctorId));
+        dispatch(getAppointmentsAction(doctorId ? doctorId : "",
+                doctorId ? "" : "all"));
         toast.success(`Appointment Updated Successfully`, {
             position: "top-right",
             autoClose: 5000,
@@ -77,7 +78,12 @@ const EditAppointmentModal = ({
             return;
         }
 
-        dispatch(getAppointmentsAction(doctorId));
+        dispatch(
+            getAppointmentsAction(
+                doctorId ? doctorId : "",
+                doctorId ? "" : "all"
+            )
+        );
         toast.success(`Appointment Deleted Successfully`, {
             position: "top-right",
             autoClose: 5000,
@@ -119,7 +125,7 @@ const EditAppointmentModal = ({
     }, [selectedId, appointments, setValue]);
 
     return (
-        <Modal size="3xl" isOpen={isOpen} closeModal={()=>{}}>
+        <Modal size="3xl" isOpen={isOpen} closeModal={() => {}}>
             <form
                 onSubmit={handleSubmit(handleUpdateAppointment)}
                 className="bg-white p-5 _shadow rounded-md"

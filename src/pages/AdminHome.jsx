@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { HiPlusCircle } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import AllAppointmentCalendar from "../components/AllAppointmentCalendar";
 import PatientsByDepartmentChart from "../components/charts/PatientsByDepartmentChart";
 import PatientsVisitByGenderChart from "../components/charts/PatientsVisitByGenderChart";
 import CalendarGrid from "../components/common/CalendarGrid";
@@ -18,7 +19,10 @@ import AddAppointmentModal from "../components/modals/AddAppointmentModal";
 import { getAdminsAction } from "../redux/actions/admins.action";
 import { getAppointmentsAction } from "../redux/actions/appointments.action";
 import { getDepartmentsAction } from "../redux/actions/departments.action";
-import { getDoctorAssignedPatientsAction, getDoctorsAction } from "../redux/actions/doctors.action";
+import {
+    getDoctorAssignedPatientsAction,
+    getDoctorsAction,
+} from "../redux/actions/doctors.action";
 import { getPatientsAction } from "../redux/actions/patients.action";
 import { getSecretariesAction } from "../redux/actions/secretaries.action";
 import { parseAppointments } from "../utils/calendar";
@@ -27,7 +31,9 @@ const AdminHome = () => {
     const { authDetails } = useSelector((state) => state.authState);
     const { patients } = useSelector((state) => state.patientsState);
     const { departments } = useSelector((state) => state.departmentsState);
-    const { doctors, assignedPatients } = useSelector((state) => state.doctorsState);
+    const { doctors, assignedPatients } = useSelector(
+        (state) => state.doctorsState
+    );
     const { secretaries } = useSelector((state) => state.secretariesState);
     const { admins } = useSelector((state) => state.adminsState);
     const { appointments } = useSelector((state) => state.appointmentsState);
@@ -54,13 +60,19 @@ const AdminHome = () => {
             dispatch(getSecretariesAction());
             dispatch(getAdminsAction());
             dispatch(getDepartmentsAction());
-            authDetails?.role === "doctor" && dispatch(getDoctorAssignedPatientsAction(authDetails?._id));
+            authDetails?.role === "doctor" &&
+                dispatch(getDoctorAssignedPatientsAction(authDetails?._id));
         }
     }, [dispatch, authDetails?._id, authDetails?.role]);
 
     useEffect(() => {
-        if (authDetails?._id && authDetails?.role === "doctor") {
-            dispatch(getAppointmentsAction(authDetails?._id));
+        if (authDetails?._id) {
+            dispatch(
+                getAppointmentsAction(
+                    authDetails?._id,
+                    authDetails?.role === "doctor" ? "" : "all"
+                )
+            );
         }
     }, [dispatch, authDetails]);
 
@@ -136,12 +148,13 @@ const AdminHome = () => {
         const deps = [...new Set(patients.map((p) => p.department))];
         const values = deps.map((dep) => {
             const value = patients.filter((p) => p.department === dep)?.length;
-            return Math.round((value / patients.length)*100);
+            return Math.round((value / patients.length) * 100);
         });
-        const labels = deps.map(dep => departments.find(d => d._id === dep || "")?.name)
-        setPatientsByDeptValues(values)
-        setPatientsByDeptLabels(labels)
-        
+        const labels = deps.map(
+            (dep) => departments.find((d) => d._id === dep || "")?.name
+        );
+        setPatientsByDeptValues(values);
+        setPatientsByDeptLabels(labels);
     }, [departments, patients]);
 
     return (
@@ -150,7 +163,8 @@ const AdminHome = () => {
             <div className="p-4">
                 <h4 className="text-lg">Dashboard</h4>
 
-                {(authDetails?.role === "admin" || authDetails?.role === "secretary") && (
+                {(authDetails?.role === "admin" ||
+                    authDetails?.role === "secretary") && (
                     <>
                         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5 my-5">
                             <DashCountCard
@@ -168,7 +182,7 @@ const AdminHome = () => {
                                 count={secretaries?.length}
                                 text="Secretaries"
                             />
-                    
+
                             <DashCountCard
                                 icon={FaUserShield}
                                 count={admins?.length}
@@ -209,7 +223,9 @@ const AdminHome = () => {
 
                             <div className="p-4 bg-white rounded-lg _shadow">
                                 <div className="flex items-center justify-between w-full mb-5">
-                                    <p className="font-bold">Patients by Department</p>
+                                    <p className="font-bold">
+                                        Patients by Department
+                                    </p>
                                 </div>
                                 <PatientsByDepartmentChart
                                     labels={patientsByDeptLabels}
@@ -217,8 +233,9 @@ const AdminHome = () => {
                                 />
                             </div>
                         </div>
-                    </>)}
-                
+                    </>
+                )}
+
                 {authDetails?.role === "doctor" && (
                     <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3  xl:grid-cols-5 my-5">
                         <DashCountCard
@@ -249,8 +266,16 @@ const AdminHome = () => {
                                 <span>add Appointment</span>
                             </div>
                         </div>
-                        <CalendarGrid appointments={appoints} doctorId={authDetails?._id} />
+                        <CalendarGrid
+                            appointments={appoints}
+                            doctorId={authDetails?._id}
+                        />
                     </div>
+                )}
+
+                {(authDetails?.role === "admin" ||
+                    authDetails?.role === "secretary") && (
+                    <AllAppointmentCalendar appointments={appoints}  />
                 )}
             </div>
             <AddAppointmentModal

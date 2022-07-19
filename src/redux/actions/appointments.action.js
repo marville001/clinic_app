@@ -1,5 +1,5 @@
 import {   deleteApi, getApi, postApi, putApi,} from "../../api";
-import { createAppointmentUrl, deleteAppointmentUrl, getAppointmentsUrl, updateAppointmentUrl } from "../../constants/networkUrls";
+import { createAppointmentUrl, deleteAppointmentUrl, getAllAppointmentsUrl, getAppointmentsUrl, updateAppointmentUrl } from "../../constants/networkUrls";
 import parseError from "../../utils/parseError";
 import { CREATE_APPOINTMENT, DELETE_APPOINTMENT, GET_APPOINTMENTS, UPDATE_APPOINTMENT } from "../types/appointments.types";
 
@@ -24,10 +24,10 @@ export const createAppointmentAction = (details) => async (dispatch) => {
     }
 };
 
-export const getAppointmentsAction = (id) => async (dispatch) => {
+export const getAppointmentsAction = (id, type="", params={}) => async (dispatch) => {
     dispatch({ type: GET_APPOINTMENTS.REQUEST });
     try {
-        const { data } = await getApi(getAppointmentsUrl(id));
+        const { data } = await getApi(type==="all"?getAllAppointmentsUrl():getAppointmentsUrl(id), params);
         dispatch({
             type: GET_APPOINTMENTS.SUCCESS,
             payload: data.appointments,

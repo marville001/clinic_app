@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InputField from "../common/InputField";
 import Modal from "../common/Modal";
 import TextareaField from "../common/TextareaField";
@@ -12,6 +12,7 @@ import {
     getAppointmentsAction,
 } from "../../redux/actions/appointments.action";
 import { useSocket } from "../../contexts/socket.context";
+import SelectField from "../common/SelectField";
 
 const AddAppointmentModal = ({
     isOpen,
@@ -26,6 +27,7 @@ const AddAppointmentModal = ({
 
     const [allDay, setAllDay] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { doctors } = useSelector((state) => state.doctorsState);
 
     const {
         register,
@@ -50,9 +52,17 @@ const AddAppointmentModal = ({
     const handleAddDepartment = async (data) => {
         setError("");
         setLoading(true);
-        const res = await dispatch(
-            createAppointmentAction({ ...data, allDay, doctorId })
-        );
+
+        const obj = {
+            ...data,
+            allDay,
+        };
+
+        if (doctorId) {
+            obj.doctorId = doctorId;
+        }
+
+        const res = await dispatch(createAppointmentAction(obj));
         setLoading(false);
 
         if (!res.success) {
@@ -72,7 +82,12 @@ const AddAppointmentModal = ({
             notification: notif_data,
         });
 
-        dispatch(getAppointmentsAction(doctorId));
+        dispatch(
+            getAppointmentsAction(
+                doctorId ? doctorId : "",
+                doctorId ? "" : "all"
+            )
+        );
         toast.success(`Appointment Added Successfully`, {
             position: "top-right",
             autoClose: 5000,
@@ -103,6 +118,8 @@ const AddAppointmentModal = ({
         );
     }, [setValue, startDate, endDate]);
 
+    console.log(doctorId);
+
     return (
         <Modal size="3xl" isOpen={isOpen} closeModal={handleCloseModal}>
             <form
@@ -118,6 +135,24 @@ const AddAppointmentModal = ({
                     </div>
                 )}
 
+                {!doctorId && (
+                    <div className="flex gap-5 mt-4">
+                        <SelectField
+                            errors={errors}
+                            name="doctorId"
+                            label="Doctor"
+                            register={register}
+                            required={true}
+                            inputClasses="border-0 border-b focus:ring-0 rounded-none bg-gray-100"
+                            options={doctors?.map((doc) => {
+                                return {
+                                    value: doc._id,
+                                    label: `${doc.firstname} ${doc.lastname}`,
+                                };
+                            })}
+                        />
+                    </div>
+                )}
                 <div className="flex gap-5 mt-4">
                     <InputField
                         errors={errors}

@@ -98,6 +98,7 @@ export const searchChatUserUrl = (key, query) =>
 // Appointment
 export const createAppointmentUrl = `${API_BASE}appointments`;
 export const getAppointmentsUrl = (id) => `${API_BASE}appointments/${id}`;
+export const getAllAppointmentsUrl = (id) => `${API_BASE}appointments/get-all`;
 export const updateAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;
 export const deleteAppointmentUrl = (id) => `${API_BASE}appointments/${id}`;
 

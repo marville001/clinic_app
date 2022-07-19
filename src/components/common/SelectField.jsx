@@ -21,7 +21,7 @@ const SelectField = ({
                 {...register(name, {
                     required: {
                         value: required,
-                        message: `${name} is required`,
+                        message: `${label} is required`,
                     },
                 })}
             >
