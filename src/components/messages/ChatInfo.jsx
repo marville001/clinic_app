@@ -7,7 +7,7 @@ const ChatInfo = ({ chatInfoOpen, setChatInfoOpen, selectedChat }) => {
 
     return (
         <div
-            className={`w-[300px] pl-5 absolute bg-white right-0 top-0 bottom-0 lg:static  transition-all duration-200 ease-linear ${
+            className={`w-[300px] pl-5 absolute bg-white right-0 top-0 bottom-0 xl:static  transition-all duration-200 ease-linear ${
                 chatInfoOpen
                     ? "block scale-100"
                     : " hidden scale-0 lg:scale-100 lg:block"

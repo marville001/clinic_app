@@ -27,6 +27,8 @@ const Messages = () => {
     const [typing, setTyping] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const [text, setText] = useState("");
+    const [chatsBarOpen, setChatsBarOpen] = useState(false)
+    
 
     const scrollRef = useRef();
     const dispatch = useDispatch();
@@ -89,10 +91,12 @@ const Messages = () => {
     return (
         <DashboardWrapper>
             <Header title="Messages" />
-            <div className="p-4 flex divide-x-[1px] min-h-[600px] relative chat-container">
+            <div className="sm:p-4 flex md:divide-x-[1px] min-h-[600px] relative chat-container">
                 <ChatUsers
                     setSelectedChat={setSelectedChat}
                     selectedChat={selectedChat}
+                    chatsBarOpen={chatsBarOpen}
+                    setChatsBarOpen={setChatsBarOpen}
                     setText={setText}
                 />
                 <ChatMessages
@@ -103,6 +107,7 @@ const Messages = () => {
                     ref={scrollRef}
                     socketConnected={socketConnected}
                     typing={typing}
+                    setChatsBarOpen={setChatsBarOpen}
                     setTyping={setTyping}
                     isTyping={isTyping}
                     text={text}

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import ChatContainer from "./ChatContainer";
-import { FaBars, FaPaperPlane, FaSpinner } from "react-icons/fa";
+import {
+    FaAngleDoubleRight,
+    FaBars,
+    FaPaperPlane,
+    FaSpinner,
+} from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessageAction } from "../../redux/actions/messages.action";
 
@@ -17,6 +22,7 @@ const ChatMessages = React.forwardRef(
             isTyping,
             text,
             setText,
+            setChatsBarOpen
         },
         ref
     ) => {
@@ -75,7 +81,10 @@ const ChatMessages = React.forwardRef(
         };
 
         return (
-            <div className="flex-[1] px-5 flex flex-col h-full">
+            <div className="flex-[1] sm:px-5 flex flex-col h-full">
+                <div className="md:hidden">
+                    <FaAngleDoubleRight onClick={()=>setChatsBarOpen(true)} className="text-2xl cursor-pointer" />
+                </div>
                 {/* Header */}
                 {selectedChat?._id && (
                     <div className="flex items-center justify-between">
