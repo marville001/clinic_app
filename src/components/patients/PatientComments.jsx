@@ -114,7 +114,7 @@ const PatientComments = ({ assigned }) => {
 
             <div className="my-4">
                 <Tab.Group>
-                    <Tab.List className="flex space-x-5">
+                    <Tab.List className="flex space-x-5  overflow-x-auto">
                         {filteredCommentTypes.map((category) => (
                             <Tab
                                 key={category._id}

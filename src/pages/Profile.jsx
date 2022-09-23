@@ -51,6 +51,8 @@ const Profile = () => {
         }
     }, [authDetails?.avatar, authDetails?._id]);
 
+    console.log(avatar);
+
     return (
         <DashboardWrapper>
             <Header title="Profile" />

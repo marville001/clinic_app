@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 
 const EditDoctor = () => {
     const {
-        loading: loading_doc,
+        loadingDoctor,
         updating,
         doctor,
     } = useSelector((state) => state.doctorsState);
@@ -103,7 +103,7 @@ const EditDoctor = () => {
                     </div>
                 )}
 
-                {loading_doc || loading_dpt ? (
+                {loadingDoctor || loading_dpt ? (
                     <div className="w-full flex pt-20 justify-center">
                         <FaSpinner className="text-3xl animate-spin" />
                     </div>

@@ -158,7 +158,7 @@ const Header = ({ title }) => {
                         <img
                             src={avatar}
                             alt=""
-                            className="h-6 w-6 rounded-full"
+                            className="h-6 w-6 object-cover rounded-full"
                         />
                         <FaChevronDown className="group-hover:text-dwhite" />
                     </Menu.Button>

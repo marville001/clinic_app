@@ -194,7 +194,7 @@ const AddPatient = () => {
                                     onChange={(value) =>
                                         setSelectedDiagnosis(value)
                                     }
-                                    options={diagnosis?.filter((diag) => {
+                                    options={diagnosis?.map((diag) => {
                                         return {
                                             value: diag._id,
                                             label: diag.name,

@@ -89,10 +89,10 @@ const CommentCard = ({
                     {/* <FaUser className="text-lg text-dimgray" /> */}
                     <img
                         src={
-                            comment.senderId.id
-                                ? comment?.senderId.avatar?.startsWith("http")
-                                    ? comment?.senderId.avatar
-                                    : `${STATIC_FILE_BASE}${comment?.senderId.avatar}`
+                            comment?.senderId?.id
+                                ? comment?.senderId?.avatar?.startsWith("http")
+                                    ? comment?.senderId?.avatar
+                                    : `${STATIC_FILE_BASE}${comment?.senderId?.avatar}`
                                 : "https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png"
                         }
                         alt=""
@@ -102,7 +102,7 @@ const CommentCard = ({
                         <p className="font-bold">
                             {comment?.senderName ?? "Name"}
                         </p>
-                        <p>{comment.comment}</p>
+                        <p>{comment?.comment}</p>
                     </span>{" "}
                 </div>
                 {!assigned && (
@@ -132,7 +132,7 @@ const CommentCard = ({
                                               "http"
                                           )
                                             ? reply?.senderId.avatar
-                                            : `${STATIC_FILE_BASE}${reply?.senderId.avatar}`
+                                            : `${STATIC_FILE_BASE}${reply?.senderId?.avatar}`
                                         : "https://www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png"
                                 }
                                 alt=""
@@ -140,9 +140,9 @@ const CommentCard = ({
                             />
                             <span className=" flex flex-col text-xs">
                                 <p className="font-bold">
-                                    {reply?.senderId.firstname +
+                                    {reply?.senderId?.firstname +
                                         " " +
-                                        reply?.senderId.lastname}
+                                        reply?.senderId?.lastname}
                                 </p>
                                 <p>{reply.comment}</p>
                             </span>{" "}
