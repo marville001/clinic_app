@@ -108,9 +108,9 @@ const Patients = () => {
     return (
         <DashboardWrapper>
             <Header title="Patients" />
-            <div className="p-4">
-                <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-4">
+            <div className="p-4 grid grid-cols-1">
+                <div className="flex flex-col md:flex-row md:justify-between gap-3 md:items-center">
+                    <div className="flex flex-col md:flex-row md:items-center gap-4">
                         <SearchInput onSubmit={handleSearch} />
                         <select
                             name="status"
@@ -127,7 +127,7 @@ const Patients = () => {
                     </div>
                     <Link
                         to="/patients/new"
-                        className="flex items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                        className="flex items-center self-end md:self-auto space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
                     >
                         <HiPlusCircle />
                         <span>Add Patient</span>
@@ -136,7 +136,7 @@ const Patients = () => {
 
                 <div className="mt-5">
                     <div className="relative overflow-x-auto shadow-md rounded-md bg-white">
-                        <table className="w-full text-sm text-left">
+                        <table className="w-full text-sm text-left overflow-x-auto">
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>
                                     <th className="px-6 py-4">#</th>

@@ -6,7 +6,7 @@ const SearchInput = ({ onSubmit }) => {
     return (
         <form
             onSubmit={e=> onSubmit(e, search)}
-            className="p-2 h-12 bg-white flex items-center w-[300px] relative rounded-md overflow-hidden"
+            className="p-2 h-12 bg-white flex items-center w-full md:w-[300px] relative rounded-md overflow-hidden"
         >
             <input
                 placeholder="Search here..."

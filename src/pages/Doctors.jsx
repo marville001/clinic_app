@@ -102,7 +102,7 @@ const Doctors = () => {
     return (
         <DashboardWrapper>
             <Header title="Doctors" />
-            <div className="p-4 ">
+            <div className="p-4  grid grid-cols-1">
                 <div>
                     <div className="flex justify-between items-center">
                         <SearchInput onSubmit={handleSearch} />
@@ -115,8 +115,8 @@ const Doctors = () => {
                         </Link>
                     </div>
 
-                    <div className="mt-5">
-                        <div className="relative shadow-md rounded-md bg-white">
+                    <div className="mt-5 grid grid-cols-1">
+                        <div className="relative shadow-md overflow-x-auto rounded-md bg-white">
                             <table className="w-full text-sm text-left overflow-x-auto">
                                 <thead className="text-md bg-dimgray text-white">
                                     <tr>

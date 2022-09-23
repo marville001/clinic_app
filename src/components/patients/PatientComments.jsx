@@ -114,7 +114,7 @@ const PatientComments = ({ assigned }) => {
 
             <div className="my-4">
                 <Tab.Group>
-                    <Tab.List className="flex space-x-5  overflow-x-auto">
+                    <Tab.List className="flex space-x-5 border-b overflow-x-auto">
                         {filteredCommentTypes.map((category) => (
                             <Tab
                                 key={category._id}
@@ -132,7 +132,7 @@ const PatientComments = ({ assigned }) => {
                             >
                                 <div
                                     onClick={() => setSelectedType(category)}
-                                    className="cursor-pointer w-full h-full contain p-2 px-4 "
+                                    className="cursor-pointer text-sm w-full h-full contain p-2 px-4 "
                                 >
                                     {category.name}
                                 </div>

@@ -98,19 +98,19 @@ const Admins = () => {
         <DashboardWrapper>
             <Header title="Admins List" />
             <div className="p-4 ">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between flex-col md:flex-row gap-3 md:items-center">
                     <SearchInput onSubmit={handleSearch}  />
                     <div
                         onClick={() => setAddModalOpen(true)}
-                        className="flex cursor-pointer items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
+                        className="flex cursor-pointer self-end md:self-auto items-center space-x-2 bg-seagreen py-2 px-6 rounded-md text-white  text-sm hover:opacity-75"
                     >
                         <HiPlusCircle />
                         <span>New Admin</span>
                     </div>
                 </div>
 
-                <div className="mt-5">
-                    <div className="relative shadow-md rounded-md bg-white">
+                <div className="mt-5 grid grid-cols-1">
+                    <div className="relative shadow-md overflow-x-auto rounded-md bg-white">
                         <table className="w-full text-sm text-left overflow-x-auto">
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>

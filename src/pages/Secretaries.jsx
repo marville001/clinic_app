@@ -105,7 +105,7 @@ const Secretaries = () => {
         <DashboardWrapper>
             <Header title="Secretaries" />
             <div className="p-4 ">
-                <div className="flex justify-between items-center">
+                <div className="flex md:justify-between flex-col md:flex-row gap-3 items-end md:items-center">
                     <SearchInput onSubmit={handleSearch} />
                     <div
                         onClick={() => setAddModalOpen(true)}
@@ -116,8 +116,8 @@ const Secretaries = () => {
                     </div>
                 </div>
 
-                <div className="mt-5">
-                    <div className="relative shadow-md rounded-md bg-white">
+                <div className="mt-5 grid grid-cols-1">
+                    <div className="relative shadow-md rounded-md bg-white overflow-x-auto">
                         <table className="w-full text-sm text-left overflow-x-auto">
                             <thead className="text-md bg-dimgray text-white">
                                 <tr>
