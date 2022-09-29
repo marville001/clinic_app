@@ -79,71 +79,77 @@ const PatientContacts = () => {
                 </div>
             </div>
 
-            <div className="flex w-full my-5">
-                <table className="w-full">
-                    <thead className="text-left">
-                        <tr className="border-b">
-                            <th className="py-2 text-sm">#</th>
-                            <th className="py-2 text-sm">Contact Type</th>
-                            <th className="py-2 text-sm">First Name</th>
-                            <th className="py-2 text-sm">Last Name</th>
-                            <th className="py-2 text-sm">Address</th>
-                            <th className="py-2 text-sm">Telephone</th>
-                            <th className="py-2 text-sm">Email</th>
-                            <th className="py-2 text-sm">Availability</th>
-                        </tr>
-                    </thead>
-
-                    <tbody className="text-left">
-                        {patient?.contact?.map((contact, idx) => (
-                            <tr key={idx} className="border-b">
-                                <td className="text-xs py-3">{idx + 1}</td>
-                                <td className="text-xs py-3">
-                                    {contactType?.find(
-                                        (c) => c._id === contact.contacttype
-                                    )?.name || "-"}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.firstname}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.lastname}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.address}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.phone.join(",")}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.email}
-                                </td>
-                                <td className="text-xs py-3">
-                                    {contact?.availability}
-                                </td>
-                                <td className="flex py-4 gap-2">
-                                    <div
-                                        className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
-                                                rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
-                                        onClick={() => openEditModal(contact)}
-                                    >
-                                        <FaUserEdit />
-                                    </div>
-                                    <div
-                                        className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 w-fit
-                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
-                                        onClick={() => {
-                                            openDeleteModal(contact);
-                                        }}
-                                    >
-                                        <FaTrash />
-                                    </div>
-                                </td>
+            <div className=" grid grid-cols-1">
+                <div className="w-full my-5 overflow-auto grid grid-cols-1">
+                    <table className="w-full  overflow-auto">
+                        <thead className="text-left">
+                            <tr className="border-b">
+                                <th className="py-2 px-3 text-sm">#</th>
+                                <th className="py-2 px-3 text-sm">Contact Type</th>
+                                <th className="py-2 px-3 text-sm">First Name</th>
+                                <th className="py-2 px-3 text-sm">Last Name</th>
+                                <th className="py-2 px-3 text-sm">Address</th>
+                                <th className="py-2 px-3 text-sm">Telephone</th>
+                                <th className="py-2 px-3 text-sm">Email</th>
+                                <th className="py-2 px-3 text-sm">Availability</th>
+                                <th className="py-2 px-3 text-sm"></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody className="text-left">
+                            {patient?.contact?.map((contact, idx) => (
+                                <tr key={idx} className="border-b">
+                                    <td className="text-xs py-3">{idx + 1}</td>
+                                    <td className="text-xs py-3">
+                                        {contactType?.find(
+                                            (c) => c._id === contact.contacttype
+                                        )?.name || "-"}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.firstname}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.lastname}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.address}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.phone.join(",")}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.email}
+                                    </td>
+                                    <td className="text-xs py-3">
+                                        {contact?.availability}
+                                    </td>
+                                    <td className="flex py-4 gap-2">
+                                        <div
+                                            className="flex items-center space-x-1 bg-dimgray text-white text-xs p-2 
+                                                rounded-full hover:opacity-90 hover:scale-[1.02] cursor-pointer"
+                                            onClick={() =>
+                                                openEditModal(contact)
+                                            }
+                                        >
+                                            <FaUserEdit />
+                                        </div>
+                                        <div
+                                            className="flex items-center space-x-1 bg-salmon text-white text-xs p-2 w-fit
+                                            rounded-full cursor-pointer hover:opacity-90 hover:scale-[1.02]"
+                                            onClick={() => {
+                                                openDeleteModal(contact);
+                                            }}
+                                        >
+                                            <FaTrash />
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
             <ConfirmDeleteModal
                 isOpen={confirmDeleteModalOpen}
                 closeModal={handleCloseDeleteModal}
