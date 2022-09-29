@@ -174,7 +174,7 @@ const PatientComments = ({ assigned }) => {
                     {filteredCommentTypes?.length > 0 &&
                         filteredComments?.length === 0 && (
                             <div className="text-center py-4 text-xl uppercase font-bold opacity-30">
-                                No Comment Yet
+                                No Comment
                             </div>
                         )}
                 </div>
