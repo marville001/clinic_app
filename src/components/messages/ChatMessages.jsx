@@ -22,7 +22,7 @@ const ChatMessages = React.forwardRef(
             isTyping,
             text,
             setText,
-            setChatsBarOpen
+            setChatsBarOpen,
         },
         ref
     ) => {
@@ -83,7 +83,10 @@ const ChatMessages = React.forwardRef(
         return (
             <div className="flex-[1] sm:px-5 flex flex-col h-full">
                 <div className="md:hidden">
-                    <FaAngleDoubleRight onClick={()=>setChatsBarOpen(true)} className="text-2xl cursor-pointer" />
+                    <FaAngleDoubleRight
+                        onClick={() => setChatsBarOpen(true)}
+                        className="text-2xl cursor-pointer"
+                    />
                 </div>
                 {/* Header */}
                 {selectedChat?._id && (
@@ -145,38 +148,41 @@ const ChatMessages = React.forwardRef(
                             </div>
                         )}
                 </div>
-                <form
-                    onSubmit={handleSendMessage}
-                    autoComplete="off"
-                    className="flex items-center gap-3 mt-5"
-                >
-                    <div className="h-8 w-full p-1 ring-1 relative rounded-lg">
-                        {error && (
-                            <div className="bg-gray-200 p-3 py-1 text-xs absolute top-0 -translate-y-full left-5 rounded-t-lg right-5 ">
-                                {error}
-                            </div>
-                        )}
-                        {isTyping && (
-                            <div className="px-2 absolute -top-1 opacity-70 -translate-y-full left text-xs flex gap-1 items-center">
-                                <span>Typing</span>
-                                <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
-                                <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
-                                <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
-                            </div>
-                        )}
-                        <input
-                            type="text"
-                            disabled={!selectedChat?._id}
-                            value={text}
-                            onChange={typingHandler}
-                            placeholder="Type message here."
-                            className="w-full h-full text-sm disabled:cursor-not-allowed bg-transparent rounded-full outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 border-0"
-                        />
-                    </div>
-                    <button className="p-2 bg-opacity-30 rounded-full bg-flowerblue flex justify-center items-center cursor-pointer">
-                        <FaPaperPlane className="text-xl text-steelblue" />
-                    </button>
-                </form>
+
+                {selectedChat?._id && (
+                    <form
+                        onSubmit={handleSendMessage}
+                        autoComplete="off"
+                        className="flex items-center gap-3 mt-5"
+                    >
+                        <div className="h-8 w-full p-1 ring-1 relative rounded-lg">
+                            {error && (
+                                <div className="bg-gray-200 p-3 py-1 text-xs absolute top-0 -translate-y-full left-5 rounded-t-lg right-5 ">
+                                    {error}
+                                </div>
+                            )}
+                            {isTyping && (
+                                <div className="px-2 absolute -top-1 opacity-70 -translate-y-full left text-xs flex gap-1 items-center">
+                                    <span>Typing</span>
+                                    <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
+                                    <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
+                                    <div className="bg-gray-500 h-2 w-2 rounded-full animate-pulse"></div>
+                                </div>
+                            )}
+                            <input
+                                type="text"
+                                disabled={!selectedChat?._id}
+                                value={text}
+                                onChange={typingHandler}
+                                placeholder="Type message here."
+                                className="w-full h-full text-sm disabled:cursor-not-allowed bg-transparent rounded-full outline-none ring-0 focus:ring-0 focus:outline-none focus:border-0 border-0"
+                            />
+                        </div>
+                        <button className="p-2 bg-opacity-30 rounded-full bg-flowerblue flex justify-center items-center cursor-pointer">
+                            <FaPaperPlane className="text-xl text-steelblue" />
+                        </button>
+                    </form>
+                )}
             </div>
         );
     }
