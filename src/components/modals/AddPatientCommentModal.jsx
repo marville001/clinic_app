@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,7 @@ const AddPatientCommentModal = ({
     );
 
     const [error, setError] = useState("");
+    const [filteredCommentTypes, setFilteredCommentTypes] = useState([]);
 
     const {
         register,
@@ -79,6 +80,26 @@ const AddPatientCommentModal = ({
         authDetails?._id && dispatch(getCommentsAction(id));
     };
 
+    useEffect(() => {
+        if (authDetails?.role === "admin") {
+            setFilteredCommentTypes(commentType);
+        } else if (authDetails?.role === "doctor") {
+            setFilteredCommentTypes(
+                commentType?.filter(
+                    (type) =>
+                        type?.viewBy === "everyone" ||
+                        type?.viewBy === "doctors"
+                )
+            );
+        } else if (authDetails?.role === "secretary") {
+            setFilteredCommentTypes(
+                commentType?.filter((type) => type?.viewBy === "everyone")
+            );
+        } else {
+            setFilteredCommentTypes([]);
+        }
+    }, [authDetails?.role, commentType]);
+
     return (
         <Modal size="xl" isOpen={isOpen} closeModal={handleCloseModal}>
             <form
@@ -102,7 +123,7 @@ const AddPatientCommentModal = ({
                         label="Comment Type"
                         register={register}
                         required={true}
-                        options={commentType.map((type) => {
+                        options={filteredCommentTypes.map((type) => {
                             return {
                                 value: type._id,
                                 label: type.name,

@@ -15,7 +15,7 @@ const PatientComments = ({ assigned }) => {
     const { authDetails } = useSelector((state) => state.authState);
 
     const [addCommentModalOpen, setAddCommentModalOpen] = useState(false);
-    const [selectedType, setSelectedType] = useState(commentType[0]);
+    const [selectedType, setSelectedType] = useState({});
     const [filteredComments, setFilteredComments] = useState([]);
     const [filteredCommentTypes, setFilteredCommentTypes] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -95,6 +95,12 @@ const PatientComments = ({ assigned }) => {
             setFilteredCommentTypes([]);
         }
     }, [authDetails?.role, commentType]);
+
+    useEffect(() => {
+        if (filteredCommentTypes.length > 0) {
+            setSelectedType(filteredCommentTypes[0]);
+        }
+    }, [filteredCommentTypes]);
 
     return (
         <div className="p-4 flex-[1] rounded bg-white _shadow self-stfart">
